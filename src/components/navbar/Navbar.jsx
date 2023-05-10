@@ -64,11 +64,10 @@ const Navbar = () => {
     ];
 
 
-
     return <nav className="navbar-container container">
         <div className="logo">
             <img onClick={()=>{
-                navigate('/login')
+                navigate('/')
             }} src="./images/logo1.png" alt=""/>
         </div>
         <div className={`nav-list ${!nav ? "hide" : ""}`}>
