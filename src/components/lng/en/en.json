@@ -1,0 +1,23 @@
+{
+  "home": "Home",
+  "service": "Services",
+  "agreement": "Agreement",
+  "about": "About Us",
+  "contact": "Contact",
+  "homeText1": "Hello",
+  "homeText2": "Welcome to the Buyuk yo'l  platform",
+  "news": "News",
+  "partners": "Partners",
+  "statistics": "Statistics",
+  "userCount": "Number of users",
+  "bagsCount": "Number of orders",
+  "Users": "Number of drivers",
+  "menu": "Menus",
+  "sentText": "For suggestions and requests:",
+  "sentButton": "Send",
+  "name": "First Name",
+  "LastName": "Last Name",
+  "tel": "Phone number",
+  "text": "For reference",
+  "contract": "About the contract"
+}
