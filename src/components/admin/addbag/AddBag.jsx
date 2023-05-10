@@ -38,11 +38,10 @@ const AddBag  = () =>{
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
-            }).then((response) => {
+            }).then(() => {
                 getList();
                 setName("");
                 document.getElementById('name').value = ""
-
             }).catch((error) => {
                 if (error.response.statusText == "Unauthorized") {
                     window.location.pathname = "/";
@@ -66,7 +65,7 @@ const AddBag  = () =>{
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
-        }).then((response) => {
+        }).then(() => {
             getList();
 
             setName("");

@@ -1,10 +1,9 @@
 import "./customer.scss";
 import Modal from 'react-bootstrap/Modal';
-import ReactPaginate from "react-paginate";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MyContext} from "../../app/App";
-import Driver from "../driver/Driver";
+
 
 
 const Customer = () => {

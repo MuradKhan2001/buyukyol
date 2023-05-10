@@ -130,7 +130,7 @@ const AddCar = () => {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
-        }).then((response) => {
+        }).then(() => {
             getList();
             let newList = {
                 name: "",
@@ -187,7 +187,7 @@ const AddCar = () => {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
-        }).then((response) => {
+        }).then(() => {
             getList();
         }).catch(() => {
         });

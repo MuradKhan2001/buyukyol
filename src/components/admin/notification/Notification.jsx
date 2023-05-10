@@ -171,7 +171,7 @@ const Notification = () => {
                 params: {
                     user_type: "Client"
                 }
-            }).then((response) => {
+            }).then(() => {
                 getList()
             }).catch(() => {
 

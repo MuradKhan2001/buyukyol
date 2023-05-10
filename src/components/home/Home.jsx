@@ -9,7 +9,6 @@ import {useTranslation} from "react-i18next";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MyContext} from "../app/App";
-import i18next from "i18next";
 
 
 const Home = () => {

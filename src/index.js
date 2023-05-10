@@ -10,6 +10,7 @@ import ru from "./components/lng/ru/ru.json";
 import en from "./components/lng/en/en.json";
 import uzb from "./components/lng/uzb/uzb.json";
 import Loader from "./components/loader/Loader";
+
 const App = React.lazy(() => import('./components/app/App'));
 
 
@@ -34,14 +35,13 @@ i18next.use(initReactI18next).init({
 export default i18next
 
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <React.Suspense fallback={<Loader/>}>
-        <Router>
-            <App/>
-        </Router>
+            <Router>
+                <App/>
+            </Router>
         </React.Suspense>
     </React.StrictMode>
 );

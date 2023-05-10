@@ -13,7 +13,6 @@ const Admin = () => {
     let value = useContext(MyContext);
     const navigate = useNavigate();
     const {t} = useTranslation();
-    const [menuList, setMenuList] = useState(true);
     const [StatisticsCount, setStatisticsCount] = useState([]);
 
 
@@ -88,37 +87,37 @@ const Admin = () => {
 
     const SiteMenus = [
         {
-            name: "Biz haqimizda",
+            name: t('about'),
             url: "/aboutus",
             img: "../images/admin/about.png"
         },
         {
-            name: "Aloqa",
+            name: t('contact'),
             url: "/contacta",
             img: "../images/admin/contact-us.png"
         },
         {
-            name: "Yangiliklar",
+            name: t('news'),
             url: "/news",
             img: "../images/admin/news.png"
         },
         {
-            name: "Xizmatlar",
+            name: t('service'),
             url: "/servicea",
             img: "../images/admin/customer.png"
         },
         {
-            name: "Hamkorlar",
+            name: t('partners'),
             url: "/partnersa",
             img: "../images/admin/handshake.png"
         },
         {
-            name: "Kadrlar",
+            name: t('galary'),
             url: "/moments",
             img: "../images/admin/image.png"
         },
         {
-            name: "Shartnoma",
+            name: t('agreement'),
             url: "/contract",
             img: "../images/admin/agreement.png"
         }

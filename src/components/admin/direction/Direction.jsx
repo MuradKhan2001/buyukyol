@@ -69,7 +69,7 @@ const Direction = () => {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
-        }).then((response) => {
+        }).then(() => {
             getList();
 
             setAddress1("");
@@ -154,7 +154,7 @@ const Direction = () => {
                                                 headers: {
                                                     "Authorization": `Token ${localStorage.getItem("token")}`
                                                 }
-                                            }).then((response) => {
+                                            }).then(() => {
                                                 getList()
                                             }).catch(() => {
 
@@ -166,7 +166,7 @@ const Direction = () => {
                                                 headers: {
                                                     "Authorization": `Token ${localStorage.getItem("token")}`
                                                 }
-                                            }).then((response) => {
+                                            }).then(() => {
                                                 getList()
                                             }).catch(() => {
                                             });

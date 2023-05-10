@@ -5,7 +5,6 @@ import {useTranslation} from "react-i18next";
 import {useContext, useEffect, useState} from "react";
 import Aos from "aos";
 import axios from "axios";
-import i18next from "i18next";
 import {MyContext} from "../app/App";
 
 const Service = () => {
