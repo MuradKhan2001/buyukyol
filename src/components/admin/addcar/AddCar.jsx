@@ -13,10 +13,6 @@ const AddCar = () => {
     const [carId, setCarId] = useState(false);
     const [Car, setCar] = useState({
         name: "",
-        height: "",
-        widht: "",
-        breadth: "",
-        cub: "",
         image: null,
         min_weight: "",
         max_weight: ""
@@ -31,7 +27,7 @@ const AddCar = () => {
     }
 
     const getList = () => {
-        axios.get(`${value.url}api/car-type/`, {
+        axios.get(`${value.url}api/car-category/`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
@@ -50,8 +46,7 @@ const AddCar = () => {
     }, []);
 
     const AddCars = () => {
-        if (Car.name.trim().length > 0 && Car.cub.trim().length > 0 && Car.height.trim().length > 0 && Car.widht.trim().length > 0
-            && Car.breadth.trim().length > 0 && Car.min_weight.trim().length > 0 && Car.max_weight.trim().length > 0
+        if (Car.name.trim().length > 0 && Car.min_weight.trim().length > 0 && Car.max_weight.trim().length > 0
             && Car.image) {
 
             let Post = new FormData();
@@ -60,7 +55,7 @@ const AddCar = () => {
                 Post.append(key, Car[key])
             }
 
-            axios.post(`${value.url}api/car-type/`, Post, {
+            axios.post(`${value.url}api/car-category/`, Post, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -68,10 +63,6 @@ const AddCar = () => {
                 getList();
                 let newList = {
                     name: "",
-                    height: "",
-                    widht: "",
-                    breadth: "",
-                    cub: "",
                     image: null,
                     min_weight: "",
                     max_weight: ""
@@ -79,10 +70,6 @@ const AddCar = () => {
                 setCar(newList);
 
                 document.getElementById('name').value = "";
-                document.getElementById('height').value = "";
-                document.getElementById('widht').value = "";
-                document.getElementById('breadth').value = "";
-                document.getElementById('cub').value = "";
                 document.getElementById('image').value = "";
                 document.getElementById('min_weight').value = "";
                 document.getElementById('max_weight').value = ""
@@ -100,20 +87,12 @@ const AddCar = () => {
 
         let newList = {
             name: MainList[ind].name,
-            height: MainList[ind].height,
-            widht: MainList[ind].widht,
-            breadth: MainList[ind].breadth,
-            cub: MainList[ind].cub,
             min_weight: MainList[ind].min_weight,
             max_weight: MainList[ind].max_weight
         };
         setCar(newList);
 
         document.getElementById('name').value = MainList[ind].name;
-        document.getElementById('height').value = MainList[ind].height;
-        document.getElementById('widht').value = MainList[ind].widht;
-        document.getElementById('breadth').value = MainList[ind].breadth;
-        document.getElementById('cub').value = MainList[ind].cub;
         document.getElementById('min_weight').value = MainList[ind].min_weight;
         document.getElementById('max_weight').value = MainList[ind].max_weight
     };
@@ -126,7 +105,7 @@ const AddCar = () => {
             Post.append(key, Car[key])
         }
 
-        axios.patch(`${value.url}api/car-type/${carId}/`, Post, {
+        axios.patch(`${value.url}api/car-category/${carId}/`, Post, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
@@ -134,10 +113,6 @@ const AddCar = () => {
             getList();
             let newList = {
                 name: "",
-                height: "",
-                widht: "",
-                breadth: "",
-                cub: "",
                 image: null,
                 min_weight: "",
                 max_weight: ""
@@ -145,10 +120,6 @@ const AddCar = () => {
             setCar(newList);
 
             document.getElementById('name').value = "";
-            document.getElementById('height').value = "";
-            document.getElementById('widht').value = "";
-            document.getElementById('breadth').value = "";
-            document.getElementById('cub').value = "";
             document.getElementById('image').value = "";
             document.getElementById('min_weight').value = "";
             document.getElementById('max_weight').value = ""
@@ -162,10 +133,6 @@ const AddCar = () => {
 
         let newList = {
             name: "",
-            height: "",
-            widht: "",
-            breadth: "",
-            cub: "",
             image: null,
             min_weight: "",
             max_weight: ""
@@ -173,17 +140,13 @@ const AddCar = () => {
         setCar(newList);
 
         document.getElementById('name').value = "";
-        document.getElementById('height').value = "";
-        document.getElementById('widht').value = "";
-        document.getElementById('breadth').value = "";
-        document.getElementById('cub').value = "";
         document.getElementById('image').value = "";
         document.getElementById('min_weight').value = "";
         document.getElementById('max_weight').value = ""
     };
 
     const DelCar = (id) => {
-        axios.delete(`${value.url}api/car-type/${id}/`, {
+        axios.delete(`${value.url}api/car-category/${id}/`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
@@ -198,16 +161,17 @@ const AddCar = () => {
         <div className="header-side">
             <div className="filter-box">
                 <div className="inputs">
-                    <input onChange={getInputs} name="name" id="name" placeholder="Moshina nomi" type="text"/>
-                    <input onChange={getInputs} name="height" id="height" placeholder="Balandligi" type="number"/>
-                    <input onChange={getInputs} name="widht" id="widht" placeholder="Uzunligi" type="number"/>
-                    <input onChange={getInputs} name="breadth" id="breadth" placeholder="Kengligi" type="number"/>
-                    <input onChange={getInputs} name="cub" id="cub" placeholder="Kub" type="number"/>
-                    <input onChange={getImage} name="image" id="image" placeholder="Yuk hajmi" type="file"/>
+                    <input onChange={getInputs} name="name" id="name" placeholder="Tarif nomi" type="text"/>
+
+                    <div className="get-image">
+                        <label htmlFor="image">Moshina rasmi:</label>
+                        <input onChange={getImage} name="image" id="image" placeholder="Yuk hajmi" type="file"/>
+                    </div>
+
                     <input onChange={getInputs} name="min_weight" id="min_weight" placeholder="Yuk vazni min"
-                           type="number"/>
+                           type="text"/>
                     <input onChange={getInputs} name="max_weight" id="max_weight" placeholder="Yuk vazni max"
-                           type="number"/>
+                           type="text"/>
                 </div>
 
                 {
@@ -233,11 +197,7 @@ const AddCar = () => {
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Moshina nomi</th>
-                    <th>Balandligi</th>
-                    <th>Uzunligi</th>
-                    <th>Kengligi</th>
-                    <th>Kub</th>
+                    <th>Tarif nomi</th>
                     <th>Rasmi</th>
                     <th>Yuk vazni min</th>
                     <th>Yuk vazni max</th>
@@ -251,10 +211,6 @@ const AddCar = () => {
                         return <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.name}</td>
-                            <td>{item.height}</td>
-                            <td>{item.widht}</td>
-                            <td>{item.breadth}</td>
-                            <td>{item.cub}</td>
                             <td>
                                 {item.image ?
                                     <img onClick={() => {
@@ -287,7 +243,7 @@ const AddCar = () => {
         <div className={`view-docs ${!viewDoc ? "hide" : ""}`}>
             <div className="for-image">
                 <div className="cancel-btn">
-                    <img src="./images/download.png" alt=""/>
+                   <div></div>
                     <img onClick={() => setViewDoc(false)} src="../images/admin/close.png" alt=""/>
                 </div>
                 <div className="for-img">

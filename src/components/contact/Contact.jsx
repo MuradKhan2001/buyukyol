@@ -69,7 +69,8 @@ const Contact = () => {
                 setTimeout(() => {
                     setCheckSuccess(false);
                 }, 3000)
-            }).catch((error) => {
+
+            }).catch(() => {
 
             });
 

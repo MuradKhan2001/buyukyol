@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next";
 import {useContext, useEffect, useState} from "react";
 import {MyContext} from "../app/App";
 import axios from "axios";
+import { saveAs } from "file-saver";
 
 
 const Agreement = () => {
@@ -28,6 +29,16 @@ const Agreement = () => {
         });
     }, []);
 
+    const getDownloadFile = async (file) => {
+        let format = file.split(".");
+
+        return axios.get(file, {
+            responseType: 'blob'
+        }).then((response) => {
+            saveAs(response.data, `contract.${format[format.length-1]}`)
+        })
+    };
+
     return <div className="agreement-wrapper">
         <Navbar/>
 
@@ -39,9 +50,9 @@ const Agreement = () => {
                             <img src="./images/clip.png" alt=""/>
                         </div>
                         <div className="icon">
-                            <a href={item.contract} target="_blank">
+                            <div onClick={() => getDownloadFile(item.contract)}>
                                 <img src="./images/download.png" alt=""/>
-                            </a>
+                            </div>
                             <p>Yuklash</p>
                         </div>
                     </div>

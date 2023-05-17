@@ -175,9 +175,12 @@ const Home = () => {
                             galary.map((item,index)=>{
                                 return <div key={index} className="click-slide-box">
                                     <div className="photo">
-                                        <img
-                                            src={item.image}
-                                            alt=""/>
+                                        <a  href={item.image} className="highslide" onClick={()=>(item.image)}>
+                                            <img
+                                                src={item.image}
+                                                alt=""/>
+                                        </a>
+
                                     </div>
                                 </div>
                             })

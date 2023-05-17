@@ -2,6 +2,7 @@ import "./partners.scss"
 import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import {MyContext} from "../../app/App";
+import {saveAs} from "file-saver";
 
 const Partners = () => {
     let value = useContext(MyContext);
@@ -61,6 +62,16 @@ const Partners = () => {
         } else alert("Formani toldiring")
     };
 
+    const getDownloadFile = async (file) => {
+        let format = file.split(".");
+
+        return axios.get(file, {
+            responseType: 'blob'
+        }).then((response) => {
+            saveAs(response.data, `photo.${format[format.length-1]}`)
+        })
+    };
+
     return <div className="partners-container">
 
         <div className="header-side">
@@ -113,9 +124,9 @@ const Partners = () => {
                             </td>
                             <td>
                                 <div>
-                                    <a href={item.contract} target="_blank">
+                                    <div onClick={()=>getDownloadFile(item.contract)} >
                                         <img  src="../images/admin/download.png" alt=""/>
-                                    </a>
+                                    </div>
                                 </div>
                             </td>
                             <td>{item.date}</td>

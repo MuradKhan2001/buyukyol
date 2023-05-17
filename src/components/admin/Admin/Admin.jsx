@@ -13,6 +13,9 @@ const Admin = () => {
     let value = useContext(MyContext);
     const navigate = useNavigate();
     const {t} = useTranslation();
+    const [price, setPrice] = useState("so'm");
+    const [usd, setUsd] = useState(1);
+    const [countPrice, setCountPrice] = useState("");
     const [StatisticsCount, setStatisticsCount] = useState([]);
 
 
@@ -120,6 +123,11 @@ const Admin = () => {
             name: t('agreement'),
             url: "/contract",
             img: "../images/admin/agreement.png"
+        },
+        {
+            name: t('message'),
+            url: "/message",
+            img: "../images/admin/message.png"
         }
     ];
 
@@ -130,6 +138,7 @@ const Admin = () => {
             }
         }).then((response) => {
             setStatisticsCount(response.data)
+            setCountPrice(response.data.balance)
         }).catch((error) => {
             if (error.response.statusText == "Unauthorized") {
                 window.location.pathname = "/";
@@ -172,12 +181,12 @@ const Admin = () => {
 
             <div className="header">
                 <div onClick={() => {
-                   sessionStorage.setItem("menu","1");
+                    sessionStorage.setItem("menu", "1");
                     navigate('/')
                 }} className={`item ${sessionStorage.getItem("menu") === "1" ? "active" : ""}`}>App
                 </div>
                 <div onClick={() => {
-                    sessionStorage.setItem("menu","2");
+                    sessionStorage.setItem("menu", "2");
                     navigate('/aboutus')
                 }} className={`item ${sessionStorage.getItem("menu") === "2" ? "active" : ""}`}>Site
                 </div>
@@ -191,7 +200,7 @@ const Admin = () => {
                                 return <NavLink to={item.url} key={index}
                                                 className={`nav-item ${({isActive}) => isActive ? "active" : ""}`}>
                                     <img src={item.img} alt=""/>
-                                    {item.name}
+                                    <span>{item.name}</span>
                                 </NavLink>
                             })
                         }
@@ -203,7 +212,7 @@ const Admin = () => {
                                 return <NavLink to={item.url} key={index}
                                                 className={`nav-item ${({isActive}) => isActive ? "active" : ""}`}>
                                     <img src={item.img} alt=""/>
-                                    {item.name}
+                                    <span> {item.name}</span>
                                 </NavLink>
                             })
                         }
@@ -214,12 +223,44 @@ const Admin = () => {
         <div className="right-box">
             <div className="top-box">
                 <div className="statistic-box">
-                    {Statistics.map((item, index) => {
-                        return <div key={index} className="statistic-item">
-                            <div className="title">{item.name}</div>
-                            <div className="count">{item.count}</div>
+
+                    <div className="statistic-item">
+                        <div className="title">{Statistics[0].name}</div>
+                        <div className="count-box">
+                            <div className="count">
+                                {countPrice}
+                                <span>{price}</span>
+                            </div>
+                            <img onClick={() => {
+
+                                if (price === "$") {
+                                    setPrice("so'm");
+                                    setCountPrice(Statistics[0].count)
+                                }
+
+                                if (price === "so'm") {
+                                    setPrice("$");
+                                    setCountPrice(Math.floor(Statistics[0].count / StatisticsCount.usd))
+                                }
+
+                            }} src="./images/admin/exchange.png" alt=""/>
                         </div>
-                    })}
+                    </div>
+
+                    <div className="statistic-item">
+                        <div className="title">{Statistics[1].name}</div>
+                        <div className="count">{Statistics[1].count}</div>
+                    </div>
+
+                    <div className="statistic-item">
+                        <div className="title">{Statistics[2].name}</div>
+                        <div className="count">{Statistics[2].count}</div>
+                    </div>
+
+                    <div className="statistic-item">
+                        <div className="title">{Statistics[3].name}</div>
+                        <div className="count">{Statistics[3].count}</div>
+                    </div>
 
                 </div>
 

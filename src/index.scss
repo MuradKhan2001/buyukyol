@@ -4,7 +4,8 @@
   box-sizing: border-box;
   font-family: "Calibri" ;
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 20px;
   }
 
@@ -15,6 +16,17 @@
   &::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background-color: #3a3a3a;
-    outline: 1px solid slategrey;
+  }
+
+  table {
+    tbody {
+      tr {
+        transition: 0.25s linear;
+        &:hover{
+          background-color: rgba(255, 255, 255, 0.045);
+        }
+      }
+
+    }
   }
 }

@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MyContext} from "../../app/App";
-
+import { saveAs } from "file-saver";
 
 const Driver = () => {
     let value = useContext(MyContext);
@@ -18,22 +18,29 @@ const Driver = () => {
     const [links, setLinks] = useState({});
     const [Pages, setPages] = useState([]);
     const [activeItem, setActiveItem] = useState(1);
-    const [carTypeList, setCarTypeList] = useState([]);
     const [carBodyList, setCarBodyList] = useState([]);
+    const [category, setCategory] = useState([]);
     const [userId, setUserId] = useState("");
 
     const [Driver, setDriver] = useState(
         {
             first_name: "",
             last_name: "",
-            phone: "",
-            car_number: "",
-            car_type: "",
             user_type: "Driver",
+            phone: "",
+            category: "",
+            car_number: "",
+            name: "",
+            widht: "",
+            breadth: "",
             accept_of_terms: true,
+            height: "",
+            cargo_volume: "",
+            cargo_weight: "",
             car_body: "",
             car_tex_passport: null,
             drivers_license_image: null,
+            image: null,
             car_image: null
         });
 
@@ -67,17 +74,19 @@ const Driver = () => {
     useEffect(() => {
         getList();
 
-        axios.get(`${value.url}api/car-type/`).then((response) => {
-            setCarTypeList(response.data)
-
-        }).catch((error) => {
-
-        });
-
         axios.get(`${value.url}api/car-body-type/`).then((response) => {
             setCarBodyList(response.data)
         }).catch((error) => {
 
+        });
+
+        axios.get(`${value.url}api/car-category/`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        }).then((response) => {
+            setCategory(response.data)
+        }).catch(() => {
         });
 
     }, []);
@@ -85,8 +94,9 @@ const Driver = () => {
     const addDriver = () => {
         if (Driver.first_name.trim().length > 0 && Driver.last_name.trim().length > 0 &&
             Driver.phone.trim().length > 0 && Driver.car_number.trim().length > 0 &&
-            Driver.car_type.trim().length > 0 && Driver.car_body.trim().length > 0
-            && Driver.car_tex_passport && Driver.car_image && Driver.drivers_license_image) {
+            Driver.car_body.trim().length > 0 && Driver.widht.trim().length && Driver.breadth.trim().length
+            && Driver.height.trim().length && Driver.cargo_volume.trim().length && Driver.cargo_weight.trim().length
+            && Driver.car_tex_passport && Driver.car_image && Driver.image && Driver.drivers_license_image) {
 
             let Post = new FormData();
 
@@ -103,14 +113,21 @@ const Driver = () => {
                 let newList = {
                     first_name: "",
                     last_name: "",
-                    phone: "",
-                    car_number: "",
-                    car_type: "",
                     user_type: "Driver",
+                    phone: "",
+                    category: "",
+                    car_number: "",
+                    name: "",
+                    width: "",
+                    breadth: "",
                     accept_of_terms: true,
+                    height: "",
+                    cargo_volume: "",
+                    cargo_weight: "",
                     car_body: "",
                     car_tex_passport: null,
                     drivers_license_image: null,
+                    image: null,
                     car_image: null
                 };
                 setDriver(newList);
@@ -128,8 +145,14 @@ const Driver = () => {
             first_name: MainList[ind].first_name,
             last_name: MainList[ind].last_name,
             phone: MainList[ind].phone,
+            category: MainList[ind].documentation.category.id,
             car_number: MainList[ind].documentation.car_number,
-            car_type: MainList[ind].documentation.car_type.id,
+            name: MainList[ind].documentation.name,
+            widht: MainList[ind].documentation.widht,
+            breadth: MainList[ind].documentation.breadth,
+            height: MainList[ind].documentation.height,
+            cargo_volume: MainList[ind].documentation.cargo_volume,
+            cargo_weight: MainList[ind].documentation.cargo_weight,
             car_body: MainList[ind].documentation.car_body.id,
         };
         setDriver(newList);
@@ -137,19 +160,28 @@ const Driver = () => {
         document.getElementById('first_name').value = MainList[ind].first_name;
         document.getElementById('last_name').value = MainList[ind].last_name;
         document.getElementById('phone').value = MainList[ind].phone;
+        document.getElementById('category').value = MainList[ind].documentation.category.id;
         document.getElementById('car_number').value = MainList[ind].documentation.car_number;
-        document.getElementById('car_type').value = MainList[ind].documentation.car_type.id;
-        document.getElementById('car_body').value = MainList[ind].documentation.car_body.id
+        document.getElementById('name').value = MainList[ind].documentation.name;
+        document.getElementById('widht').value = MainList[ind].documentation.widht;
+        document.getElementById('breadth').value = MainList[ind].documentation.breadth;
+        document.getElementById('height').value = MainList[ind].documentation.height;
+        document.getElementById('cargo_volume').value = MainList[ind].documentation.cargo_volume;
+        document.getElementById('cargo_weight').value = MainList[ind].documentation.cargo_weight;
+        document.getElementById('car_body').value = MainList[ind].documentation.car_body.id;
     };
 
-    const editDriver2 = () =>{
+    const editDriver2 = () => {
         let Post = new FormData();
 
+        let user = userId;
+
+        Post.append("user",user);
         for (let key in Driver) {
             Post.append(key, Driver[key])
         }
 
-        axios.patch(`${value.url}api/driver-documentations/${userId}/`, Post, {
+        axios.patch(`${value.url}dashboard/drivers/${userId}/`, Post, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
@@ -158,25 +190,51 @@ const Driver = () => {
             let newList = {
                 first_name: "",
                 last_name: "",
-                phone: "",
-                car_number: "",
-                car_type: "",
                 user_type: "Driver",
+                phone: "",
+                category: "",
+                car_number: "",
+                name: "",
+                width: "",
+                breadth: "",
                 accept_of_terms: true,
+                height: "",
+                cargo_volume: "",
+                cargo_weight: "",
                 car_body: "",
                 car_tex_passport: null,
                 drivers_license_image: null,
+                image: null,
                 car_image: null
             };
             setDriver(newList);
             setShowEdit(false);
 
-            document.getElementById('car_image').value = "";
-            document.getElementById('drivers_license_image').value = "";
-            document.getElementById('car_tex_passport').value ="";
+            document.getElementById('first_name').value = "";
+            document.getElementById('last_name').value = "";
+            document.getElementById('phone').value = "";
+            document.getElementById('category').value = "";
+            document.getElementById('car_number').value = "";
+            document.getElementById('name').value = "";
+            document.getElementById('widht').value = "";
+            document.getElementById('breadth').value = "";
+            document.getElementById('height').value = "";
+            document.getElementById('cargo_volume').value = "";
+            document.getElementById('cargo_weight').value = "";
+            document.getElementById('car_body').value = "";
         }).catch(() => {
 
         });
+    };
+
+    const getDownloadFile = async () => {
+        let format = docUrl.split(".");
+
+        return axios.get(docUrl, {
+            responseType: 'blob'
+        }).then((response) => {
+            saveAs(response.data, `photo.${format[format.length-1]}`)
+        })
     };
 
     return <div className="driver-container">
@@ -204,13 +262,15 @@ const Driver = () => {
                     <div className="main-sides">
                         <input onChange={getInputs} name="first_name" placeholder="Ism" type="text"/>
                         <input onChange={getInputs} name="phone" placeholder="Telefon raqam" type="text"/>
+                        <input onChange={getInputs} name="name" placeholder="Moshina nomi" type="text"/>
+                        <input onChange={getInputs} name="breadth" placeholder="Moshina kengligi" type="text"/>
+                        <input onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
 
-
-                        <label htmlFor="car_type">Moshina turi</label>
-                        <select onChange={getInputs} name="car_type">
+                        <label htmlFor="category">Kategoriya</label>
+                        <select onChange={getInputs} name="category">
                             <option></option>
                             {
-                                carTypeList.map((item, index) => {
+                                category.map((item, index) => {
                                     return <option value={item.id} key={index}>
                                         {item.name} &nbsp; &nbsp;
                                         {item.min_weight} &nbsp; - &nbsp;
@@ -218,21 +278,23 @@ const Driver = () => {
                                     </option>
                                 })
                             }
-
                         </select>
 
-                        <label htmlFor="car_image">Moshina rasmi</label>
-                        <input onChange={getImage} name="car_image"  type="file"/>
+                        <label htmlFor="image">Haydovchi rasmi:</label>
+                        <input onChange={getImage} name="image" type="file"/>
 
-                        <label htmlFor="drivers_license_image">Prava</label>
-                        <input onChange={getImage} name="drivers_license_image" type="file"
-                               />
+                        <label htmlFor="car_image">Moshina rasmi</label>
+                        <input onChange={getImage} name="car_image" type="file"/>
+
                     </div>
                     <div className="main-sides">
                         <input onChange={getInputs} name="last_name" placeholder="Familiya" type="text"/>
                         <input onChange={getInputs} name="car_number" placeholder="Moshina raqami" type="text"/>
+                        <input onChange={getInputs} name="widht" placeholder="Uzunligi" type="text"/>
+                        <input onChange={getInputs} name="height" placeholder="Moshina balandligi" type="text"/>
+                        <input onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni" type="text"/>
 
-                        <label htmlFor="car_body">Kuzov turi</label>
+                        <label htmlFor="car_body">Kuzov turi:</label>
                         <select onChange={getInputs} name="car_body">
                             <option></option>
                             {carBodyList.map((item, index) => {
@@ -241,9 +303,11 @@ const Driver = () => {
 
                         </select>
 
+                        <label htmlFor="drivers_license_image">Prava:</label>
+                        <input onChange={getImage} name="drivers_license_image" type="file"/>
 
-                        <label htmlFor="car_tex_passport">Tex passport</label>
-                        <input onChange={getImage} name="car_tex_passport"  type="file"/>
+                        <label htmlFor="car_tex_passport">Tex passport:</label>
+                        <input onChange={getImage} name="car_tex_passport" type="file"/>
                     </div>
                 </div>
             </Modal.Body>
@@ -261,13 +325,15 @@ const Driver = () => {
                 <div className="main-sides">
                     <input id="first_name" onChange={getInputs} name="first_name" placeholder="Ism" type="text"/>
                     <input id="phone" onChange={getInputs} name="phone" placeholder="Telefon raqam" type="text"/>
+                    <input id="name" onChange={getInputs} name="name" placeholder="Moshina nomi" type="text"/>
+                    <input id="breadth" onChange={getInputs} name="breadth" placeholder="Moshina kengligi" type="text"/>
+                    <input id="cargo_volume" onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
 
-
-                    <label htmlFor="car_type">Moshina turi</label>
-                    <select onChange={getInputs} name="car_type" id="car_type">
+                    <label htmlFor="category">Kategoriya</label>
+                    <select id="category" onChange={getInputs} name="category">
                         <option></option>
                         {
-                            carTypeList.map((item, index) => {
+                            category.map((item, index) => {
                                 return <option value={item.id} key={index}>
                                     {item.name} &nbsp; &nbsp;
                                     {item.min_weight} &nbsp; - &nbsp;
@@ -275,22 +341,26 @@ const Driver = () => {
                                 </option>
                             })
                         }
-
                     </select>
 
-                    <label htmlFor="car_image">Moshina rasmi</label>
-                    <input onChange={getImage} name="car_image" id="car_image" type="file"/>
+                    <label htmlFor="image">Haydovchi rasmi:</label>
+                    <input id="image" onChange={getImage} name="image" type="file"/>
 
-                    <label htmlFor="drivers_license_image">Prava</label>
-                    <input onChange={getImage} name="drivers_license_image" type="file"
-                           id="drivers_license_image"/>
+                    <label htmlFor="car_image">Moshina rasmi</label>
+                    <input id="car_image" onChange={getImage} name="car_image" type="file"/>
+
                 </div>
                 <div className="main-sides">
                     <input id="last_name" onChange={getInputs} name="last_name" placeholder="Familiya" type="text"/>
-                    <input id="car_number" onChange={getInputs} name="car_number" placeholder="Moshina raqami" type="text"/>
+                    <input id="car_number" onChange={getInputs} name="car_number" placeholder="Moshina raqami"
+                           type="text"/>
+                    <input id="widht" onChange={getInputs} name="widht" placeholder="Uzunligi" type="text"/>
+                    <input id="height" onChange={getInputs} name="height" placeholder="Moshina balandligi" type="text"/>
+                    <input id="cargo_weight" onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni"
+                           type="text"/>
 
-                    <label htmlFor="car_body">Kuzov turi</label>
-                    <select onChange={getInputs} name="car_body" id="car_body">
+                    <label htmlFor="car_body">Kuzov turi:</label>
+                    <select id="car_body" onChange={getInputs} name="car_body">
                         <option></option>
                         {carBodyList.map((item, index) => {
                             return <option value={item.id} key={index}>{item.name}</option>
@@ -298,11 +368,14 @@ const Driver = () => {
 
                     </select>
 
+                    <label htmlFor="drivers_license_image">Prava:</label>
+                    <input id="drivers_license_image" onChange={getImage} name="drivers_license_image" type="file"/>
 
-                    <label htmlFor="car_tex_passport">Tex passport</label>
-                    <input onChange={getImage} name="car_tex_passport" id="car_tex_passport" type="file"/>
+                    <label htmlFor="car_tex_passport">Tex passport:</label>
+                    <input id="car_tex_passport" onChange={getImage} name="car_tex_passport" type="file"/>
                 </div>
             </div>
+
             <div className="buttons">
                 <div onClick={() => setShowEdit(false)} className="cancel-btn">Bekor qilish</div>
                 <div onClick={editDriver2} className="edit-btn">Tahrirlash</div>
@@ -316,10 +389,17 @@ const Driver = () => {
                     <th>№</th>
                     <th>F.I.SH</th>
                     <th>Tel</th>
-                    <th>Moshina turi</th>
-                    <th>Moshina kuzofi</th>
-                    <th>Moshina rasmi</th>
+                    <th>Haydovchi rasmi</th>
+                    <th>Kategoriya</th>
                     <th>Moshina raqami</th>
+                    <th>Moshina Nomi</th>
+                    <th>Moshina uzunligi</th>
+                    <th>Moshina kengligi</th>
+                    <th>Moshina balandligi</th>
+                    <th>Kub</th>
+                    <th>Yuk vazni</th>
+                    <th>Kuzov turi</th>
+                    <th>Moshina rasmi</th>
                     <th>Tex passport</th>
                     <th>Haydovchilik guvohnomasi</th>
                     <th>Tasdiqlash</th>
@@ -340,8 +420,25 @@ const Driver = () => {
                             {item.last_name}
                         </td>
                         <td>{item.phone}</td>
-                        <td>{item.documentation ? item.documentation.car_type.name : null}</td>
+                        <td>
+                            <div>
+                                {item.image ?
+                                    <img onClick={() => {
+                                        setDocUrl(item.image)
+                                        setViewDoc(true)
+                                    }} src="../images/admin/view.png" alt=""/> : ""}
+                            </div>
+                        </td>
+                        <td>{item.documentation ? item.documentation.category.name : null}</td>
+                        <td>{item.documentation ? item.documentation.car_number : null}</td>
+                        <td>{item.documentation ? item.documentation.name : null}</td>
+                        <td>{item.documentation ? item.documentation.widht : null}</td>
+                        <td>{item.documentation ? item.documentation.breadth : null}</td>
+                        <td>{item.documentation ? item.documentation.height : null}</td>
+                        <td>{item.documentation ? item.documentation.cargo_volume : null}</td>
+                        <td>{item.documentation ? item.documentation.cargo_weight : null}</td>
                         <td>{item.documentation ? item.documentation.car_body.name : null}</td>
+
                         <td>
                             <div>
                                 {item.documentation ?
@@ -351,25 +448,27 @@ const Driver = () => {
                                     }} src="../images/admin/photo.png" alt=""/> : ""}
                             </div>
                         </td>
-                        <td>{item.documentation ? item.documentation.car_number : null}</td>
+
                         <td>
                             <div>
-                                {item.documentation ?
+                                {item.car_tex_passport ?
                                     <img onClick={() => {
-                                        setDocUrl(item.documentation.car_tex_passport)
+                                        setDocUrl(item.car_tex_passport)
                                         setViewDoc(true)
                                     }} src="../images/admin/view.png" alt=""/> : ""}
                             </div>
                         </td>
+
                         <td>
                             <div>
-                                {item.documentation ?
+                                {item.drivers_license_image ?
                                     <img onClick={() => {
-                                        setDocUrl(item.documentation.drivers_license_image)
+                                        setDocUrl(item.drivers_license_image)
                                         setViewDoc(true)
                                     }} src="../images/admin/view.png" alt=""/> : ""}
                             </div>
                         </td>
+
                         <td>
                             <div>
                                 {item.is_verified ? <img onClick={() => {
@@ -377,9 +476,9 @@ const Driver = () => {
                                             headers: {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
-                                        }).then((response) => {
+                                        }).then(() => {
                                             getList()
-                                        }).catch((error) => {
+                                        }).catch(() => {
 
                                         });
 
@@ -389,9 +488,9 @@ const Driver = () => {
                                             headers: {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
-                                        }).then((response) => {
+                                        }).then(() => {
                                             getList()
-                                        }).catch((error) => {
+                                        }).catch(() => {
 
                                         });
 
@@ -405,9 +504,9 @@ const Driver = () => {
                                             headers: {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
-                                        }).then((response) => {
+                                        }).then(() => {
                                             getList()
-                                        }).catch((error) => {
+                                        }).catch(() => {
 
                                         });
 
@@ -417,9 +516,9 @@ const Driver = () => {
                                             headers: {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
-                                        }).then((response) => {
+                                        }).then(() => {
                                             getList()
-                                        }).catch((error) => {
+                                        }).catch(() => {
 
                                         });
 
@@ -430,9 +529,11 @@ const Driver = () => {
                             <div>
                                 <img onClick={() => {
                                     editDriver(index);
-                                    setUserId(item.documentation.id)
-                                    setShowEdit(true)}
+                                    setUserId(item.id);
+                                    setShowEdit(true)
+                                }
                                 } src={`../images/admin/edit.png`} alt=""/>
+
                             </div>
                         </td>
                     </tr>
@@ -466,7 +567,7 @@ const Driver = () => {
         <div className={`view-docs ${!viewDoc ? "hide" : ""}`}>
             <div className="for-image">
                 <div className="cancel-btn">
-                    <img src="./images/download.png" alt=""/>
+                    <img onClick={getDownloadFile} src="./images/download.png" alt=""/>
                     <img onClick={() => setViewDoc(false)} src="../images/admin/close.png" alt=""/>
                 </div>
                 <div className="for-img">

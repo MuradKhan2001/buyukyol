@@ -15,7 +15,7 @@ const AboutUs = () => {
     useEffect(() => {
         axios.get(`${value.url}dashboard/aboutus/`, {
             headers: {
-                "Accept-Language": i18next.language ? i18next.language : "uz"
+                "Accept-Language": localStorage.getItem('language') ? localStorage.getItem('language') : "uz"
             }
         }).then((response) => {
             setMainList(response.data);

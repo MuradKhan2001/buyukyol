@@ -26,6 +26,8 @@ import Moments from "../admin/Site Admin/moments/Moments";
 import Hometext from "../admin/Site Admin/hometext/Hometext";
 import Contract from "../admin/Site Admin/contract/Contract";
 import Price from "../admin/price/Price";
+import Message from "../admin/Site Admin/massages/Message";
+import ConvertImage from "../admin/addbag/ConverImage";
 
 
 export const publicRoutes = [
@@ -50,7 +52,7 @@ export const publicRoutes = [
         element:<Service/>
     },
     {
-        path:"/login",
+        path:"/login-admin-buyukyol",
         element:<Login/>
     },
 ];
@@ -146,6 +148,10 @@ export const adminPageRoutes = [
     {
         path:"/price",
         element: <Price/>
+    },
+    {
+        path:"/message",
+        element: <Message/>
     }
 
 ];

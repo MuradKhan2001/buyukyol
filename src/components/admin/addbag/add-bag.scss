@@ -137,3 +137,44 @@
     }
   }
 }
+
+
+.get-image-container{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: rgba(230, 230, 230, 0.16) 0px 10px 36px 0px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px;
+  border-radius: 5px;
+  padding: 20px;
+  .download-image{
+    margin-bottom: 10px;
+  }
+  .truck-image{
+    width: 70%;
+    position: relative;
+    img{
+      width: 100%;
+    }
+    .width-truck{
+      position: absolute;
+      top: 100px;
+      right: 200px;
+      font-weight: bold;
+    }
+    .height-truck{
+      position: absolute;
+      bottom: 200px;
+      right: 80px;
+      font-weight: bold;
+    }
+
+  }
+  .inputs{
+    margin-top: 20px;
+    input{
+      padding-left: 10px;
+      margin-right: 20px;
+      height: 30px;
+    }
+  }
+}

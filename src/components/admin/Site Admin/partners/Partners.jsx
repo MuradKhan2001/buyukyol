@@ -2,6 +2,7 @@ import "./style.scss"
 import {useContext, useEffect, useState} from "react";
 import {MyContext} from "../../../app/App";
 import axios from "axios";
+import {saveAs} from "file-saver";
 
 const PartnersA = () => {
     let value = useContext(MyContext);
@@ -78,6 +79,16 @@ const PartnersA = () => {
         })
     };
 
+    const getDownloadFile = async (file) => {
+        let format = file.split(".");
+
+        return axios.get(file, {
+            responseType: 'blob'
+        }).then((response) => {
+            saveAs(response.data, `photo.${format[format.length-1]}`)
+        })
+    };
+
 
     return <div className="partners-admin-box">
         <div className="content-card">
@@ -110,9 +121,7 @@ const PartnersA = () => {
                             </div>
                             <div className="for-btns">
                                 <div>
-                                    <a href={item.contract} target="_blank">
-                                        <img src="../images/download.png" alt=""/>
-                                    </a>
+                                    <img onClick={()=>getDownloadFile(item.contract)} src="../images/download.png" alt=""/>
                                 </div>
                                 <div>
                                     <img onClick={()=>delPartner(item.id)} src="../images/admin/delete.png" alt=""/>

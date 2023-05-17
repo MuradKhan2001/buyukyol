@@ -109,7 +109,6 @@ const AddBag  = () =>{
                     editCar ? <div className="btns">
                             <div onClick={EditCars2} className="filter-btn">
                                 <span>Tahrirlash</span>
-                                <img src="../images/admin/add-package.png" alt=""/>
                             </div>
                             <div onClick={EditCars3} className="xbtn">
                                 <img src="../images/admin/close2.png" alt=""/>

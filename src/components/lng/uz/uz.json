@@ -21,6 +21,7 @@
   "text": "Ma'lumot uchun",
   "contract": "Sharnoma haqida",
   "galary": "Kadrlar",
+  "message": "Xabarlar",
 
   "nav1": "Dashboard",
   "nav2": "Balans",
@@ -29,7 +30,7 @@
   "nav5": "Mijoz",
   "nav6": "Yo'nalish",
   "nav7": "To'lov tizimi",
-  "nav8": "Moshina qo'shish",
+  "nav8": "Tarif qo'shish",
   "nav9": "Kuzov qo'shish",
   "nav10": "Xabarnoma",
   "nav11": "Hamkorlar",
