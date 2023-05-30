@@ -1,11 +1,11 @@
-.car-container {
+.precent-container {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: rgba(230, 230, 230, 0.16) 0px 10px 36px 0px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px;
   border-radius: 5px;
-  padding: 15px;
-  position: relative;
+  padding: 20px;
+
   .header-side {
     width: 100%;
     height: 10%;
@@ -20,41 +20,30 @@
       align-items: center;
       display: flex;
 
-      .btns {
+      .btns{
         display: flex;
       }
-
       .inputs {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         input {
-          height: 35px;
+          height: 28px;
           box-shadow: rgb(255, 255, 255) 0px 0px 2px;
           color: white;
           background-color: transparent;
           padding-left: 6px;
           border: none;
-          margin-right: 25px;
+          margin-right: 20px;
           border-radius: 5px;
-          width: 200px;
-          font-size: 12px;
-
-          &:nth-child(2) {
-            box-shadow: none;
-            padding: 0;
+          width: 80px;
+          font-size: 16px;
+          &:nth-child(1){
+            width: 170px;
           }
-
+          &:nth-child(5){
+            box-shadow: none;
+          }
           &::placeholder {
             color: #b9b9b9;
           }
-        }
-        .get-image{
-          width: 200px;
-          display: block;
-          color: white;
-          font-size: 12px;
         }
       }
 
@@ -81,8 +70,8 @@
         }
       }
 
-      .xbtn {
-        img {
+      .xbtn{
+        img{
           margin-left: 8px;
           cursor: pointer;
           width: 20px;
@@ -90,10 +79,15 @@
         }
       }
     }
+
+    .main-price {
+      font-weight: bold;
+      color: white;
+    }
   }
 
   .table-content {
-    width: 100%;
+    width: 95%;
     height: 75%;
     overflow-y: auto;
     margin: 10px auto 0 auto;
@@ -107,7 +101,7 @@
       border-radius: 5px;
 
       thead {
-        font-size: 16px;
+        font-size: 18px;
 
         th {
           color: white;
@@ -123,12 +117,6 @@
             color: white;
             border: 1px solid #575757;
             padding: 12px;
-
-            img {
-              width: 40px;
-              height: 40px;
-              cursor: pointer;
-            }
 
             div {
               margin: 0 auto;
@@ -147,60 +135,5 @@
 
       }
     }
-  }
-
-  .view-docs{
-    z-index: 200;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0,0,0,0.8);
-    .for-image{
-      padding: 10px;
-      width: 60%;
-      height: 90%;
-      background-color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      border-radius: 10px;
-      box-shadow: rgb(128, 128, 128) 0px 0px 28px, rgba(90, 90, 90, 0.73) 0px 0px 10px;
-      .cancel-btn{
-        padding-left: 10px;
-        padding-right: 10px;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        img{
-          cursor: pointer;
-          width: 30px;
-          &:nth-child(2){
-            width: 25px;
-            height: 25px;
-          }
-        }
-      }
-      .for-img{
-        margin-top: 20px;
-        width: 100%;
-        height: 88%;
-        img{
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          background-color: transparent;
-        }
-      }
-    }
-  }
-
-  .hide {
-    display: none;
   }
 }

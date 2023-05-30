@@ -14,7 +14,6 @@ const Admin = () => {
     const navigate = useNavigate();
     const {t} = useTranslation();
     const [price, setPrice] = useState("so'm");
-    const [usd, setUsd] = useState(1);
     const [countPrice, setCountPrice] = useState("");
     const [StatisticsCount, setStatisticsCount] = useState([]);
 
@@ -56,6 +55,11 @@ const Admin = () => {
             img: "../images/admin/price-tag.png"
         },
         {
+            name: t('nav14'),
+            url: "/precent",
+            img: "../images/admin/discount.png"
+        },
+        {
             name: t('nav7'),
             url: "/payment",
             img: "../images/admin/payment.png"
@@ -63,6 +67,11 @@ const Admin = () => {
         {
             name: t('nav8'),
             url: "/addcar",
+            img: "../images/admin/taxes.png"
+        },
+        {
+            name: t('nav15'),
+            url: "/addcars",
             img: "../images/admin/add.png"
         },
         {

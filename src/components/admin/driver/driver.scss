@@ -295,7 +295,7 @@
     align-items: center;
     background-color: rgba(0,0,0,0.8);
     .for-image{
-      padding: 20px;
+      padding: 10px;
       width: 60%;
       height: 90%;
       background-color: white;
@@ -306,22 +306,29 @@
       border-radius: 10px;
       box-shadow: rgb(128, 128, 128) 0px 0px 28px, rgba(90, 90, 90, 0.73) 0px 0px 10px;
       .cancel-btn{
+        padding-left: 10px;
+        padding-right: 10px;
         display: flex;
         justify-content: space-between;
         width: 100%;
         img{
           cursor: pointer;
           width: 30px;
+          &:nth-child(2){
+            width: 25px;
+            height: 25px;
+          }
         }
       }
       .for-img{
         margin-top: 20px;
         width: 100%;
-        height: 80%;
-        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+        height: 88%;
         img{
           width: 100%;
           height: 100%;
+          object-fit: contain;
+          background-color: transparent;
         }
       }
     }

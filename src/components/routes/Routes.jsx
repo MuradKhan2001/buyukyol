@@ -27,7 +27,9 @@ import Hometext from "../admin/Site Admin/hometext/Hometext";
 import Contract from "../admin/Site Admin/contract/Contract";
 import Price from "../admin/price/Price";
 import Message from "../admin/Site Admin/massages/Message";
-import ConvertImage from "../admin/addbag/ConverImage";
+import AddCars from "../admin/addcars/Addcars";
+import Addprecent from "../admin/addprecent/Addprecent";
+
 
 
 export const publicRoutes = [
@@ -152,6 +154,14 @@ export const adminPageRoutes = [
     {
         path:"/message",
         element: <Message/>
+    },
+    {
+        path:"/addcars",
+        element: <AddCars/>
+    },
+    {
+        path:"/precent",
+        element: <Addprecent/>
     }
 
 ];
