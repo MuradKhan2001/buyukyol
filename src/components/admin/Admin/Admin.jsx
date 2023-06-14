@@ -75,11 +75,6 @@ const Admin = () => {
             img: "../images/admin/add.png"
         },
         {
-            name: t('nav9'),
-            url: "/addbag",
-            img: "../images/admin/truck.png"
-        },
-        {
             name: t('nav10'),
             url: "/notification",
             img: "../images/admin/notification.png"
@@ -278,13 +273,15 @@ const Admin = () => {
 
                         <div onClick={() => {
                             i18next.changeLanguage('uz');
-                            localStorage.setItem("lng", "uz")
+                            localStorage.setItem("lng", "uz");
+                            window.location.reload()
                         }} className={`lng-item ${i18next.language === "uz" ? "active" : ""}`}>UZ
                         </div>
 
                         <div onClick={() => {
                             i18next.changeLanguage('ru');
-                            localStorage.setItem("lng", "ru")
+                            localStorage.setItem("lng", "ru");
+                            window.location.reload()
                         }} className={`lng-item ${i18next.language === "ru" ? "active" : ""}`}>RU
                         </div>
                     </div>

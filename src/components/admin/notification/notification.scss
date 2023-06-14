@@ -38,13 +38,10 @@
     display: flex;
 
     .left {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
       width: 40%;
       height: 100%;
       padding: 20px;
+      overflow-y: auto;
 
       .inputs {
         input {

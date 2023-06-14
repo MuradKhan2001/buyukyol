@@ -14,6 +14,7 @@ const AddCars = () => {
     const [Car, setCar] = useState({
         category: "",
         name: "",
+        name_ru: "",
         height: "",
         widht: "",
         breadth: "",
@@ -38,7 +39,6 @@ const AddCars = () => {
             }
         }).then((response) => {
             setMainList(response.data)
-            console.log(response.data)
         }).catch((error) => {
             if (error.response.statusText == "Unauthorized") {
                 window.location.pathname = "/";
@@ -61,9 +61,8 @@ const AddCars = () => {
     }, []);
 
     const AddCars = () => {
-        if (Car.category.trim().length > 0 && Car.name.trim().length && Car.height.trim().length && Car.widht.trim().length
+        if (Car.category.trim().length > 0 && Car.name.trim().length && Car.name_ru.trim().length && Car.height.trim().length && Car.widht.trim().length
             && Car.breadth.trim().length && Car.cargo_volume.trim().length && Car.cargo_weight.trim().length && Car.car_image) {
-            console.log(Car)
             let Post = new FormData();
 
             for (let key in Car) {
@@ -79,6 +78,7 @@ const AddCars = () => {
                 let newList = {
                     category: "",
                     name: "",
+                    name_ru: "",
                     height: "",
                     widht: "",
                     breadth: "",
@@ -90,6 +90,7 @@ const AddCars = () => {
 
                 document.getElementById('category').value = "";
                 document.getElementById('name').value = "";
+                document.getElementById('name_ru').value = "";
                 document.getElementById('height').value = "";
                 document.getElementById('widht').value = "";
                 document.getElementById('breadth').value = "";
@@ -111,6 +112,7 @@ const AddCars = () => {
         let newList = {
             category: MainList[ind].category,
             name: MainList[ind].name,
+            name_ru: MainList[ind].name_ru,
             height: MainList[ind].height,
             widht: MainList[ind].widht,
             breadth: MainList[ind].breadth,
@@ -121,6 +123,7 @@ const AddCars = () => {
 
         document.getElementById('category').value = MainList[ind].category;
         document.getElementById('name').value = MainList[ind].name;
+        document.getElementById('name_ru').value = MainList[ind].name_ru;
         document.getElementById('height').value = MainList[ind].height;
         document.getElementById('widht').value = MainList[ind].widht;
         document.getElementById('breadth').value = MainList[ind].breadth;
@@ -146,6 +149,7 @@ const AddCars = () => {
             let newList = {
                 category: "",
                 name: "",
+                name_ru: "",
                 height: "",
                 widht: "",
                 breadth: "",
@@ -157,6 +161,7 @@ const AddCars = () => {
 
             document.getElementById('category').value = "";
             document.getElementById('name').value = "";
+            document.getElementById('name_ru').value = "";
             document.getElementById('height').value = "";
             document.getElementById('widht').value = "";
             document.getElementById('breadth').value = "";
@@ -175,6 +180,7 @@ const AddCars = () => {
         let newList = {
             category: "",
             name: "",
+            name_ru: "",
             height: "",
             widht: "",
             breadth: "",
@@ -186,6 +192,7 @@ const AddCars = () => {
 
         document.getElementById('category').value = "";
         document.getElementById('name').value = "";
+        document.getElementById('name_ru').value = "";
         document.getElementById('height').value = "";
         document.getElementById('widht').value = "";
         document.getElementById('breadth').value = "";
@@ -215,7 +222,7 @@ const AddCars = () => {
                         {
                             category.map((item, index) => {
                                 return <option value={item.id} key={index}>
-                                    {item.name} &nbsp; &nbsp;
+                                    {localStorage.getItem("lng") === "uz" ? item.name : item.name_ru} &nbsp; &nbsp;
                                     {item.min_weight} &nbsp; - &nbsp;
                                     {item.max_weight}
                                 </option>
@@ -224,6 +231,7 @@ const AddCars = () => {
                     </select>
 
                     <input onChange={getInputs} name="name" id="name" placeholder="Moshina nomi" type="text"/>
+                    <input onChange={getInputs} name="name_ru" id="name_ru" placeholder="Название автомобиля" type="text"/>
                     <input onChange={getInputs} name="height" id="height" placeholder="Balandligi" type="text"/>
                     <input onChange={getInputs} name="widht" id="widht" placeholder="Uzunligi" type="text"/>
                     <input onChange={getInputs} name="breadth" id="breadth" placeholder="Kengligi" type="text"/>
@@ -286,7 +294,7 @@ const AddCars = () => {
                                     if (items.id === item.category) return items.name
                                 })}
                             </td>
-                            <td>{item.name}</td>
+                            <td> {localStorage.getItem("lng") === "uz" ? item.name : item.name_ru}</td>
                             <td>{item.height}</td>
                             <td>{item.widht}</td>
                             <td>{item.breadth}</td>

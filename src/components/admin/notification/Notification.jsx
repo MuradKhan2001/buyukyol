@@ -11,20 +11,24 @@ const Notification = () => {
     const [MainListClient, setMainListClient] = useState([]);
     const [listDriver, setListDriver] = useState({
         title: "",
+        title_ru: "",
         image: null,
         description: "",
+        description_ru: "",
         receiver: "Driver"
     });
     const [listClient, setListClient] = useState({
         title: "",
+        title_ru: "",
         image: null,
         description: "",
+        description_ru: "",
         receiver: "Client"
     });
 
     const [editClient, setEditClient] = useState(false);
     const [editDriver, setEditDriver] = useState(false);
-    const [editIndex, setEditIndex]= useState("")
+    const [editIndex, setEditIndex]= useState("");
 
 
     const getInputsDriver = (e) => {
@@ -83,8 +87,8 @@ const Notification = () => {
 
     const addList = (name) => {
         if (name === "driver") {
-            if (listDriver.image && listDriver.title.trim().length > 0
-                && listDriver.description.trim().length > 0) {
+            if (listDriver.image && listDriver.title.trim().length > 0 && listDriver.title_ru.trim().length > 0
+                && listDriver.description.trim().length > 0 && listDriver.description_ru.trim().length > 0) {
 
                 let Post = new FormData();
                 for (let key in listDriver) {
@@ -99,14 +103,18 @@ const Notification = () => {
                     getList();
                     let newList = {
                         title: "",
+                        title_ru: "",
                         image: null,
                         description: "",
+                        description_ru: "",
                         receiver: "Driver"
                     };
                     setListDriver(newList);
-                    document.getElementById('titleDriver').value = ""
-                    document.getElementById('descriptionDriver').value = ""
-                    document.getElementById('photoDriver').value = ""
+                    document.getElementById('titleDriver').value = "";
+                    document.getElementById('titleDriverRu').value = "";
+                    document.getElementById('descriptionDriver').value = "";
+                    document.getElementById('descriptionDriverRu').value = "";
+                    document.getElementById('photoDriver').value = "";
                 }).catch(() => {
                 });
 
@@ -114,8 +122,8 @@ const Notification = () => {
         }
 
         if (name === "client") {
-            if (listClient.image && listClient.title.trim().length > 0
-                && listClient.description.trim().length > 0) {
+            if (listClient.image && listClient.title.trim().length > 0 && listClient.title_ru.trim().length > 0
+                && listClient.description.trim().length > 0 && listClient.description_ru.trim().length > 0) {
 
                 let Post = new FormData();
 
@@ -131,14 +139,18 @@ const Notification = () => {
                     getList();
                     let newList = {
                         title: "",
+                        title_ru: "",
                         image: null,
                         description: "",
+                        description_ru: "",
                         receiver: "Client"
                     };
                     setListClient(newList);
-                    document.getElementById('titleClient').value = ""
-                    document.getElementById('descriptionClient').value = ""
-                    document.getElementById('photoClient').value = ""
+                    document.getElementById('titleClient').value = "";
+                    document.getElementById('titleClientRu').value = "";
+                    document.getElementById('descriptionClient').value = "";
+                    document.getElementById('descriptionClientRu').value = "";
+                    document.getElementById('photoClient').value = "";
                 }).catch(() => {
 
                 });
@@ -156,7 +168,7 @@ const Notification = () => {
                 params: {
                     user_type: "Driver"
                 }
-            }).then((response) => {
+            }).then(() => {
                 getList()
             }).catch(() => {
 
@@ -180,29 +192,37 @@ const Notification = () => {
     };
 
     const editList1 = (ind, name, id) => {
-        setEditIndex(id)
+        setEditIndex(id);
         if (name === "driver") {
             setEditDriver(true);
             let newList = {
                 title: MainListDriver[ind].title,
+                title_ru: MainListDriver[ind].title_ru,
                 description: MainListDriver[ind].description,
+                description_ru: MainListDriver[ind].description_ru,
                 receiver: "Driver"
             };
-            setListDriver(newList)
+            setListDriver(newList);
             document.getElementById('titleDriver').value = MainListDriver[ind].title;
-            document.getElementById('descriptionDriver').value = MainListDriver[ind].description
+            document.getElementById('titleDriverRu').value = MainListDriver[ind].title_ru;
+            document.getElementById('descriptionDriver').value = MainListDriver[ind].description;
+            document.getElementById('descriptionDriverRu').value = MainListDriver[ind].description_ru;
         }
 
         if (name === "client") {
             setEditClient(true);
             let newList = {
                 title: MainListClient[ind].title,
+                title_ru: MainListClient[ind].title_ru,
                 description: MainListClient[ind].description,
+                description_ru: MainListClient[ind].description_ru,
                 receiver: "Client"
             };
             setListClient(newList)
             document.getElementById('titleClient').value = MainListClient[ind].title;
-            document.getElementById('descriptionClient').value = MainListClient[ind].description
+            document.getElementById('titleClientRu').value = MainListClient[ind].title_ru;
+            document.getElementById('descriptionClient').value = MainListClient[ind].description;
+            document.getElementById('descriptionClientRu').value = MainListClient[ind].description_ru;
         }
     };
 
@@ -224,13 +244,17 @@ const Notification = () => {
                 setEditDriver(false)
                 let newList = {
                     title: "",
+                    title_ru: "",
                     image: null,
                     description: "",
+                    description_ru: "",
                     receiver: "Driver"
                 };
                 setListDriver(newList);
                 document.getElementById('titleDriver').value = "";
+                document.getElementById('titleDriverRu').value = "";
                 document.getElementById('descriptionDriver').value = "";
+                document.getElementById('descriptionDriverRu').value = "";
                 document.getElementById('photoDriver').value = ""
             }).catch(() => {
             });
@@ -255,13 +279,17 @@ const Notification = () => {
                 setEditClient(false)
                 let newList = {
                     title: "",
+                    title_ru: "",
                     image: null,
                     description: "",
+                    description_ru: "",
                     receiver: "Client"
                 };
                 setListClient(newList);
                 document.getElementById('titleClient').value = "";
+                document.getElementById('titleClientRu').value = "";
                 document.getElementById('descriptionClient').value = "";
+                document.getElementById('descriptionClientRu').value = "";
                 document.getElementById('photoClient').value = "";
             }).catch(() => {
 
@@ -275,12 +303,16 @@ const Notification = () => {
             <div onClick={() => {
                 setSideNav(true)
                 document.getElementById('titleClient').value = ""
+                document.getElementById('titleClientRu').value = ""
                 document.getElementById('descriptionClient').value = ""
+                document.getElementById('descriptionClientRu').value = ""
                 document.getElementById('photoClient').value = ""
             }} className={` sides ${sideNav ? "active" : ""}`}>Haydovchilar</div>
             <div onClick={() => {
                 document.getElementById('titleDriver').value = ""
+                document.getElementById('titleDriverRu').value = ""
                 document.getElementById('descriptionDriver').value = ""
+                document.getElementById('descriptionDriverRu').value = ""
                 document.getElementById('photoDriver').value = ""
                 setSideNav(false)}
             } className={` sides ${!sideNav ? "active" : ""}`}>Mijozlar</div>
@@ -290,10 +322,17 @@ const Notification = () => {
             sideNav ? <div className="content-card">
                     <div className="left">
                         <div className="inputs">
+                            <label htmlFor="photo">UZ:</label>
                             <input name="title" id="titleDriver" onChange={getInputsDriver} placeholder="Sarlavha"
                                    type="text"/>
                             <textarea name="description" id="descriptionDriver" onChange={getInputsDriver}
                                       placeholder="Qisqacha ma'lumot uchun"></textarea>
+
+                            <label htmlFor="photo">RU:</label>
+                            <input name="title_ru" id="titleDriverRu" onChange={getInputsDriver} placeholder="Заголовок"
+                                   type="text"/>
+                            <textarea name="description_ru" id="descriptionDriverRu" onChange={getInputsDriver}
+                                      placeholder="Краткая информация"></textarea>
 
                             <label htmlFor="photo">Rasm:</label>
                             <input name="image" onChange={getImageDriver} id="photoDriver" type="file"/>
@@ -306,13 +345,17 @@ const Notification = () => {
                                             setEditDriver(false)
                                             let newList = {
                                                 title: "",
+                                                title_ru: "",
                                                 image: null,
                                                 description: "",
+                                                description_ru: "",
                                                 receiver: "Driver"
                                             };
                                             setListDriver(newList);
                                             document.getElementById('titleDriver').value = ""
+                                            document.getElementById('titleDriverRu').value = ""
                                             document.getElementById('descriptionDriver').value = ""
+                                            document.getElementById('descriptionDriverRu').value = ""
                                         }} src="../images/admin/close2.png" alt=""/>
                                     </div>
                                 </div> :
@@ -331,9 +374,11 @@ const Notification = () => {
                                     </div>
 
                                     <div className="for-text">
-                                        <div className="title">{item.title}</div>
+                                        <div className="title">
+                                            {localStorage.getItem("lng") === "uz"? item.title : item.title_ru}
+                                        </div>
                                         <div className="des">
-                                            {item.description}
+                                            {localStorage.getItem("lng") === "uz"? item.description : item.description_ru}
                                         </div>
                                     </div>
                                     <div className="for-btns">
@@ -352,13 +397,23 @@ const Notification = () => {
 
                     </div>
                 </div> :
+
+
                 <div className="content-card">
                     <div className="left">
                         <div className="inputs">
+                            <label htmlFor="photo">UZ:</label>
                             <input name="title" id="titleClient" onChange={getInputsClient} placeholder="Sarlavha"
                                    type="text"/>
+
                             <textarea name="description" id="descriptionClient" onChange={getInputsClient}
                                       placeholder="Qisqacha ma'lumot uchun"></textarea>
+
+                            <label htmlFor="photo">RU:</label>
+                            <input name="title_ru" id="titleClientRu" onChange={getInputsClient} placeholder="Заголовок"
+                                   type="text"/>
+                            <textarea name="description_ru" id="descriptionClientRu" onChange={getInputsClient}
+                                      placeholder="Краткая информация"></textarea>
 
                             <label htmlFor="photo">Rasm:</label>
                             <input name="image" onChange={getImageClient} id="photoClient" type="file"/>
@@ -371,13 +426,17 @@ const Notification = () => {
                                             setEditClient(false)
                                             let newList = {
                                                 title: "",
+                                                title_ru: "",
                                                 image: null,
                                                 description: "",
+                                                description_ru: "",
                                                 receiver: "Client"
                                             };
                                             setListClient(newList);
                                             document.getElementById('titleClient').value = ""
+                                            document.getElementById('titleClientRu').value = ""
                                             document.getElementById('descriptionClient').value = ""
+                                            document.getElementById('descriptionClientRu').value = ""
                                             document.getElementById('photoClient').value = ""
                                         }} src="../images/admin/close2.png" alt=""/>
                                     </div>
@@ -397,9 +456,11 @@ const Notification = () => {
                                     </div>
 
                                     <div className="for-text">
-                                        <div className="title">{item.title}</div>
+                                        <div className="title">
+                                            {localStorage.getItem("lng") === "uz"? item.title : item.title_ru}
+                                        </div>
                                         <div className="des">
-                                            {item.description}
+                                            {localStorage.getItem("lng") === "uz"? item.description : item.description_ru}
                                         </div>
                                     </div>
                                     <div className="for-btns">

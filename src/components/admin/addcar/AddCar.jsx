@@ -13,6 +13,7 @@ const AddCar = () => {
     const [carId, setCarId] = useState("");
     const [Car, setCar] = useState({
         name: "",
+        name_ru: "",
         image: null,
         min_weight: "",
         max_weight: ""
@@ -46,7 +47,7 @@ const AddCar = () => {
     }, []);
 
     const AddCars = () => {
-        if (Car.name.trim().length > 0 && Car.min_weight.trim().length > 0 && Car.max_weight.trim().length > 0
+        if (Car.name.trim().length > 0 && Car.name_ru.trim().length > 0 && Car.min_weight.trim().length > 0 && Car.max_weight.trim().length > 0
             && Car.image) {
 
             let Post = new FormData();
@@ -63,6 +64,7 @@ const AddCar = () => {
                 getList();
                 let newList = {
                     name: "",
+                    name_ru: "",
                     image: null,
                     min_weight: "",
                     max_weight: ""
@@ -70,6 +72,7 @@ const AddCar = () => {
                 setCar(newList);
 
                 document.getElementById('name').value = "";
+                document.getElementById('name_ru').value = "";
                 document.getElementById('image').value = "";
                 document.getElementById('min_weight').value = "";
                 document.getElementById('max_weight').value = ""
@@ -87,12 +90,14 @@ const AddCar = () => {
 
         let newList = {
             name: MainList[ind].name,
+            name_ru: MainList[ind].name_ru,
             min_weight: MainList[ind].min_weight,
             max_weight: MainList[ind].max_weight
         };
         setCar(newList);
 
         document.getElementById('name').value = MainList[ind].name;
+        document.getElementById('name_ru').value = MainList[ind].name_ru;
         document.getElementById('min_weight').value = MainList[ind].min_weight;
         document.getElementById('max_weight').value = MainList[ind].max_weight
     };
@@ -113,6 +118,7 @@ const AddCar = () => {
             getList();
             let newList = {
                 name: "",
+                name_ru: "",
                 image: null,
                 min_weight: "",
                 max_weight: ""
@@ -120,6 +126,7 @@ const AddCar = () => {
             setCar(newList);
 
             document.getElementById('name').value = "";
+            document.getElementById('name_ru').value = "";
             document.getElementById('image').value = "";
             document.getElementById('min_weight').value = "";
             document.getElementById('max_weight').value = ""
@@ -133,6 +140,7 @@ const AddCar = () => {
 
         let newList = {
             name: "",
+            name_ru: "",
             image: null,
             min_weight: "",
             max_weight: ""
@@ -140,6 +148,7 @@ const AddCar = () => {
         setCar(newList);
 
         document.getElementById('name').value = "";
+        document.getElementById('name_ru').value = "";
         document.getElementById('image').value = "";
         document.getElementById('min_weight').value = "";
         document.getElementById('max_weight').value = ""
@@ -162,6 +171,7 @@ const AddCar = () => {
             <div className="filter-box">
                 <div className="inputs">
                     <input onChange={getInputs} name="name" id="name" placeholder="Tarif nomi" type="text"/>
+                    <input onChange={getInputs} name="name_ru" id="name_ru" placeholder="Название тарифа" type="text"/>
 
                     <div className="get-image">
                         <label htmlFor="image">Moshina rasmi:</label>
@@ -210,7 +220,7 @@ const AddCar = () => {
                     MainList.map((item, index) => {
                         return <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item.name}</td>
+                            <td>{localStorage.getItem("lng") === "uz" ? item.name : item.name_ru}</td>
                             <td>
                                 {item.image ?
                                     <img onClick={() => {

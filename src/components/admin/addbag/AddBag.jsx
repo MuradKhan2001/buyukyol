@@ -142,7 +142,7 @@ const AddBag  = () =>{
                             <td>
                                 <div>
                                     <img onClick={()=>{
-                                        EditCars(index)
+                                        EditCars(index);
                                         setCarId(item.id)
                                     }} src="../images/admin/edit.png" alt=""/>
                                 </div>

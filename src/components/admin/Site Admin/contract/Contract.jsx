@@ -25,7 +25,6 @@ const Contract = () => {
             }
         }).then((response) => {
             setMainList(response.data);
-            console.log(response.data)
         }).catch((error) => {
             if (error.response.statusText == "Unauthorized") {
                 window.location.pathname = "/";
@@ -65,8 +64,6 @@ const Contract = () => {
             Post.append("uz", fileUz)
             Post.append("ru", fileRu)
             Post.append("ro", fileUZB)
-
-            console.log(translations)
 
             axios.post(`${value.url}dashboard/termsandconditions/`, Post, {
                 headers: {

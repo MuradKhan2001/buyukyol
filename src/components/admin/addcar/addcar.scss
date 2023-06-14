@@ -38,12 +38,14 @@
           border: none;
           margin-right: 25px;
           border-radius: 5px;
-          width: 200px;
+          width: 100px;
           font-size: 12px;
 
+          &:nth-child(1) {
+            width: 200px;
+          }
           &:nth-child(2) {
-            box-shadow: none;
-            padding: 0;
+            width: 200px;
           }
 
           &::placeholder {
@@ -55,6 +57,10 @@
           display: block;
           color: white;
           font-size: 12px;
+          margin-right: 10px;
+          input{
+            box-shadow: none;
+          }
         }
       }
 
