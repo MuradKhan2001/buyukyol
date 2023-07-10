@@ -65,6 +65,11 @@ const Admin = () => {
             img: "../images/admin/payment.png"
         },
         {
+            name: t('nav16'),
+            url: "/visa-payment",
+            img: "../images/admin/ticket.png"
+        },
+        {
             name: t('nav8'),
             url: "/addcar",
             img: "../images/admin/taxes.png"

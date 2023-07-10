@@ -11,6 +11,7 @@ const Price = () => {
     const [carId, setCarId] = useState(false);
     const [min_weight, setMin_weight] = useState("");
     const [max_weight, setMax_weight] = useState("");
+    const [car_count, setCar_count] = useState("");
     const [price, setPrice] = useState("");
     const [over_weight_cost, setOver_weight_cost] = useState("");
 
@@ -37,22 +38,24 @@ const Price = () => {
     const AddCars = () => {
 
         if (min_weight.trim().length > 0 && max_weight.trim().length > 0 && price.trim().length > 0 &&
-            over_weight_cost.trim().length > 0) {
+            over_weight_cost.trim().length > 0 && car_count.trim().length > 0) {
 
-            axios.post(`${value.url}dashboard/priceoptions/`, {min_weight, max_weight, price, over_weight_cost}, {
+            axios.post(`${value.url}dashboard/priceoptions/`, {min_weight, max_weight, price, over_weight_cost, car_count}, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
-            }).then((response) => {
+            }).then(() => {
                 getList();
                 setMin_weight("");
                 setMax_weight("");
                 setPrice("");
+                setCar_count("");
                 setOver_weight_cost("");
 
                 document.getElementById('min_weight').value = "";
                 document.getElementById('max_weight').value = "";
                 document.getElementById('price').value = "";
+                document.getElementById('car_count').value = "";
                 document.getElementById('over_weight_cost').value = ""
 
             }).catch((error) => {
@@ -70,23 +73,26 @@ const Price = () => {
         let min_weight = MainList[ind].min_weight;
         let max_weight = MainList[ind].max_weight;
         let price = MainList[ind].price;
+        let car_count = MainList[ind].car_count;
         let over_weight_cost = MainList[ind].over_weight_cost;
 
         setMin_weight(min_weight);
         setMax_weight(max_weight);
         setPrice(price);
+        setCar_count(car_count);
         setOver_weight_cost(over_weight_cost);
 
         document.getElementById('min_weight').value = min_weight;
         document.getElementById('max_weight').value = max_weight;
         document.getElementById('price').value = price;
+        document.getElementById('car_count').value = car_count;
         document.getElementById('over_weight_cost').value = over_weight_cost
     };
 
     const EditCars2 = () => {
         setEditCar(false);
 
-        axios.patch(`${value.url}dashboard/priceoptions/${carId}/`, {min_weight, max_weight, price, over_weight_cost}, {
+        axios.patch(`${value.url}dashboard/priceoptions/${carId}/`, {min_weight, max_weight, price, over_weight_cost,car_count}, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
@@ -96,11 +102,13 @@ const Price = () => {
             setMin_weight("");
             setMax_weight("");
             setPrice("");
+            setCar_count("");
             setOver_weight_cost("");
 
             document.getElementById('min_weight').value = "";
             document.getElementById('max_weight').value = "";
             document.getElementById('price').value = "";
+            document.getElementById('car_count').value = "";
             document.getElementById('over_weight_cost').value = ""
 
         }).catch((error) => {
@@ -117,11 +125,13 @@ const Price = () => {
         setMin_weight("");
         setMax_weight("");
         setPrice("");
+        setCar_count("");
         setOver_weight_cost("");
 
         document.getElementById('min_weight').value = "";
         document.getElementById('max_weight').value = "";
         document.getElementById('price').value = "";
+        document.getElementById('car_count').value = "";
         document.getElementById('over_weight_cost').value = ""
     };
 
@@ -149,6 +159,9 @@ const Price = () => {
                            type="text"/>
                     <input name="over_weight_cost" id="over_weight_cost" onChange={(e) => setOver_weight_cost(e.target.value)}
                            placeholder="Ortiqcha vazn uchun narx" type="text"/>
+
+                    <input name="car_count" id="car_count" onChange={(e) => setCar_count(e.target.value)} placeholder="Moshinalar soni"
+                           type="text"/>
                 </div>
 
                 {
@@ -176,6 +189,7 @@ const Price = () => {
                     <th>Max vazn</th>
                     <th>Narx</th>
                     <th>Ortiqcha vazn uchun narx</th>
+                    <th>Moshinalar soni</th>
                     <th>Tahrirlash</th>
                     <th>O'chirish</th>
                 </tr>
@@ -190,6 +204,7 @@ const Price = () => {
                             <td>{item.max_weight}</td>
                             <td>{item.price}</td>
                             <td>{item.over_weight_cost}</td>
+                            <td>{item.car_count}</td>
                             <td>
                                 <div>
                                     <img onClick={() => {

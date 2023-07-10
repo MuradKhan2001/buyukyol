@@ -32,11 +32,8 @@
           border: none;
           margin-right: 20px;
           border-radius: 5px;
-          width: 170px;
+          width: 140px;
           font-size: 12px;
-          &:nth-child(5){
-            box-shadow: none;
-          }
           &::placeholder {
             color: #b9b9b9;
           }

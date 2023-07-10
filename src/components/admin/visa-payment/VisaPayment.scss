@@ -1,0 +1,211 @@
+.payment-container {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: rgba(230, 230, 230, 0.16) 0px 10px 36px 0px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px;
+  border-radius: 5px;
+  padding: 20px;
+
+  .header-side {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-bottom: 1px solid #232323;
+
+    .filter-box {
+      align-items: center;
+      display: flex;
+
+      .inputs {
+        input {
+          height: 28px;
+          box-shadow: rgb(255, 255, 255) 0px 0px 2px;
+          color: white;
+          background-color: transparent;
+          padding-left: 10px;
+          border: none;
+          margin-right: 25px;
+          border-radius: 5px;
+
+          &::placeholder {
+            color: #b9b9b9;
+          }
+        }
+      }
+
+      .filter-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255,255,255, .8);
+        padding: 3px 15px 3px 15px ;
+        color: black;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        img{
+          width: 23px;
+          margin-left: 10px;
+        }
+        &:hover{
+          box-shadow: rgba(226, 226, 226, 0.5) 0px 0px 12px;
+        }
+      }
+    }
+
+    .main-price {
+      font-weight: bold;
+      color: white;
+    }
+  }
+
+  .search-box {
+    margin-top: 20px;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .inputs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30%;
+      height: 40px;
+      box-shadow: rgb(255, 255, 255) 0px 0px 2px;
+      border-radius: 10px;
+      overflow: hidden;
+
+
+      input {
+        width: 85%;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+        color: white;
+        padding-left: 20px;
+        &:focus{
+          outline: none;
+        }
+        &::placeholder{
+          color: #d2d2d2;
+        }
+      }
+
+      .serach-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 15%;
+        height: 100%;
+        img{
+          width: 50%;
+        }
+      }
+    }
+  }
+
+  .table-content {
+    width: 95%;
+    height: 75%;
+    overflow-y: auto;
+    margin: 10px auto 0 auto;
+    padding: 5px 15px 15px 15px;
+    border-radius: 5px;
+
+    table {
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 5px;
+
+      thead {
+        font-size: 18px;
+
+        th {
+          color: white;
+          padding: 10px;
+          box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        }
+      }
+
+      tbody {
+
+        tr {
+          td {
+            color: white;
+            border: 1px solid #575757;
+            padding: 12px;
+            img{
+              cursor: pointer;
+              width: 40px;
+            }
+
+          }
+        }
+
+      }
+    }
+  }
+
+  .view-docs{
+    z-index: 200;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.8);
+    .for-image{
+      padding: 10px;
+      width: 60%;
+      height: 90%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border-radius: 10px;
+      box-shadow: rgb(128, 128, 128) 0px 0px 28px, rgba(90, 90, 90, 0.73) 0px 0px 10px;
+      .cancel-btn{
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        img{
+          cursor: pointer;
+          width: 30px;
+          &:nth-child(2){
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+      .for-img{
+        margin-top: 20px;
+        width: 100%;
+        height: 88%;
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  .hide {
+    display: none;
+  }
+}

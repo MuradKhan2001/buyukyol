@@ -29,6 +29,7 @@ import Price from "../admin/price/Price";
 import Message from "../admin/Site Admin/massages/Message";
 import AddCars from "../admin/addcars/Addcars";
 import Addprecent from "../admin/addprecent/Addprecent";
+import VisaPayment from "../admin/visa-payment/VisaPayment";
 
 
 
@@ -162,6 +163,10 @@ export const adminPageRoutes = [
     {
         path:"/precent",
         element: <Addprecent/>
+    },
+    {
+        path:"/visa-payment",
+        element: <VisaPayment/>
     }
 
 ];
