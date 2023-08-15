@@ -71,8 +71,8 @@ const Navbar = () => {
         </div>
         <div className={`nav-list ${!nav ? "hide" : ""}`}>
             {
-                menu.map((item) => {
-                    return <div key={item.id} onClick={() => {
+                menu.map((item,index) => {
+                    return <div key={index} onClick={() => {
                         navigate(item.link)
                     }}  className={`nav-item`}>{item.name}</div>
                 })

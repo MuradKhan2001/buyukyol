@@ -35,6 +35,11 @@ const Admin = () => {
             img: "../images/admin/shopping.png"
         },
         {
+            name: t('nav17'),
+            url: "/active-orders",
+            img: "../images/admin/received.png"
+        },
+        {
             name: t('nav4'),
             url: "/driver",
             img: "../images/admin/driver.png"

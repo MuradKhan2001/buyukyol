@@ -31,6 +31,7 @@ import AddCars from "../admin/addcars/Addcars";
 import Addprecent from "../admin/addprecent/Addprecent";
 import VisaPayment from "../admin/visa-payment/VisaPayment";
 import AboutApp from "../about-app/AboutApp";
+import ActiveOrders from "../admin/active-orders/ActiveOrders";
 
 
 
@@ -96,6 +97,10 @@ export const adminPageRoutes = [
     {
         path:"/orders",
         element: <Orders/>
+    },
+    {
+        path:"/active-orders",
+        element: <ActiveOrders/>
     },
     {
         path:"/payment",
