@@ -67,7 +67,7 @@ const MainHome = () => {
     const icon = {url: './images/admin/truck-icon2.png', scaledSize: {width: 45, height: 45}};
 
     return <div className="admin-home-container">
-        {/* <div className="icon-dark-mode">
+        <div className="icon-dark-mode">
             {
                 sessionStorage.getItem("style") == "51da2328145a4757" ? <img onClick={() => {
                     sessionStorage.setItem("style", "e673b14776ad9118");
@@ -80,8 +80,8 @@ const MainHome = () => {
                     window.location.reload()
                 }} src="./images/admin/mode.png" alt=""/> : ""
             }
-        </div> */}
-{/* 
+        </div>
+
         <GoogleMap
 
             zoom={5}
@@ -112,7 +112,7 @@ const MainHome = () => {
                 </InfoWindow>
             )}
 
-        </GoogleMap> */}
+        </GoogleMap>
     </div>
 };
 
