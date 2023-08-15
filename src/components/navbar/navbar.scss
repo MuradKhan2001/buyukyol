@@ -25,11 +25,11 @@ $mainColor3: #181D31;
   }
 
   .nav-list{
-    width: 65%;
+    width: 75%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     .nav-item{
       position: relative;
       cursor: pointer;
@@ -100,7 +100,7 @@ $mainColor3: #181D31;
       top: 100px;
       left: 0;
       width: 100%;
-      height: 55vh;
+      height: 60vh;
       background-color: #161616;
       display: block;
       padding: 20px;

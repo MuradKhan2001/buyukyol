@@ -14,27 +14,26 @@ const Navbar = () => {
 
     const menu = [
         {
-            id: 1,
             name: t('home'),
             link: "/"
         },
         {
-            id: 2,
             name: t('service'),
             link: "/service"
         },
         {
-            id: 3,
             name: t('agreement'),
             link: "/agreement"
         },
         {
-            id: 4,
+            name: t('about-app'),
+            link: "/about-app"
+        },
+        {
             name: t('about'),
             link: "/about-us"
         },
         {
-            id: 5,
             name: t('contact'),
             link: "/contact"
         }

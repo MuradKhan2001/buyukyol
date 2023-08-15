@@ -30,6 +30,7 @@ import Message from "../admin/Site Admin/massages/Message";
 import AddCars from "../admin/addcars/Addcars";
 import Addprecent from "../admin/addprecent/Addprecent";
 import VisaPayment from "../admin/visa-payment/VisaPayment";
+import AboutApp from "../about-app/AboutApp";
 
 
 
@@ -53,6 +54,10 @@ export const publicRoutes = [
     {
         path:"/service",
         element:<Service/>
+    },
+    {
+        path:"/about-app",
+        element:<AboutApp/>
     },
     {
         path:"/login-admin-buyukyol",

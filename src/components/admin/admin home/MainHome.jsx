@@ -9,7 +9,7 @@ const MainHome = () => {
     const [locationsList, setLocationsList] = useState([]);
 
     useEffect(() => {
-        const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/?token=${localStorage.getItem('token')}`);
+        const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
 
         // const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/`, [], {
         //     headers: {
@@ -26,7 +26,7 @@ const MainHome = () => {
 
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            setLocationsList(data.message);
+            setLocationsList(data.message.drivers);
         };
 
 
