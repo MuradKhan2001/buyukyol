@@ -17,7 +17,16 @@ const Home = () => {
     const [newsList, setNewsList] = useState([]);
     const [galary, setGalary] = useState([]);
     const [partners, setPartners] = useState([]);
-    const [statistics,setStatistics] = useState({});
+    const [statistics, setStatistics] = useState({});
+    const [MainList, setMainList] = useState([]);
+    const [MainListService, setMainListService] = useState([]);
+    const [sendBox, setSendBox] = useState({
+        first_name: "",
+        last_name: "",
+        phone: "",
+        body: ""
+    });
+    const [checkSuccess, setCheckSuccess] = useState(false);
 
     const settingsForStills = {
         dots: false,
@@ -93,6 +102,32 @@ const Home = () => {
 
     useEffect(() => {
 
+        axios.get(`${value.url}dashboard/aboutus/`, {
+            headers: {
+                "Accept-Language": localStorage.getItem('language') ? localStorage.getItem('language') : "uz"
+            }
+        }).then((response) => {
+            setMainList(response.data);
+        }).catch((error) => {
+            if (error.response.statusText == "Unauthorized") {
+                window.location.pathname = "/";
+                localStorage.removeItem("token");
+            }
+        });
+
+        axios.get(`${value.url}dashboard/services/`, {
+            headers: {
+                "Accept-Language": localStorage.getItem('language') ? localStorage.getItem('language') : "uz"
+            }
+        }).then((response) => {
+            setMainListService(response.data);
+        }).catch((error) => {
+            if (error.response.statusText == "Unauthorized") {
+                window.location.pathname = "/";
+                localStorage.removeItem("token");
+            }
+        });
+
         axios.get(`${value.url}dashboard/news/`, {
             headers: {
                 "Accept-Language": localStorage.getItem('language') ? localStorage.getItem('language') : "uz"
@@ -132,6 +167,43 @@ const Home = () => {
         Aos.init({duration: 600});
     }, []);
 
+    const getInputs = (e) => {
+        sendBox[e.target.name] = e.target.value;
+    };
+
+    const handleSendMessage = () => {
+        if (sendBox.first_name.trim().length > 0 && sendBox.last_name.trim().length > 0 &&
+            sendBox.phone.trim().length > 0 && sendBox.body.trim().length) {
+
+            axios.post(`${value.url}dashboard/contactus/`, sendBox).then((response) => {
+
+                setCheckSuccess(true);
+
+                let newList = {
+                    first_name: "",
+                    phone: "",
+                };
+
+                setSendBox(newList);
+
+                document.getElementById("first_name").value = "";
+                document.getElementById("last_name").value = "";
+                document.getElementById("phone").value = "";
+                document.getElementById("body").value = "";
+
+                setTimeout(() => {
+                    setCheckSuccess(false);
+                }, 3000)
+
+            }).catch(() => {
+
+            });
+
+        } else alert("Formani toldiring");
+
+
+    };
+
 
     return <div className="home-wrapper">
         <div className="home-page">
@@ -140,7 +212,7 @@ const Home = () => {
                 <div className="left-side"></div>
                 <div className="ride-side">
                     <div className="text-box">
-                        {t('homeText1')}
+                        BUYUK YO'L IT LOGISTIC
                         <div><b>  {t('homeText2')} </b></div>
                     </div>
 
@@ -168,14 +240,39 @@ const Home = () => {
             </div>
         </div>
         <div className="section-wrapper">
-            <div className="stills" >
+            <div className="about-us-wrapper">
+                {
+                    MainList.map((item, index) => {
+                        return <div key={index} className="content-box container">
+                            <div className="left-side">
+                                <div className="card-box"></div>
+                                <div className="img-box">
+                                    <img src={item.image} alt=""/>
+                                </div>
+                            </div>
+                            <div className="right-side">
+                                <div className="content-box">
+                                    <div className="title">
+                                        {t('about')}
+                                    </div>
+                                    <div className="description">
+                                        {item.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    })
+                }
+            </div>
+
+            <div className="stills">
                 <div className="content-box">
                     <Slider {...settingsForStills} >
                         {
-                            galary.map((item,index)=>{
+                            galary.map((item, index) => {
                                 return <div key={index} className="click-slide-box">
                                     <div className="photo">
-                                        <a  href={item.image} className="highslide" onClick={()=>(item.image)}>
+                                        <a href={item.image} className="highslide" onClick={() => (item.image)}>
                                             <img
                                                 src={item.image}
                                                 alt=""/>
@@ -189,6 +286,28 @@ const Home = () => {
                 </div>
             </div>
 
+            <div className="service-wrapper">
+                <div className="content-box container">
+                    <div className="title">
+                        {t('service')}
+                    </div>
+
+                    <div className="bottom-side">
+                        {
+                            MainListService.map((item, index) => {
+                                return <div key={index} className="service-card" data-aos="flip-right">
+                                    <div className="photo"><img src={item.image} alt=""/></div>
+                                    <div className="title">{item.title}</div>
+                                    <div className="text">
+                                        {item.description}
+                                    </div>
+                                </div>
+                            })
+                        }
+                    </div>
+                </div>
+            </div>
+
             <div className="section-one container">
                 <div className="news-box">
                     <div className="title">
@@ -198,8 +317,8 @@ const Home = () => {
                     <div className="content-box" data-aos="flip-up">
                         <Slider {...settingsForNews} >
                             {
-                                newsList.map((item, index)=>{
-                                    return  <div key={index} className="click-slide-box">
+                                newsList.map((item, index) => {
+                                    return <div key={index} className="click-slide-box">
                                         <div className="photo">
                                             <img src={item.image} alt=""/>
                                         </div>
@@ -224,7 +343,7 @@ const Home = () => {
                     <div className="content-box" data-aos="zoom-in">
                         <Slider {...settingsForStills} >
                             {
-                                partners.map((item,index)=>{
+                                partners.map((item, index) => {
                                     return <div key={index} className="click-slide-box">
                                         <div className="photo">
                                             <div className="img-box">
@@ -246,7 +365,7 @@ const Home = () => {
                     </div>
 
                     <div className="box-wrapper">
-                        <div className="box" data-aos="flip-left" >
+                        <div className="box" data-aos="flip-left">
                             <div className="top-side">
                                 <img src="./images/clients.png" alt=""/>
                             </div>
@@ -278,7 +397,27 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
+            <div className="contact-form container">
+                <input onChange={getInputs} id="first_name" name="first_name" placeholder={t('name')}
+                       type="text"/>
+
+                <input onChange={getInputs} id="phone" name="phone" placeholder={t('tel')} type="text"/>
+
+                <div onClick={handleSendMessage} className="button-send">
+                    {
+                        checkSuccess ? <div className="wrapper">
+                            <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                            </svg>
+                        </div> : <span>{t('sentButton')}</span>
+                    }
+                </div>
+            </div>
         </div>
+
+
         <Footer/>
     </div>
 };

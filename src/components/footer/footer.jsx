@@ -30,6 +30,11 @@ const Footer = () => {
             link: "/agreement"
         },
         {
+            id: 6,
+            name: t('about-app'),
+            link: "/about-app"
+        },
+        {
             id: 4,
             name: t('about'),
             link: "/about-us"

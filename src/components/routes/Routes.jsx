@@ -1,9 +1,7 @@
 import Admin from "../admin/Admin/Admin";
 import Home from "../home/Home";
-import AboutUs from "../about-us/AboutUs";
 import Contact from "../contact/Contact";
 import Agreement from "../agreement/Agreement";
-import Service from "../service/service";
 import Login from "../login/Login";
 import MainHome from "../admin/admin home/MainHome";
 import Balance from "../admin/balance/Balance";
@@ -32,17 +30,12 @@ import Addprecent from "../admin/addprecent/Addprecent";
 import VisaPayment from "../admin/visa-payment/VisaPayment";
 import AboutApp from "../about-app/AboutApp";
 import ActiveOrders from "../admin/active-orders/ActiveOrders";
-
-
+import React from "react";
 
 export const publicRoutes = [
     {
         path:"/",
         element:<Home/>
-    },
-    {
-        path:"/about-us",
-        element:<AboutUs/>
     },
     {
         path:"/contact",
@@ -51,10 +44,6 @@ export const publicRoutes = [
     {
         path:"/agreement",
         element:<Agreement/>
-    },
-    {
-        path:"/service",
-        element:<Service/>
     },
     {
         path:"/about-app",

@@ -26,7 +26,9 @@ const MainHome = () => {
 
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            setLocationsList(data.message.drivers);
+            if (data.message.drivers) {
+                setLocationsList(data.message.drivers);
+            }
         };
 
 
@@ -89,28 +91,37 @@ const MainHome = () => {
             options={options}
             mapContainerClassName="map-container">
 
-            {locationsList.map((item) => {
-                return <Marker
-                    key={Number(item.latitude)}
-                    position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
-                    icon={icon}
-                    onClick={() => onMarkerClick(item)}
-                />
-            })}
+            {locationsList.length >= 0 ?
 
-            {selectedLocation && (
-                <InfoWindow
-                    position={{lat: Number(selectedLocation.latitude), lng: Number(selectedLocation.longitude)}}
-                    onCloseClick={onCloseClick}
-                >
-                    <div className="info-box">
-                        <div className="info-text">
-                            <span>Moshina raqami:</span>
-                            {selectedLocation.car_number}
-                        </div>
-                    </div>
-                </InfoWindow>
-            )}
+                <>
+                    {locationsList.map((item) => {
+                        return <Marker
+                            key={Number(item.latitude)}
+                            position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
+                            icon={icon}
+                            onClick={() => onMarkerClick(item)}
+                        />
+                    })}
+
+                    {selectedLocation && (
+                        <InfoWindow
+                            position={{lat: Number(selectedLocation.latitude), lng: Number(selectedLocation.longitude)}}
+                            onCloseClick={onCloseClick}
+                        >
+                            <div className="info-box">
+                                <div className="info-text">
+                                    <span>Moshina raqami:</span>
+                                    {selectedLocation.car_number}
+                                </div>
+                            </div>
+                        </InfoWindow>
+                    )}
+                </>
+
+                :""
+            }
+
+
 
         </GoogleMap>
     </div>
