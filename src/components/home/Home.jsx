@@ -22,9 +22,7 @@ const Home = () => {
     const [MainListService, setMainListService] = useState([]);
     const [sendBox, setSendBox] = useState({
         first_name: "",
-        last_name: "",
         phone: "",
-        body: ""
     });
     const [checkSuccess, setCheckSuccess] = useState(false);
 
@@ -172,8 +170,7 @@ const Home = () => {
     };
 
     const handleSendMessage = () => {
-        if (sendBox.first_name.trim().length > 0 && sendBox.last_name.trim().length > 0 &&
-            sendBox.phone.trim().length > 0 && sendBox.body.trim().length) {
+        if (sendBox.first_name.trim().length > 0 && sendBox.phone.trim().length) {
 
             axios.post(`${value.url}dashboard/contactus/`, sendBox).then((response) => {
 
@@ -187,9 +184,7 @@ const Home = () => {
                 setSendBox(newList);
 
                 document.getElementById("first_name").value = "";
-                document.getElementById("last_name").value = "";
                 document.getElementById("phone").value = "";
-                document.getElementById("body").value = "";
 
                 setTimeout(() => {
                     setCheckSuccess(false);
@@ -217,24 +212,29 @@ const Home = () => {
                     </div>
 
                     <div className="button-box">
-                        <button>
-                            <div className="icon">
-                                <img src="./images/androit.png" alt=""/>
-                            </div>
-                            <div className="text">
-                                <div className="text-top"> GET IN ON</div>
-                                <div className="text-bottom"> Google Play</div>
-                            </div>
-                        </button>
-                        <button>
-                            <div className="icon">
-                                <img src="./images/ios.png" alt=""/>
-                            </div>
-                            <div className="text">
-                                <div className="text-top"> Download on the</div>
-                                <div className="text-bottom">App Store</div>
-                            </div>
-                        </button>
+                        <a href="https://play.google.com/store/apps/details?id=com.khurshid28.driver_buyuk_yol" target="_blank">
+                            <button>
+                                <div className="icon">
+                                    <img src="./images/androit.png" alt=""/>
+                                </div>
+                                <div className="text">
+                                    <div className="text-top"> GET IN ON</div>
+                                    <div className="text-bottom"> Google Play</div>
+                                </div>
+                            </button>
+                        </a>
+                        <a href="https://www.apple.com/ru/app-store/" target="_blank">
+                            <button>
+                                <div className="icon">
+                                    <img src="./images/ios.png" alt=""/>
+                                </div>
+                                <div className="text">
+                                    <div className="text-top"> Download on the</div>
+                                    <div className="text-bottom">App Store</div>
+                                </div>
+                            </button>
+                        </a>
+
                     </div>
                 </div>
             </div>

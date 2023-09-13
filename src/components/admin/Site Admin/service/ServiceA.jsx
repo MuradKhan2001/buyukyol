@@ -53,7 +53,7 @@ const ServiceA = () =>{
             const translations = {
                 en: {
                     description: desEn,
-                    title:setTitleEn
+                    title:TitleEn
                 },
                 ru: {
                     description: desRu,
@@ -132,16 +132,16 @@ const ServiceA = () =>{
                     <textarea id="desUz" onChange={(e)=>setDesUz(e.target.value)} placeholder="Ma'lumot uchun"></textarea>
 
                     <label >ЎЗБ:</label>
-                    <input id="TitleEn" onChange={(e)=>setTitleUZB(e.target.value)} placeholder="Сарлавҳа" type="text"/>
-                    <textarea id="desEn" onChange={(e)=>setDesUZB(e.target.value)} placeholder="Маълумот учун"></textarea>
+                    <input id="TitleUZB" onChange={(e)=>setTitleUZB(e.target.value)} placeholder="Сарлавҳа" type="text"/>
+                    <textarea id="desUZB" onChange={(e)=>setDesUZB(e.target.value)} placeholder="Маълумот учун"></textarea>
 
                     <label >RU:</label>
                     <input id="TitleRu" onChange={(e)=>setTitleRu(e.target.value)} placeholder="Заголовок" type="text"/>
                     <textarea id="desRu" onChange={(e)=>setDesRu(e.target.value)} placeholder="Для информации"></textarea>
 
                     <label >EN:</label>
-                    <input id="TitleUZB" onChange={(e)=>setTitleEn(e.target.value)} placeholder="Title" type="text"/>
-                    <textarea id="desUZB" onChange={(e)=>setDesEn(e.target.value)} placeholder="For reference"></textarea>
+                    <input id="TitleEn" onChange={(e)=>setTitleEn(e.target.value)} placeholder="Title" type="text"/>
+                    <textarea id="desEn" onChange={(e)=>setDesEn(e.target.value)} placeholder="For reference"></textarea>
 
                     <label htmlFor="photo">Rasm:</label>
                     <input onChange={getImage} id="photo" type="file"/>
