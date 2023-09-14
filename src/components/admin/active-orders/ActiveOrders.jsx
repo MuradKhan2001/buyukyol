@@ -13,7 +13,9 @@ const ActiveOrders = () => {
 
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            setMainList(data.message.orders);
+            if(data.message.orders){
+                setMainList(data.message.orders);
+            }
         };
 
     }, []);

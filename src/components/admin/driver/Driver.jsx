@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MyContext} from "../../app/App";
-import { saveAs } from "file-saver";
+import {saveAs} from "file-saver";
 
 const Driver = () => {
     let value = useContext(MyContext);
@@ -176,7 +176,7 @@ const Driver = () => {
 
         let user = userId;
 
-        Post.append("user",user);
+        Post.append("user", user);
         for (let key in Driver) {
             Post.append(key, Driver[key])
         }
@@ -233,7 +233,7 @@ const Driver = () => {
         return axios.get(docUrl, {
             responseType: 'blob'
         }).then((response) => {
-            saveAs(response.data, `photo.${format[format.length-1]}`)
+            saveAs(response.data, `photo.${format[format.length - 1]}`)
         })
     };
 
@@ -241,7 +241,7 @@ const Driver = () => {
 
         <div className="search-box">
             <div className="inputs">
-                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Izlash" type="text"/>
+                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..." type="text"/>
                 <div className="serach-btn"><img src="../images/admin/search.png" alt=""/></div>
             </div>
 
@@ -383,6 +383,7 @@ const Driver = () => {
         </div>
 
         <div className="table-content">
+
             <table>
                 <thead>
                 <tr>
