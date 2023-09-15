@@ -158,9 +158,13 @@ const Orders = () => {
         <div className="pagination">
             <div className="prev">
                 <img onClick={() => {
-                    getList(links.previous)
+                    if (activeItem > 1) {
+                        getList(links.previous);
+                        setActiveItem(activeItem - 1)
+                    }
                 }} src="./images/admin/prev.png" alt=""/>
             </div>
+
             {
                 Pages.map((item, index) => {
                     return <div onClick={() => {
@@ -171,7 +175,10 @@ const Orders = () => {
             }
 
             <div onClick={() => {
-                getList(links.next)
+                if (activeItem < Pages.length) {
+                    getList(links.next)
+                    setActiveItem(activeItem + 1)
+                }
             }} className="next">
                 <img src="./images/admin/next.png" alt=""/>
             </div>

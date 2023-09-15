@@ -54,6 +54,7 @@ const Driver = () => {
     }
 
     const getList = (url = null) => {
+        console.log(url)
         const main = url ? url : `${value.url}dashboard/drivers/`;
         axios.get(main, {
             headers: {
@@ -63,6 +64,7 @@ const Driver = () => {
             setMainList(response.data.results);
             setLinks(response.data.links);
             setPages(response.data.links.pages)
+            // console.log(response.data.links.pages[0])
         }).catch((error) => {
             if (error.response.statusText == "Unauthorized") {
                 window.location.pathname = "/";
@@ -241,7 +243,8 @@ const Driver = () => {
 
         <div className="search-box">
             <div className="inputs">
-                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..." type="text"/>
+                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..."
+                       type="text"/>
                 <div className="serach-btn"><img src="../images/admin/search.png" alt=""/></div>
             </div>
 
@@ -469,7 +472,6 @@ const Driver = () => {
                                     }} src="../images/admin/view.png" alt=""/> : ""}
                             </div>
                         </td>
-
                         <td>
                             <div>
                                 {item.is_verified ? <img onClick={() => {
@@ -478,7 +480,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList()
+                                            getList(Pages[activeItem-1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -490,7 +492,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList()
+                                            getList(Pages[activeItem -1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -506,7 +508,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList()
+                                            getList(Pages[activeItem-1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -518,7 +520,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList()
+                                            getList(Pages[activeItem-1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -546,23 +548,32 @@ const Driver = () => {
         <div className="pagination">
             <div className="prev">
                 <img onClick={() => {
-                    getList(links.previous)
+                    if (activeItem > 1) {
+                        getList(links.previous);
+                        setActiveItem(activeItem - 1)
+                    }
                 }} src="./images/admin/prev.png" alt=""/>
             </div>
+
             {
                 Pages.map((item, index) => {
                     return <div onClick={() => {
-                        getList(item[index + 1])
+                        getList(item[index + 1]);
                         setActiveItem(index + 1)
                     }} key={index} className={`items ${activeItem === index + 1 ? "active" : ""} `}>{index + 1}</div>
                 })
             }
 
             <div onClick={() => {
-                getList(links.next)
+
+                if (activeItem < Pages.length) {
+                    getList(links.next)
+                    setActiveItem(activeItem + 1)
+                }
             }} className="next">
                 <img src="./images/admin/next.png" alt=""/>
             </div>
+
         </div>
 
         <div className={`view-docs ${!viewDoc ? "hide" : ""}`}>

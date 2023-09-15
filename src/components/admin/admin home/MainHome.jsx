@@ -110,8 +110,10 @@ const MainHome = () => {
                         >
                             <div className="info-box">
                                 <div className="info-text">
-                                    <span>Moshina raqami:</span>
-                                    {selectedLocation.car_number}
+                                    <span>Moshina raqam:</span>
+                                    {selectedLocation.car_number} <br/>
+                                    <span>Tel raqam:</span>
+                                    {selectedLocation.phone_number}
                                 </div>
                             </div>
                         </InfoWindow>

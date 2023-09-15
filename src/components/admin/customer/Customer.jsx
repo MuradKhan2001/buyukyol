@@ -5,7 +5,6 @@ import axios from "axios";
 import {MyContext} from "../../app/App";
 
 
-
 const Customer = () => {
     let value = useContext(MyContext);
     const [getSearchText, setGetSearchText] = useState("");
@@ -112,7 +111,7 @@ const Customer = () => {
     return <div className="customer-container">
         <div className="search-box">
             <div className="inputs">
-                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Izlash" type="text"/>
+                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..." type="text"/>
                 <div className="serach-btn"><img src="../images/admin/search.png" alt=""/></div>
             </div>
 
@@ -154,7 +153,8 @@ const Customer = () => {
                 <div onClick={() => {
                     setShowEdit(false);
                     EditCustomer2();
-                }}  className="edit-btn">Tahrirlash</div>
+                }} className="edit-btn">Tahrirlash
+                </div>
             </div>
         </div>
 
@@ -191,7 +191,7 @@ const Customer = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then((response) => {
-                                            getList()
+                                            getList(Pages[activeItem - 1][activeItem])
                                         }).catch((error) => {
 
                                         });
@@ -203,7 +203,7 @@ const Customer = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then((response) => {
-                                            getList()
+                                            getList(Pages[activeItem - 1][activeItem])
                                         }).catch((error) => {
 
                                         });
@@ -229,9 +229,13 @@ const Customer = () => {
         <div className="pagination">
             <div className="prev">
                 <img onClick={() => {
-                    getList(links.previous)
+                    if (activeItem > 1) {
+                        getList(links.previous);
+                        setActiveItem(activeItem - 1)
+                    }
                 }} src="./images/admin/prev.png" alt=""/>
             </div>
+
             {
                 Pages.map((item, index) => {
                     return <div onClick={() => {
@@ -242,7 +246,10 @@ const Customer = () => {
             }
 
             <div onClick={() => {
-                getList(links.next)
+                if (activeItem < Pages.length) {
+                    getList(links.next)
+                    setActiveItem(activeItem + 1)
+                }
             }} className="next">
                 <img src="./images/admin/next.png" alt=""/>
             </div>
