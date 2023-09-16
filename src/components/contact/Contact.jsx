@@ -142,7 +142,7 @@ const Contact = () => {
                                     <img src="./images/telegram.png" alt=""/>
                                 </div>
                                 <a href={item.telegram} target="_blank" className="name">
-                                    buyukyol
+                                    buyukyol_uz
                                 </a>
                             </div>
 
@@ -151,7 +151,7 @@ const Contact = () => {
                                     <img src="./images/instagram.png" alt=""/>
                                 </div>
                                 <a href={item.instagram} target="_blank" className="name">
-                                    buyukyol
+                                    buyukyol_uz
                                 </a>
                             </div>
 
@@ -160,7 +160,7 @@ const Contact = () => {
                                     <img src="./images/facebook.png" alt=""/>
                                 </div>
                                 <a href={item.facebook} target="_blank" className="name">
-                                    buyukyol
+                                    buyukyol_uz
                                 </a>
                             </div>
 

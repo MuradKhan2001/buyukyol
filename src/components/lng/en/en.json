@@ -9,7 +9,7 @@
   "news": "News",
   "partners": "Partners",
   "statistics": "Statistics",
-  "userCount": "Number of users",
+  "userCount": "Number of customers",
   "bagsCount": "Number of orders",
   "Users": "Number of drivers",
   "menu": "Menus",
@@ -20,5 +20,7 @@
   "tel": "Phone number",
   "text": "For reference",
   "contract": "About the contract",
-  "about-app": "Using the app"
+  "about-app": "Using the app",
+  "aboutApp": "(Driver) registration and order acceptance",
+  "aboutApp2": "(Consignor) registration and truck search"
 }

@@ -20,14 +20,14 @@ const AboutApp = () => {
                 <div className="image">
                     <img src="./images/video.png" alt=""/>
                 </div>
-                <div className="name">(Haydovchi) ro'yxatdan o'tish va buyurtma qabul qilish</div>
+                <div className="name">{t('aboutApp')}</div>
             </div>
 
             <div onClick={()=>setVideo(false)} className={`header-item ${ !video ? "header-active": "" }`}>
                 <div className="image">
                     <img src="./images/video.png" alt=""/>
                 </div>
-                <div className="name">(Yuk egasi) ro'yxatdan o'tish va yuk mashinasi izlash</div>
+                <div className="name">{t('aboutApp2')}</div>
             </div>
         </div>
 

@@ -10,7 +10,7 @@
   "news": "Yangiliklar",
   "partners": "Hamkorlar",
   "statistics": "Statistika",
-  "userCount": "Foydalanuvchilar soni",
+  "userCount": "Mijozlar soni",
   "bagsCount": "Buyurtmalar soni",
   "Users": "Haydovchilar soni",
   "menu": "Menyular",
@@ -23,7 +23,6 @@
   "contract": "Sharnoma haqida",
   "galary": "Kadrlar",
   "message": "Xabarlar",
-
   "nav1": "Dashboard",
   "nav2": "Balans",
   "nav3": "Buyurtmalar",
@@ -41,11 +40,11 @@
   "nav14": "Foizlar",
   "nav15": "Moshina qo'shish",
   "nav16": "Visa to'lovlari",
-
   "count1": "Umumiy balans",
   "count2": "Haydovchilar soni",
   "count3": "Mijozlar soni",
-  "count4": "Homiylar soni"
-
+  "count4": "Homiylar soni",
+  "aboutApp": "(Haydovchi) ro'yxatdan o'tish va buyurtma qabul qilish",
+  "aboutApp2": "(Yuk egasi) ro'yxatdan o'tish va yuk mashinasi izlash"
 }
 

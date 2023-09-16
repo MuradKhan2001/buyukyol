@@ -20,11 +20,6 @@ const Footer = () => {
             link: "/"
         },
         {
-            id: 2,
-            name: t('service'),
-            link: "/service"
-        },
-        {
             id: 3,
             name: t('agreement'),
             link: "/agreement"
@@ -33,11 +28,6 @@ const Footer = () => {
             id: 6,
             name: t('about-app'),
             link: "/about-app"
-        },
-        {
-            id: 4,
-            name: t('about'),
-            link: "/about-us"
         },
         {
             id: 5,
@@ -118,7 +108,7 @@ const Footer = () => {
                                     <img src="./images/telegram.png" alt=""/>
                                 </div>
                                 <a href={item.telegram} target="_blank" className="name">
-                                    buyukyol
+                                    buyukyol_uz
                                 </a>
                             </div>
 
@@ -127,7 +117,7 @@ const Footer = () => {
                                     <img src="./images/instagram.png" alt=""/>
                                 </div>
                                 <a href={item.instagram} target="_blank" className="name">
-                                   buyukyol
+                                   buyukyol_uz
                                 </a>
                             </div>
 
@@ -136,7 +126,7 @@ const Footer = () => {
                                     <img src="./images/facebook.png" alt=""/>
                                 </div>
                                 <a href={item.facebook} target="_blank" className="name">
-                                   buyukyol
+                                   buyukyol_uz
                                 </a>
                             </div>
 
