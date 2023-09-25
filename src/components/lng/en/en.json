@@ -1,7 +1,7 @@
 {
   "home": "Home",
   "service": "Services",
-  "agreement": "Agreement",
+  "agreement": "Terms and conditions",
   "about": "About Us",
   "contact": "Contact",
   "homeText1": "Hello",
@@ -19,7 +19,7 @@
   "LastName": "Last Name",
   "tel": "Phone number",
   "text": "For reference",
-  "contract": "About the contract",
+  "contract": "Terms and conditions",
   "about-app": "Using the app",
   "aboutApp": "(Driver) registration and order acceptance",
   "aboutApp2": "(Consignor) registration and truck search"

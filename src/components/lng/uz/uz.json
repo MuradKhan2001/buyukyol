@@ -1,7 +1,7 @@
 {
   "home": "Bosh sahifa",
   "service": "Xizmatlar",
-  "agreement": "Shartnoma",
+  "agreement": "Oferta shartlari",
   "about": "Biz haqimizda",
   "about-app": "Ilovadan foydalanish",
   "contact": "Aloqa",
@@ -20,7 +20,7 @@
   "LastName": "Familiya",
   "tel": "Telefon raqam",
   "text": "Ma'lumot uchun",
-  "contract": "Sharnoma haqida",
+  "contract": "Oferta shartlari",
   "galary": "Kadrlar",
   "message": "Xabarlar",
   "nav1": "Dashboard",

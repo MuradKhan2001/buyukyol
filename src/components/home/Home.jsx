@@ -212,7 +212,7 @@ const Home = () => {
                     </div>
 
                     <div className="button-box">
-                        <a href="https://play.google.com/store/apps/details?id=com.khurshid28.driver_buyuk_yol" target="_blank">
+                        <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol" target="_blank">
                             <button>
                                 <div className="icon">
                                     <img src="./images/androit.png" alt=""/>
@@ -223,7 +223,7 @@ const Home = () => {
                                 </div>
                             </button>
                         </a>
-                        <a href="https://www.apple.com/ru/app-store/" target="_blank">
+                        <a href="https://apps.apple.com/app/id6463604761" target="_blank">
                             <button>
                                 <div className="icon">
                                     <img src="./images/ios.png" alt=""/>
@@ -324,7 +324,7 @@ const Home = () => {
                                         </div>
                                         <div className="text">
 
-                                            <div className="title">
+                                            <div className="titlenews">
                                                 {item.title}
                                             </div>
                                             <div className="description">
