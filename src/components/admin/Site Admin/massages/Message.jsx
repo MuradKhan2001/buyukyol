@@ -49,7 +49,7 @@ const Message = () => {
                 Yangi kontakt va takliflar
             </div>
             <div onClick={()=>setMenu(true)} className={`menu ${menu ? "active-menu" : ""}`}>
-                O'qilgan kontakt va takliflar
+                Ko'rilgan kontakt va takliflar
             </div>
         </div>
 
@@ -62,6 +62,7 @@ const Message = () => {
                         <th>Ism/Familiya</th>
                         <th>Tel raqam</th>
                         <th>Xabar</th>
+                        <th>Kelgan vaqt</th>
                         <th>O'chirish</th>
                     </tr>
                     </thead>
@@ -81,6 +82,7 @@ const Message = () => {
                                         {item.body}
                                     </div>
                                 </td>
+                                <td>{item.date}</td>
                                 <td>
                                     <div>
                                         <img onClick={()=>delMessage(item.id)} src="../images/admin/delete.png" alt=""/>
@@ -101,6 +103,7 @@ const Message = () => {
                         <th>Ism/Familiya</th>
                         <th>Tel raqam</th>
                         <th>Xabar</th>
+                        <th>Kelgan vaqti</th>
                         <th>Tasdiqlash</th>
                     </tr>
                     </thead>
@@ -120,6 +123,7 @@ const Message = () => {
                                        {item.body}
                                    </div>
                                </td>
+                               <td>{item.date}</td>
                                <td>
                                    <div>
                                        <div>
