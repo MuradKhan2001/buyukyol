@@ -28,11 +28,11 @@
     .order {
       margin-top: 6px;
       margin-right: 6px;
-      padding: 6px;
-      width: 200px;
+      padding: 5px;
+      width: 330px;
       height: 230px;
       border-radius: 5px;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: white;
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
       overflow: auto;
 
@@ -41,17 +41,36 @@
         height: 10px;
         border-radius: 20px;
       }
+
       .order-header {
         text-align: center;
         font-weight: bold;
         width: 100%;
         height: auto;
         border-bottom: 1px solid #969696;
+        font-size: 13px;
+
+        img {
+          width: 15px;
+        }
+
+        div {
+          &:nth-child(1) {
+            color: #285838;
+
+          }
+
+          &:nth-child(2) {
+            margin-top: 5px;
+            color: #580000;
+          }
+        }
       }
 
       .info {
-        padding: 8px;
+        padding: 6px;
         width: 100%;
+
         .item {
           line-height: 20px;
           width: 100%;
@@ -59,13 +78,13 @@
           align-items: center;
 
           .key-info {
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 5px;
             font-weight: bold;
           }
 
           .info-text {
-            font-size: 14px;
+            font-size: 12px;
           }
         }
       }
@@ -73,7 +92,7 @@
       .order-footer {
         border-top: 1px solid #969696;
         width: 100%;
-        height: 30px;
+        height: 50px;
         font-size: 12px;
         font-weight: bold;
         display: flex;
@@ -81,14 +100,33 @@
         justify-content: space-between;
         padding-left: 10px;
         padding-right: 10px;
-
+        background-color: #d9d9d9;
+        div{
+          &:nth-child(1){
+            font-size: 14px;
+            color: #006000;
+          }
+        }
         .btn-order {
-          width: 25px;
-          height: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100px;
+          height: 30px;
+          font-size: 12px;
+          background-color: white;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: .4s;
+          border: 1px solid transparent;
+          &:hover{
 
+            border: 1px solid black;
+          }
           img {
+            margin-left: 5px;
             cursor: pointer;
-            width: 100%;
+            width: 12px;
           }
         }
       }

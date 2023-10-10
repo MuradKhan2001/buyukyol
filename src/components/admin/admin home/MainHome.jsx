@@ -17,12 +17,10 @@ const MainHome = () => {
         //     }
         // });
 
-
         //
         // websocket.onopen = () => {
         //
         // };
-
 
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -30,7 +28,6 @@ const MainHome = () => {
                 setLocationsList(data.message.drivers);
             }
         };
-
 
         // return () => {
         //         //     websocket.close()

@@ -54,7 +54,6 @@ const Driver = () => {
     }
 
     const getList = (url = null) => {
-        console.log(url)
         const main = url ? url : `${value.url}dashboard/drivers/`;
         axios.get(main, {
             headers: {
@@ -64,7 +63,6 @@ const Driver = () => {
             setMainList(response.data.results);
             setLinks(response.data.links);
             setPages(response.data.links.pages)
-            // console.log(response.data.links.pages[0])
         }).catch((error) => {
             if (error.response.statusText == "Unauthorized") {
                 window.location.pathname = "/";
@@ -76,7 +74,7 @@ const Driver = () => {
     useEffect(() => {
         getList();
 
-        axios.get(`${value.url}api/car-body-type/`).then((response) => {
+        axios.get(`${value.url}api/car/`).then((response) => {
             setCarBodyList(response.data)
         }).catch((error) => {
 
