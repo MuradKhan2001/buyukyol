@@ -45,6 +45,11 @@ const Admin = () => {
             img: "../images/admin/driver.png"
         },
         {
+            name: t('nav19'),
+            url: "/filter-driver",
+            img: "../images/admin/driver.png"
+        },
+        {
             name: t('nav5'),
             url: "/customer",
             img: "../images/admin/rating.png"
@@ -90,6 +95,11 @@ const Admin = () => {
             img: "../images/admin/notification.png"
         },
         {
+            name: t('nav18'),
+            url: "/send-sms",
+            img: "../images/admin/message.png"
+        },
+        {
             name: t('nav11'),
             url: "/partners",
             img: "../images/admin/handshake.png"
@@ -99,6 +109,7 @@ const Admin = () => {
             url: "/safety",
             img: "../images/admin/lock.png"
         },
+
 
     ];
 

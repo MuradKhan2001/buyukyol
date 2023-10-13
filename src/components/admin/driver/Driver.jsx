@@ -21,6 +21,9 @@ const Driver = () => {
     const [carBodyList, setCarBodyList] = useState([]);
     const [category, setCategory] = useState([]);
     const [userId, setUserId] = useState("");
+    const [country1, setCountry1] = useState(true);
+    const [regions1, setRegions1] = useState(true);
+    const [regions2, setRegions2] = useState(true);
 
     const [Driver, setDriver] = useState(
         {
@@ -28,6 +31,12 @@ const Driver = () => {
             last_name: "",
             user_type: "Driver",
             phone: "",
+
+            category_type: null,
+            country1: null,
+            address1: null,
+            address2: null,
+
             category: "",
             car_number: "",
             name: "",
@@ -44,9 +53,338 @@ const Driver = () => {
             car_image: null
         });
 
+    const direction = [
+        {
+            id: "IN",
+            name: "Viloyat ichi",
+        },
+        {
+            id: "OUT",
+            name: "Viloyatlar aro",
+        },
+        {
+            id: "Abroad",
+            name: "Xalqaro",
+        }
+    ];
+
+    const country = [
+        {
+            name: "All",
+        },
+        {
+            name: "Albania",
+        }, {
+            name: "Andorra",
+        }, {
+            name: "Armenia",
+        }, {
+            name: "Austria",
+        }, {
+            name: "Azerbaijan",
+        }, {
+            name: "Belarus",
+        }, {
+            name: "Belgium",
+        }, {
+            name: "Bosnia and Herzegovina",
+        }, {
+            name: "Bulgaria",
+        }, {
+            name: "Croatia",
+        }, {
+            name: "Cyprus",
+        }, {
+            name: "Czech Republic",
+        }, {
+            name: "Denmark",
+        }, {
+            name: "Estonia",
+        }, {
+            name: "Finland",
+        }, {
+            name: "France",
+        }, {
+            name: "Georgia",
+        }, {
+            name: "Germany",
+        }, {
+            name: "Greece",
+        }, {
+            name: "Hungary",
+        }, {
+            name: "Iceland",
+        }, {
+            name: "Ireland",
+        }, {
+            name: "Italy",
+        }, {
+            name: "Kazakhstan",
+        }, {
+            name: "Kosovo",
+        }, {
+            name: "Latvia",
+        }, {
+            name: "Liechtenstein",
+        }, {
+            name: "Lithuania",
+        }, {
+            name: "Luxembourg",
+        }, {
+            name: "Malta",
+        }, {
+            name: "Moldova",
+        }, {
+            name: "Monaco",
+        }, {
+            name: "Montenegro",
+        }, {
+            name: "Netherlands",
+        }, {
+            name: "North Macedonia",
+        }, {
+            name: "Norway",
+        }, {
+            name: "Poland",
+        }, {
+            name: "Portugal",
+        }, {
+            name: "Romania",
+        }, {
+            name: "Russia",
+        }, {
+            name: "San Marino",
+        }, {
+            name: "Serbia",
+        }, {
+            name: "Slovakia",
+        }, {
+            name: "Slovenia",
+        }, {
+            name: "Spain",
+        }, {
+            name: "Sweden",
+        }, {
+            name: "Switzerland",
+        }, {
+            name: "Turkey",
+        }, {
+            name: "Ukraine",
+        }, {
+            name: "United Kingdom",
+        }, {
+            name: "Vatican City",
+        }, {
+            name: "Afghanistan",
+        }, {
+            name: "Bahrain",
+        }, {
+            name: "Bangladesh",
+        }, {
+            name: "Bhutan",
+        }, {
+            name: "Brunei",
+        }, {
+            name: "Cambodia",
+        }, {
+            name: "China",
+        }, {
+            name: "East Timor (Timor-Leste)",
+        }, {
+            name: "India",
+        }, {
+            name: "Indonesia",
+        }, {
+            name: "Iran",
+        }, {
+            name: "Iraq",
+        }, {
+            name: "Israel",
+        }, {
+            name: "Japan",
+        }, {
+            name: "Jordan",
+        }, {
+            name: "Kazakhstan",
+        }, {
+            name: "Kuwait",
+        }, {
+            name: "Kyrgyzstan",
+        }, {
+            name: "Laos",
+        }, {
+            name: "Lebanon",
+        }, {
+            name: "Malaysia",
+        }, {
+            name: "Maldives",
+        }, {
+            name: "Mongolia",
+        }, {
+            name: "Myanmar (Burma)",
+        }, {
+            name: "Nepal",
+        }, {
+            name: "North Korea",
+        }, {
+            name: "Oman",
+        }, {
+            name: "Pakistan",
+        }, {
+            name: "Palestine",
+        }, {
+            name: "Philippines",
+        }, {
+            name: "Qatar",
+        }, {
+            name: "Russia",
+        }, {
+            name: "Saudi Arabia",
+        }, {
+            name: "Singapore",
+        }, {
+            name: "South Korea",
+        }, {
+            name: "Sri Lanka",
+        }, {
+            name: "Syria",
+        }, {
+            name: "Taiwan",
+        }, {
+            name: "Tajikistan",
+        }, {
+            name: "Thailand",
+        }, {
+            name: "Turkey",
+        }, {
+            name: "Turkmenistan",
+        }, {
+            name: "United Arab Emirates",
+        }, {
+            name: "Uzbekistan",
+        }, {
+            name: "Vietnam",
+        },
+        {
+            name: "Yemen",
+        },
+    ];
+
+    const adress1 = [
+        {
+            name: "All",
+        },
+        {
+            name: "Andijan",
+        },
+        {
+            name: "Bukhara",
+        },
+        {
+            name: "Djizzak",
+        },
+        {
+            name: "Fergana",
+        },
+        {
+            name: "Kashkadarya",
+        },
+        {
+            name: "Khorezm",
+        },
+        {
+            name: "Namangan",
+        },
+        {
+            name: "Navoi",
+        },
+        {
+            name: "Samarkand",
+        },
+        {
+            name: "Surkhandarya",
+        },
+        {
+            name: "Syrdarya",
+        },
+        {
+            name: "Tashkent",
+        },
+        {
+            name: "Republic of Karakalpakistan",
+        },
+
+    ];
+
+    const adress2 = [
+        {
+            name: "All",
+        },
+        {
+            name: "Andijan",
+        },
+        {
+            name: "Bukhara",
+        },
+        {
+            name: "Djizzak",
+        },
+        {
+            name: "Fergana",
+        },
+        {
+            name: "Kashkadarya",
+        },
+        {
+            name: "Khorezm",
+        },
+        {
+            name: "Namangan",
+        },
+        {
+            name: "Navoi",
+        },
+        {
+            name: "Samarkand",
+        },
+        {
+            name: "Surkhandarya",
+        },
+        {
+            name: "Syrdarya",
+        },
+        {
+            name: "Tashkent",
+        },
+        {
+            name: "Republic of Karakalpakistan",
+        },
+
+    ];
 
     const getInputs = (e) => {
         Driver[e.target.name] = e.target.value;
+
+        if (Driver.category_type === "IN") {
+            setRegions1(false);
+
+            setCountry1(true)
+            setRegions2(true)
+        }
+
+        if (Driver.category_type === "OUT") {
+            setRegions1(false);
+            setRegions2(false);
+
+            setCountry1(true)
+        }
+
+        if (Driver.category_type === "Abroad") {
+            setCountry1(false)
+
+            setRegions1(true);
+            setRegions2(true);
+        }
     };
 
     function getImage(e) {
@@ -128,7 +466,11 @@ const Driver = () => {
                     car_tex_passport: null,
                     drivers_license_image: null,
                     image: null,
-                    car_image: null
+                    car_image: null,
+                    category_type: null,
+                    country1: null,
+                    address1: null,
+                    address2: null,
                 };
                 setDriver(newList);
                 handleClose();
@@ -139,36 +481,46 @@ const Driver = () => {
         } else alert("Formani to'ldiring")
     };
 
-    const editDriver = (ind) => {
+    const editDriver = (item) => {
 
         let newList = {
-            first_name: MainList[ind].first_name,
-            last_name: MainList[ind].last_name,
-            phone: MainList[ind].phone,
-            category: MainList[ind].documentation.category.id,
-            car_number: MainList[ind].documentation.car_number,
-            name: MainList[ind].documentation.name,
-            widht: MainList[ind].documentation.widht,
-            breadth: MainList[ind].documentation.breadth,
-            height: MainList[ind].documentation.height,
-            cargo_volume: MainList[ind].documentation.cargo_volume,
-            cargo_weight: MainList[ind].documentation.cargo_weight,
-            car_body: MainList[ind].documentation.car_body.id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            phone: item.phone,
+            category: item.documentation.category.id,
+            car_number: item.documentation.car_number,
+            name: item.documentation.name,
+            widht: item.documentation.widht,
+            breadth: item.documentation.breadth,
+            height: item.documentation.height,
+            cargo_volume: item.documentation.cargo_volume,
+            cargo_weight: item.documentation.cargo_weight,
+            car_body: item.documentation.car_body.id,
+
+            category_type: item.documentation.category_type,
+            country1: item.documentation.country1,
+            address1: item.documentation.address1,
+            address2: item.documentation.address2
         };
         setDriver(newList);
 
-        document.getElementById('first_name').value = MainList[ind].first_name;
-        document.getElementById('last_name').value = MainList[ind].last_name;
-        document.getElementById('phone').value = MainList[ind].phone;
-        document.getElementById('category').value = MainList[ind].documentation.category.id;
-        document.getElementById('car_number').value = MainList[ind].documentation.car_number;
-        document.getElementById('name').value = MainList[ind].documentation.name;
-        document.getElementById('widht').value = MainList[ind].documentation.widht;
-        document.getElementById('breadth').value = MainList[ind].documentation.breadth;
-        document.getElementById('height').value = MainList[ind].documentation.height;
-        document.getElementById('cargo_volume').value = MainList[ind].documentation.cargo_volume;
-        document.getElementById('cargo_weight').value = MainList[ind].documentation.cargo_weight;
-        document.getElementById('car_body').value = MainList[ind].documentation.car_body.id;
+        document.getElementById('first_name').value = item.first_name;
+        document.getElementById('last_name').value = item.last_name;
+        document.getElementById('phone').value = item.phone;
+        document.getElementById('category').value = item.documentation.category.id;
+        document.getElementById('car_number').value = item.documentation.car_number;
+        document.getElementById('name').value = item.documentation.name;
+        document.getElementById('widht').value = item.documentation.widht;
+        document.getElementById('breadth').value = item.documentation.breadth;
+        document.getElementById('height').value = item.documentation.height;
+        document.getElementById('cargo_volume').value = item.documentation.cargo_volume;
+        document.getElementById('cargo_weight').value = item.documentation.cargo_weight;
+        document.getElementById('car_body').value = item.documentation.car_body.id;
+
+        document.getElementById('category_type').value = item.documentation.category_type;
+        document.getElementById('country1').value = item.documentation.country1;
+        document.getElementById('address1').value = item.documentation.address1;
+        document.getElementById('address2').value = item.documentation.address2;
     };
 
     const editDriver2 = () => {
@@ -186,7 +538,7 @@ const Driver = () => {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
         }).then(() => {
-            getList();
+            getList(Pages[activeItem - 1][activeItem])
             let newList = {
                 first_name: "",
                 last_name: "",
@@ -205,7 +557,11 @@ const Driver = () => {
                 car_tex_passport: null,
                 drivers_license_image: null,
                 image: null,
-                car_image: null
+                car_image: null,
+                category_type: null,
+                country1: null,
+                address1: null,
+                address2: null,
             };
             setDriver(newList);
             setShowEdit(false);
@@ -222,6 +578,11 @@ const Driver = () => {
             document.getElementById('cargo_volume').value = "";
             document.getElementById('cargo_weight').value = "";
             document.getElementById('car_body').value = "";
+
+            document.getElementById('category_type').value = "";
+            document.getElementById('country1').value = "";
+            document.getElementById('address1').value = "";
+            document.getElementById('address2').value = "";
         }).catch(() => {
 
         });
@@ -256,7 +617,6 @@ const Driver = () => {
 
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <div className="edit">Haydovchi qo'shish</div>
             </Modal.Header>
             <Modal.Body>
                 <div className="main-box">
@@ -267,7 +627,31 @@ const Driver = () => {
                         <input onChange={getInputs} name="breadth" placeholder="Moshina kengligi" type="text"/>
                         <input onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
 
-                        <label htmlFor="category">Kategoriya</label>
+                        <label >Yo'nalish turi:</label>
+                        <select onChange={getInputs} name="category_type">
+                            <option></option>
+                            {
+                                direction.map((item, index) => {
+                                    return <option value={item.id} key={index}>
+                                        {item.name}
+                                    </option>
+                                })
+                            }
+                        </select>
+
+                        <label>1-viloyat:</label>
+                        <select disabled={regions1} onChange={getInputs} name="address1">
+                            <option></option>
+                            {
+                                adress1.map((item, index) => {
+                                    return <option value={item.id} key={index}>
+                                        {item.name}
+                                    </option>
+                                })
+                            }
+                        </select>
+
+                        <label >Kategoriya</label>
                         <select onChange={getInputs} name="category">
                             <option></option>
                             {
@@ -281,10 +665,10 @@ const Driver = () => {
                             }
                         </select>
 
-                        <label htmlFor="image">Haydovchi rasmi:</label>
+                        <label >Haydovchi rasmi:</label>
                         <input onChange={getImage} name="image" type="file"/>
 
-                        <label htmlFor="car_image">Moshina rasmi</label>
+                        <label >Moshina rasmi</label>
                         <input onChange={getImage} name="car_image" type="file"/>
 
                     </div>
@@ -295,7 +679,31 @@ const Driver = () => {
                         <input onChange={getInputs} name="height" placeholder="Moshina balandligi" type="text"/>
                         <input onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni" type="text"/>
 
-                        <label htmlFor="car_body">Kuzov turi:</label>
+                        <label >Davlatlar:</label>
+                        <select disabled={country1} onChange={getInputs} name="country1">
+                            <option></option>
+                            {
+                                country.map((item, index) => {
+                                    return <option value={item.name} key={index}>
+                                        {item.name}
+                                    </option>
+                                })
+                            }
+                        </select>
+
+                        <label >2- viloyat:</label>
+                        <select disabled={regions2} onChange={getInputs} name="address2">
+                            <option></option>
+                            {
+                                adress2.map((item, index) => {
+                                    return <option value={item.id} key={index}>
+                                        {item.name}
+                                    </option>
+                                })
+                            }
+                        </select>
+
+                        <label >Kuzov turi:</label>
                         <select onChange={getInputs} name="car_body">
                             <option></option>
                             {carBodyList.map((item, index) => {
@@ -304,10 +712,10 @@ const Driver = () => {
 
                         </select>
 
-                        <label htmlFor="drivers_license_image">Prava:</label>
+                        <label >Prava:</label>
                         <input onChange={getImage} name="drivers_license_image" type="file"/>
 
-                        <label htmlFor="car_tex_passport">Tex passport:</label>
+                        <label >Tex passport:</label>
                         <input onChange={getImage} name="car_tex_passport" type="file"/>
                     </div>
                 </div>
@@ -330,8 +738,32 @@ const Driver = () => {
                     <input id="breadth" onChange={getInputs} name="breadth" placeholder="Moshina kengligi" type="text"/>
                     <input id="cargo_volume" onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
 
-                    <label htmlFor="category">Kategoriya</label>
-                    <select id="category" onChange={getInputs} name="category">
+                    <label >Yo'nalish turi:</label>
+                    <select onChange={getInputs} id="category_type" name="category_type">
+                        <option></option>
+                        {
+                            direction.map((item, index) => {
+                                return <option value={item.id} key={index}>
+                                    {item.name}
+                                </option>
+                            })
+                        }
+                    </select>
+
+                    <label >1-viloyat:</label>
+                    <select disabled={regions1} onChange={getInputs} id="address1" name="address1">
+                        <option></option>
+                        {
+                            adress1.map((item, index) => {
+                                return <option value={item.id} key={index}>
+                                    {item.name}
+                                </option>
+                            })
+                        }
+                    </select>
+
+                    <label>Kategoriya</label>
+                    <select  id="category" onChange={getInputs} name="category">
                         <option></option>
                         {
                             category.map((item, index) => {
@@ -344,10 +776,10 @@ const Driver = () => {
                         }
                     </select>
 
-                    <label htmlFor="image">Haydovchi rasmi:</label>
+                    <label >Haydovchi rasmi:</label>
                     <input id="image" onChange={getImage} name="image" type="file"/>
 
-                    <label htmlFor="car_image">Moshina rasmi</label>
+                    <label >Moshina rasmi</label>
                     <input id="car_image" onChange={getImage} name="car_image" type="file"/>
 
                 </div>
@@ -360,7 +792,31 @@ const Driver = () => {
                     <input id="cargo_weight" onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni"
                            type="text"/>
 
-                    <label htmlFor="car_body">Kuzov turi:</label>
+                    <label >Davlatlar:</label>
+                    <select id="country1" disabled={country1} onChange={getInputs} name="country1">
+                        <option></option>
+                        {
+                            country.map((item, index) => {
+                                return <option value={item.name} key={index}>
+                                    {item.name}
+                                </option>
+                            })
+                        }
+                    </select>
+
+                    <label >2- viloyat:</label>
+                    <select id="address2" disabled={regions2} onChange={getInputs} name="address2">
+                        <option></option>
+                        {
+                            adress2.map((item, index) => {
+                                return <option value={item.id} key={index}>
+                                    {item.name}
+                                </option>
+                            })
+                        }
+                    </select>
+
+                    <label >Kuzov turi:</label>
                     <select id="car_body" onChange={getInputs} name="car_body">
                         <option></option>
                         {carBodyList.map((item, index) => {
@@ -369,10 +825,10 @@ const Driver = () => {
 
                     </select>
 
-                    <label htmlFor="drivers_license_image">Prava:</label>
+                    <label >Prava:</label>
                     <input id="drivers_license_image" onChange={getImage} name="drivers_license_image" type="file"/>
 
-                    <label htmlFor="car_tex_passport">Tex passport:</label>
+                    <label >Tex passport:</label>
                     <input id="car_tex_passport" onChange={getImage} name="car_tex_passport" type="file"/>
                 </div>
             </div>
@@ -392,6 +848,8 @@ const Driver = () => {
                     <th>F.I.SH</th>
                     <th>Tel</th>
                     <th>Haydovchi rasmi</th>
+                    <th>Yo'nalish</th>
+                    <th>Manzil</th>
                     <th>Kategoriya</th>
                     <th>Moshina raqami</th>
                     <th>Moshina Nomi</th>
@@ -431,6 +889,10 @@ const Driver = () => {
                                     }} src="../images/admin/view.png" alt=""/> : ""}
                             </div>
                         </td>
+
+                        <td>{item.documentation ? item.documentation.category_type : null}</td>
+                        <td>{item.documentation ? item.documentation.address : null}</td>
+
                         <td>{item.documentation ? item.documentation.category.name : null}</td>
                         <td>{item.documentation ? item.documentation.car_number : null}</td>
                         <td>{item.documentation ? item.documentation.name : null}</td>
@@ -478,7 +940,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList(Pages[activeItem-1][activeItem])
+                                            getList(Pages[activeItem - 1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -490,7 +952,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList(Pages[activeItem -1][activeItem])
+                                            getList(Pages[activeItem - 1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -506,7 +968,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList(Pages[activeItem-1][activeItem])
+                                            getList(Pages[activeItem - 1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -518,7 +980,7 @@ const Driver = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then(() => {
-                                            getList(Pages[activeItem-1][activeItem])
+                                            getList(Pages[activeItem - 1][activeItem])
                                         }).catch(() => {
 
                                         });
@@ -529,7 +991,7 @@ const Driver = () => {
                         <td>
                             <div>
                                 <img onClick={() => {
-                                    editDriver(index);
+                                    editDriver(item);
                                     setUserId(item.id);
                                     setShowEdit(true)
                                 }

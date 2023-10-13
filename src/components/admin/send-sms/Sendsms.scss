@@ -1,0 +1,243 @@
+.sms-container {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.83);
+  box-shadow: rgba(230, 230, 230, 0.16) 0px 10px 36px 0px, rgba(255, 255, 255, 0.06) 0px 0px 0px 1px;
+  border-radius: 5px;
+  padding: 20px;
+
+  .content-card {
+    margin-top: 20px;
+    width: 100%;
+    height: 90%;
+    display: flex;
+
+    .left {
+      background-color: rgba(43, 98, 65, 0.15);
+      width: 50%;
+      height: 100%;
+      padding: 10px;
+      overflow-y: auto;
+
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        border-bottom: 1px solid white;
+      }
+
+      .massage-box {
+        padding: 10px;
+        border: 1px solid #656565;
+        margin-top: 30px;
+
+        .inputs {
+          margin-top: 10px;
+
+          .text-messages {
+            display: flex;
+            padding: 10px;
+            align-items: center;
+
+            input {
+              width: 30px;
+              height: 30px;
+              margin-right: 10px;
+            }
+
+            div {
+              color: white;
+            }
+          }
+        }
+
+        .xbtns {
+          margin-top: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .add-button {
+            display: flex;
+            justify-content: space-around;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 20px 5px 20px;
+            background-color: white;
+            border-radius: 5px;
+            align-items: center;
+            color: black;
+          }
+
+          // success animation
+          .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #7ac142;
+            fill: none;
+            animation: stroke 1s cubic-bezier(0.65, 0, 0.45, 1) forwards infinite
+          }
+
+          .checkmark {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0px 0px 0px #7ac142;
+            animation: fill 1s ease-in-out 1s forwards, scale 1s ease-in-out 1s both infinite
+          }
+
+          .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 1s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards infinite;
+          }
+
+          @keyframes stroke {
+            100% {
+              stroke-dashoffset: 0
+            }
+          }
+
+          @keyframes scale {
+            0%, 100% {
+              transform: none
+            }
+            50% {
+              transform: scale3d(1.1, 1.1, 1)
+            }
+          }
+
+          @keyframes fill {
+            100% {
+              box-shadow: inset 0px 0px 0px 30px #7ac142
+            }
+          }
+        }
+      }
+
+    }
+
+    .right {
+      background-color: rgba(168, 180, 183, 0.15);
+      width: 50%;
+      height: 100%;
+      padding: 10px;
+      overflow-y: auto;
+
+      .massage-box {
+        padding: 10px;
+        border: 1px solid #656565;
+        margin-top: 30px;
+
+        .inputs {
+          margin-top: 10px;
+
+          .text-messages {
+            display: flex;
+            padding: 10px;
+            align-items: center;
+
+            input {
+              width: 30px;
+              height: 30px;
+              margin-right: 10px;
+            }
+
+            div {
+              color: white;
+            }
+          }
+        }
+
+        .xbtns {
+          margin-top: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .add-button {
+            display: flex;
+            justify-content: space-around;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 20px 5px 20px;
+            background-color: white;
+            border-radius: 5px;
+            align-items: center;
+            color: black;
+          }
+
+          // success animation
+          .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #7ac142;
+            fill: none;
+            animation: stroke 1s cubic-bezier(0.65, 0, 0.45, 1) forwards infinite
+          }
+
+          .checkmark {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0px 0px 0px #7ac142;
+            animation: fill 1s ease-in-out 1s forwards, scale 1s ease-in-out 1s both infinite
+          }
+
+          .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 1s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards infinite;
+          }
+
+          @keyframes stroke {
+            100% {
+              stroke-dashoffset: 0
+            }
+          }
+
+          @keyframes scale {
+            0%, 100% {
+              transform: none
+            }
+            50% {
+              transform: scale3d(1.1, 1.1, 1)
+            }
+          }
+
+          @keyframes fill {
+            100% {
+              box-shadow: inset 0px 0px 0px 30px #7ac142
+            }
+          }
+        }
+      }
+
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        border-bottom: 1px solid white;
+      }
+    }
+  }
+
+}

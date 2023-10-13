@@ -31,6 +31,8 @@ import VisaPayment from "../admin/visa-payment/VisaPayment";
 import AboutApp from "../about-app/AboutApp";
 import ActiveOrders from "../admin/active-orders/ActiveOrders";
 import React from "react";
+import Sendsms from "../admin/send-sms/Sendsms";
+import FilterDriver from "../admin/filter-driver/FilterDriver";
 
 export const publicRoutes = [
     {
@@ -166,6 +168,13 @@ export const adminPageRoutes = [
     {
         path:"/visa-payment",
         element: <VisaPayment/>
+    },
+    {
+        path:"/send-sms",
+        element: <Sendsms/>
+    },
+    {
+        path:"/filter-driver",
+        element: <FilterDriver/>
     }
-
 ];
