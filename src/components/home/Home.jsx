@@ -203,6 +203,7 @@ const Home = () => {
     return <div className="home-wrapper">
         <div className="home-page">
             <Navbar/>
+
             <div className={`home-content ${window.screen.width < 768 ? "" : "container"} `}>
                 <div className="left-side"></div>
                 <div className="ride-side">
@@ -239,6 +240,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
+
         <div className="section-wrapper">
             <div className="about-us-wrapper">
                 {
@@ -416,8 +418,6 @@ const Home = () => {
                 </div>
             </div>
         </div>
-
-
         <Footer/>
     </div>
 };

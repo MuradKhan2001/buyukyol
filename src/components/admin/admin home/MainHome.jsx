@@ -5,29 +5,31 @@ import LoaderAdmin from "./LoaderAdmin";
 
 const API_KEY = "AIzaSyAT1gB8sob8_piFwfeu3AaTL15yHyjuc30";
 
+
 const MainHome = () => {
+
+    const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
+
     const [locationsList, setLocationsList] = useState([]);
 
     useEffect(() => {
-        const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
-
         // const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/`, [], {
         //     headers: {
         //         "Authorization": `Token ${localStorage.getItem("token")}`
         //     }
         // });
 
-        //
-        // websocket.onopen = () => {
-        //
-        // };
-
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.message.drivers) {
-                setLocationsList(data.message.drivers);
+                setLocationsList(data.message.drivers)
             }
         };
+
+        websocket.onopen = () => {
+            console.log("open")
+        };
+
 
         // return () => {
         //         //     websocket.close()
@@ -117,9 +119,8 @@ const MainHome = () => {
                     )}
                 </>
 
-                :""
+                : ""
             }
-
 
 
         </GoogleMap>

@@ -9,7 +9,7 @@ const App = () => {
 
     const [url, setUrl] = useState('https://api.buyukyol.uz/');
 
-    const admin = useMemo(() => localStorage.getItem('token'), []);
+    const admin = useMemo(() => localStorage.getItem('admin'), []);
 
     const routes = useMemo(() => {
         if (admin) return adminRoutes;

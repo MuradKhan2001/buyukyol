@@ -33,148 +33,169 @@ import ActiveOrders from "../admin/active-orders/ActiveOrders";
 import React from "react";
 import Sendsms from "../admin/send-sms/Sendsms";
 import FilterDriver from "../admin/filter-driver/FilterDriver";
+import PostOrder from "../order/PostOrder";
+import LoginClient from "../login-client/LoginClient";
+import RegisterClient from "../register-client/RegisterClient";
+import MyProfile from "../my-profile/MyProfile";
+import Loader from "../loader/Loader";
 
 export const publicRoutes = [
     {
-        path:"/",
-        element:<Home/>
+        path: "/",
+        element: <Home/>
     },
     {
-        path:"/contact",
-        element:<Contact/>
+        path: "/contact",
+        element: <Contact/>
     },
     {
-        path:"/agreement",
-        element:<Agreement/>
+        path: "/agreement",
+        element: <Agreement/>
     },
     {
-        path:"/about-app",
-        element:<AboutApp/>
+        path: "/about-app",
+        element: <AboutApp/>
     },
     {
-        path:"/login-admin-buyukyol",
-        element:<Login/>
+        path: "/post-order",
+        element: <PostOrder/>
     },
+    {
+        path: "/login-admin-buyukyol",
+        element: <Login/>
+    },
+    {
+        path: "/login-client",
+        element: <LoginClient/>
+    },
+    {
+        path: "/register-client",
+        element: <RegisterClient/>
+    },
+    {
+        path: "/my-profile",
+        element: <MyProfile/>
+    }
 ];
 
 export const adminRoutes = [
     {
-        path:"/*",
+        path: "/*",
         element: <Admin/>
     },
 ];
 
 export const adminPageRoutes = [
     {
-        path:"/",
+        path: "/",
         element: <MainHome/>
     },
     {
-        path:"/balance",
+        path: "/balance",
         element: <Balance/>
     },
     {
-        path:"/driver",
+        path: "/driver",
         element: <Driver/>
     },
     {
-        path:"/safety",
+        path: "/safety",
         element: <Safety/>
     },
     {
-        path:"/partners",
+        path: "/partners",
         element: <Partners/>
     },
     {
-        path:"/orders",
+        path: "/orders",
         element: <Orders/>
     },
     {
-        path:"/active-orders",
+        path: "/active-orders",
         element: <ActiveOrders/>
     },
     {
-        path:"/payment",
+        path: "/payment",
         element: <Payment/>
     },
     {
-        path:"/customer",
+        path: "/customer",
         element: <Customer/>
     },
     {
-        path:"/addcar",
+        path: "/addcar",
         element: <AddCar/>
     },
     {
-        path:"/addbag",
+        path: "/addbag",
         element: <AddBag/>
     },
     {
-        path:"/notification",
+        path: "/notification",
         element: <Notification/>
     },
     {
-        path:"/direction",
+        path: "/direction",
         element: <Direction/>
     },
     {
-        path:"/aboutus",
+        path: "/aboutus",
         element: <Aboutus/>
     },
     {
-        path:"/contacta",
+        path: "/contacta",
         element: <ContactA/>
     },
     {
-        path:"/news",
+        path: "/news",
         element: <News/>
     },
     {
-        path:"/servicea",
+        path: "/servicea",
         element: <ServiceA/>
     },
     {
-        path:"/partnersa",
+        path: "/partnersa",
         element: <PartnersA/>
     },
     {
-        path:"/moments",
+        path: "/moments",
         element: <Moments/>
     },
     {
-        path:"/hometext",
+        path: "/hometext",
         element: <Hometext/>
     },
     {
-        path:"/contract",
+        path: "/contract",
         element: <Contract/>
     },
     {
-        path:"/price",
+        path: "/price",
         element: <Price/>
     },
     {
-        path:"/message",
+        path: "/message",
         element: <Message/>
     },
     {
-        path:"/addcars",
+        path: "/addcars",
         element: <AddCars/>
     },
     {
-        path:"/precent",
+        path: "/precent",
         element: <Addprecent/>
     },
     {
-        path:"/visa-payment",
+        path: "/visa-payment",
         element: <VisaPayment/>
     },
     {
-        path:"/send-sms",
+        path: "/send-sms",
         element: <Sendsms/>
     },
     {
-        path:"/filter-driver",
+        path: "/filter-driver",
         element: <FilterDriver/>
     }
 ];
