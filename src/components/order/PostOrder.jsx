@@ -21,6 +21,9 @@ const PostOrder = () => {
     const [cars, setCars] = useState([]);
     const [categoryId, setCategoryId] = useState("");
     const [plusInfo, setPlusInfo] = useState(false)
+    const [driverList, setDriverList] = useState(false)
+    const [currency, setCurrency] = useState("UZS")
+    const [infoCargo, setInfoCargo] = useState(false)
     const [locationsList, setLocationsList] = useState([]);
     const nodeRef = useRef(null);
 
@@ -114,6 +117,55 @@ const PostOrder = () => {
                     center={center}
                     options={options}
                     mapContainerClassName="map-container">
+
+                    <div className="orders-count">
+                        <div className="loader-box">
+                            <div className="loader"></div>
+                        </div>
+                        <div className="text1">
+                            {t("bagsCount")}:
+                            <div className="num">
+                                <img src="./images/Cardboard_Box2.png" alt=""/>
+                                10
+                            </div>
+                        </div>
+                        <div className="text2">
+                            {t("wait")}
+                        </div>
+                    </div>
+
+                    <div className="drivers-count">
+                        <div className="driver">
+                            <div className="top-side">
+                                <div className="driver-image">
+                                    <img src="./images/person.jpg" alt=""/>
+                                </div>
+                                <div className="name">
+                                    Jack Stiven
+                                </div>
+                            </div>
+
+                            <div className="body-side">
+                                <div className="text">
+                                    MAN
+                                </div>
+                                <div className="text">
+                                    L288SA
+                                </div>
+                            </div>
+
+                            <div className="label-text">
+                                Qabul qilingan...
+                            </div>
+                            <div className="cancel-btn">
+                                {t("button3")}
+                            </div>
+                        </div>
+
+                        <div onClick={() => setDriverList(true)} className="all-drivers">
+                            <img src="./images/more.png" alt=""/>
+                        </div>
+                    </div>
 
                     {locationsList.length >= 0 ?
 
@@ -367,7 +419,10 @@ const PostOrder = () => {
                     {cargo.type === "Abroad" && <div className="input-box">
 
                         <div className="icon-input">
-                            <select onChange={getInputs} name="currency" id="currency">
+                            <select onChange={(e) => {
+                                getInputs(e)
+                                setCurrency(e.target.value)
+                            }} name="currency" id="currency">
                                 <option value="UZS">
                                     UZS
                                 </option>
@@ -415,7 +470,7 @@ const PostOrder = () => {
                         </label>
                     </div>
 
-                    <div onClick={()=> setPlusInfo(!plusInfo)} className="plus-info">
+                    <div onClick={() => setPlusInfo(!plusInfo)} className="plus-info">
                         <div></div>
                         <div className="text">
                             {t("plusInformation")}
@@ -437,14 +492,18 @@ const PostOrder = () => {
                                 <div className="icon-input">
                                     <img src="./images/clock.png" alt=""/>
                                 </div>
-                                <input onChange={getInputs} id="load_time" name="load_time" placeholder={t("info2")} type="datetime-local"/>
+                                <input className="input2" onChange={getInputs} id="load_time" name="load_time"
+                                       placeholder={t("info2")}
+                                       type="datetime-local"/>
                             </div>
                             <label htmlFor="start_time">{t("info13")}</label>
                             <div className="input-box">
                                 <div className="icon-input">
                                     <img src="./images/clock.png" alt=""/>
                                 </div>
-                                <input onChange={getInputs} id="start_time" name="start_time" placeholder={t("info2")} type="datetime-local"/>
+                                <input className="input2" onChange={getInputs} id="start_time" name="start_time"
+                                       placeholder={t("info2")}
+                                       type="datetime-local"/>
                             </div>
 
 
@@ -456,8 +515,8 @@ const PostOrder = () => {
 
                                 <input onChange={getInputs} name="wait_cost" placeholder={t("info11")} type="text"/>
 
-                                <div className="icon-input">
-                                    {cargo.currency}/
+                                <div className="icon-input2">
+                                    {currency}/
                                     <select onChange={getInputs} name="wait_type" id="unit">
                                         <option value={t("waitCount1")}>
                                             {t("waitCount1")}
@@ -476,18 +535,10 @@ const PostOrder = () => {
                                     <img src="./images/money.png" alt=""/>
                                 </div>
 
-                                <input onChange={getInputs} name="avans" placeholder={t("info11")} type="text"/>
+                                <input onChange={getInputs} name="avans" placeholder={t("info9")} type="text"/>
 
-                                <div className="icon-input">
-                                    <select onChange={getInputs} name="wait_type" id="unit">
-                                        <option value={t("waitCount1")}>
-                                            {t("waitCount1")}
-                                        </option>
-
-                                        <option value={t("waitCount2")}>
-                                            {t("waitCount2")}
-                                        </option>
-                                    </select>
+                                <div className="icon-input2">
+                                    {currency}
                                 </div>
                             </div>
 
@@ -498,11 +549,240 @@ const PostOrder = () => {
 
                 </div>
 
-                <div className="button-next">
+                <div onClick={() => {
+                    setInfoCargo(true)
+                }} className="button-next">
                     {t("button1")}
                 </div>
 
             </div>
+
+            <CSSTransition
+                in={driverList}
+                nodeRef={nodeRef}
+                timeout={300}
+                classNames="alert"
+                unmountOnExit
+            >
+
+                <div className="all-drivers-list">
+                    <div ref={nodeRef} className="info-cargo">
+                        <div className="title">
+                            <div></div>
+                            <div>  {t("driver")}</div>
+                           <div> <img onClick={()=>setDriverList(false)} src="./images/close-driver-list.png" alt=""/></div>
+                        </div>
+                        <div className="driver">
+                            <div className="driver-image">
+                                <img src="./images/person.jpg" alt=""/>
+                            </div>
+
+                            <div className="text">
+                                <div className="names">Stiven Jack</div>
+                                <div className="info-car">
+                                    <div>
+                                        MAN
+                                    </div>
+                                    <div>
+                                        L288SA
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img src="./images/phone.png" alt=""/>
+
+                            <div className="cancel-btn">
+                                {t("button3")}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </CSSTransition>
+
+            <CSSTransition
+                in={infoCargo}
+                nodeRef={nodeRef}
+                timeout={300}
+                classNames="alert"
+                unmountOnExit
+            >
+
+                <div className="all-information-cargo">
+                    <div ref={nodeRef} className="info-cargo">
+                        <div className="car-image">
+                            <img src={`https://api.buyukyol.uz/${carsImage}`} alt=""/>
+                        </div>
+
+                        <div className="location-box">
+                            <div className="name">
+                                <img src="./images/location-pin.png" alt=""/>
+                                {t("loc1")}
+                            </div>
+                            <div className="location">
+                                {cargo.address_from}
+                            </div>
+                        </div>
+
+                        <div className="location-box">
+                            <div className="name">
+                                <img src="./images/location-pin.png" alt=""/>
+                                {t("loc3")}
+                            </div>
+                            <div className="location">
+                                {cargo.address_to}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info1")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.type === "OUT" ? t("direction2") : ""}
+                                {cargo.type === "IN" ? t("direction3") : ""}
+                                {cargo.type === "Abroad" ? t("direction1") : ""}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info2")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.cargo}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info7")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.distance} km
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info8")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.price} {cargo.currency}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info3")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.number_cars}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info4")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.capacity} {cargo.unit}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info5")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.car_category.min_weight ? cargo.car_category.min_weight : ""}-
+                                {cargo.car_category.max_weight ? cargo.car_category.max_weight : ""} tonna,
+
+                                {i18next.language === "ru" ? cargo.car_category.name_ru ? cargo.car_category.name_ru : "" : cargo.car_category.name ? cargo.car_category.name : ""}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info6")}
+                            </div>
+                            <div className="text-order">
+                                {i18next.language === "ru" ? cargo.car_body_type.name_ru ? cargo.car_body_type.name_ru : "" : cargo.car_body_type.name ? cargo.car_body_type.name : ""}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info9")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.avans} {cargo.currency}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info10")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.payment_type}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info11")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.wait_cost} {cargo.currency}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info12")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.load_time ? <>
+                                    {cargo.load_time.slice(0, 10)},
+                                    {cargo.load_time.slice(11, 16)}
+                                </> : ""}
+
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info13")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.start_time ? <>
+                                    {cargo.start_time.slice(0, 10)},
+                                    {cargo.start_time.slice(11, 16)}
+                                </> : ""}
+                            </div>
+                        </div>
+
+                        <div className="buttons">
+
+                            <div onClick={() => {
+                                setInfoCargo(false)
+                            }} className="button-cancel">
+                                {t("button3")}
+                            </div>
+
+                            <div className="button-send">
+                                {t("button2")}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </CSSTransition>
+
+
         </div>
     </div>
 };
