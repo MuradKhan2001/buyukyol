@@ -55,9 +55,11 @@ const PostOrder = () => {
     const [cancelOrder, setCancelOrder] = useState(false);
     const [cancelOrder2, setCancelOrder2] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
+    const [alertSuccess, setAlertSuccess] = useState(false);
     const [many, setMany] = useState(false);
     const [alertForm, setAlertForm] = useState(false);
     const [reason, setReason] = useState("");
+    const [distance, setDistance] = useState("");
 
     const [cargo, setCargo] = useState({
         command: "new_order",
@@ -76,9 +78,9 @@ const PostOrder = () => {
         capacity: "",
         unit: t("infoWaits1"),
         currency: "UZS",
-        avans: "",
+        avans: null,
         payment_type: "",
-        wait_cost: "",
+        wait_cost: null,
         wait_type: t("waitCount1"),
         load_time: null,
         start_time: null,
@@ -87,17 +89,84 @@ const PostOrder = () => {
     const [direction, setDirection] = useState("")
     const [carsImage, setCarImage] = useState("")
     const [carsId, setCarId] = useState("")
+    const [CountOrders, setCountOrders] = useState(0)
 
     const [locationName, setLocationName] = useState("true")
     const [location1, setLocation1] = useState(false)
     const [location2, setLocation2] = useState(false)
 
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selected, setSelected] = useState(null);
+    const [center, setCenter] = useState();
+    const [locationName1, setLocationName1] = useState("")
+    const [locationName2, setLocationName2] = useState("")
+    const [cargoInfo, setCargoInfo] = useState({})
+
 
     const getInputs = (e) => {
-        cargo[e.target.name] = e.target.value;
+
+        if (e.target.name === "capacity" || e.target.name === "price") {
+            cargo[e.target.name] = Number(e.target.value);
+        } else cargo[e.target.name] = e.target.value;
+
     };
 
+    const orderCount = () => {
+        axios.get(`${value.url}api/my-orders/`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        }).then((response) => {
+            let count = response.data.filter((item) => item.status === "Active")
+            setCountOrders(count.length);
+
+        }).catch((error) => {
+            if (error.response.statusText == "Unauthorized") {
+                window.location.pathname = "/";
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId")
+            }
+        });
+    }
+
     useEffect(() => {
+
+        websocket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            console.log(data);
+
+            if (data.message.status) {
+
+                if (data.message.status === "canceled") {
+                    setAlertCancel(true);
+                    setInfoCargo(false)
+                    setTimeout(() => {
+                        setAlertCancel(false);
+                    }, 3000);
+                }
+
+                if (data.message.status === "confirmed" || data.message.status === "Added") {
+                    setAlertSuccess(true);
+                    setInfoCargo(false)
+                    setTimeout(() => {
+                        setAlertSuccess(false);
+                    }, 3000);
+                    orderCount();
+
+                }
+
+                if (data.message.status === "distance") {
+                    setDistance(data.message.distance)
+                }
+
+                if (data.message.status === "Price") {
+                    setCargoInfo(data.message)
+                }
+
+
+            } else console.log(data.message)
+        };
 
         axios.get(`${value.url}api/car-category/`, {
             headers: {
@@ -113,6 +182,8 @@ const PostOrder = () => {
             }
         });
 
+        orderCount()
+
         navigator.geolocation.getCurrentPosition(position => {
             const {latitude, longitude} = position.coords;
             let locMy = {lat: latitude, lng: longitude}
@@ -121,11 +192,6 @@ const PostOrder = () => {
         });
     }, []);
 
-    const [selectedLocation, setSelectedLocation] = useState(null);
-    const [selected, setSelected] = useState(null);
-    const [center, setCenter] = useState();
-    const [locationName1, setLocationName1] = useState("")
-    const [locationName2, setLocationName2] = useState("")
 
     const onMarkerClick = (location) => {
         setSelectedLocation(location);
@@ -170,7 +236,7 @@ const PostOrder = () => {
                 let county = res.data.address.county;
                 let road = res.data.address.road;
 
-                let fullAddress = `${country ? country + "," : ""} ${city ? city + "," : ""} ${suburb? suburb+ "," : ""} 
+                let fullAddress = `${country ? country + "," : ""} ${city ? city + "," : ""} ${suburb ? suburb + "," : ""} 
             ${neighbourhood ? neighbourhood + "," : ""} ${county ? county + "," : ""} ${road ? road : ""}`
                 setLocationName(fullAddress)
             });
@@ -203,7 +269,7 @@ const PostOrder = () => {
 
             console.log(res.data.address)
 
-            let fullAddress = `${country ? country + "," : ""} ${city ? city + "," : ""} ${suburb? suburb+ "," : ""} 
+            let fullAddress = `${country ? country + "," : ""} ${city ? city + "," : ""} ${suburb ? suburb + "," : ""} 
             ${neighbourhood ? neighbourhood + "," : ""} ${county ? county + "," : ""} ${road ? road : ""}`
             setLocationName(fullAddress)
         });
@@ -252,8 +318,8 @@ const PostOrder = () => {
             setLocation1(false)
             setSelected(null)
 
-            cargo.latitude_from = selected.lat
-            cargo.longitude_from = selected.lng
+            cargo.latitude_from = Number(selected.lat.toString().slice(0, 9))
+            cargo.longitude_from = Number(selected.lng.toString().slice(0, 9))
         }
 
         if (location2) {
@@ -262,24 +328,45 @@ const PostOrder = () => {
             setLocation2(false)
             setSelected(null)
 
-            cargo.latitude_to = selected.lat
-            cargo.longitude_to = selected.lng
+            cargo.latitude_to = Number(selected.lat.toString().slice(0, 9))
+            cargo.longitude_to = Number(selected.lng.toString().slice(0, 9))
+        }
+
+        if (cargo.address_from && cargo.address_to) {
+            let distance = {
+                command: "getdistance",
+                latitude_from: cargo.latitude_from,
+                longitude_from: cargo.longitude_from,
+                latitude_to: cargo.latitude_to,
+                longitude_to: cargo.longitude_to
+
+            }
+            websocket.send(JSON.stringify(distance));
         }
 
     }
 
-    const PosOrder = () => {
-        let order = {
-            command: "cancel_order", id: "", reason, many
-        };
+    const SendOrder = (command) => {
 
-        websocket.send(JSON.stringify(order));
+        if (command === "new_order") {
+            cargo.client = Number(localStorage.getItem("userId"))
+            websocket.send(JSON.stringify(cargo));
+            console.log(cargo)
+        } else if (command === "cancel_order") {
+            let order = {
+                command: command,
+                id: cargoInfo.id
+            };
+            websocket.send(JSON.stringify(order));
+        } else if (command === "confirm_order") {
+            let order = {
+                command: command,
+                id: cargoInfo.id
+            };
+            websocket.send(JSON.stringify(order));
+        }
+
     };
-
-    const PosCargo = () => {
-        cargo.client = localStorage.getItem("userId")
-        console.log(cargo)
-    }
 
     return <div className="order-wrapper">
         <Navbar/>
@@ -300,6 +387,27 @@ const PostOrder = () => {
                         {t("alert2")}
                     </div>
                     <div onClick={() => setAlertCancel(false)} className="close">
+                        <img src="./images/close-driver-list.png" alt=""/>
+                    </div>
+                </div>
+
+            </CSSTransition>
+
+            <CSSTransition
+                in={alertSuccess}
+                nodeRef={nodeRef}
+                timeout={300}
+                classNames="alert"
+                unmountOnExit
+            >
+                <div ref={nodeRef} className="alert-success">
+                    <div className="img-box">
+                        <img src="./images/check-mark.png" alt=""/>
+                    </div>
+                    <div className="text-box">
+                        {t("alert1")}
+                    </div>
+                    <div onClick={() => setAlertSuccess(false)} className="close">
                         <img src="./images/close-driver-list.png" alt=""/>
                     </div>
                 </div>
@@ -370,7 +478,7 @@ const PostOrder = () => {
 
                             <div onClick={() => {
                                 if (reason) {
-                                    PosOrder();
+                                    SendOrder();
                                 } else {
                                     setAlertForm(true);
                                     setTimeout(() => {
@@ -550,7 +658,7 @@ const PostOrder = () => {
                                 {t("info7")}
                             </div>
                             <div className="text-order">
-                                {cargo.distance} km
+                                {cargo.type !== "Abroad" ? cargoInfo.distance : distance} km
                             </div>
                         </div>
 
@@ -559,7 +667,7 @@ const PostOrder = () => {
                                 {t("info8")}
                             </div>
                             <div className="text-order">
-                                {cargo.price} {cargo.currency}
+                                {cargo.price ? cargo.price : cargoInfo.price} {cargo.currency}
                             </div>
                         </div>
 
@@ -657,12 +765,14 @@ const PostOrder = () => {
                         <div className="buttons">
 
                             <div onClick={() => {
-                                setInfoCargo(false)
+                                cargo.type !== "Abroad" ? SendOrder("cancel_order") : setInfoCargo(false)
                             }} className="button-cancel">
                                 {t("button3")}
                             </div>
 
-                            <div className="button-send">
+                            <div onClick={() => {
+                                cargo.type !== "Abroad" ? SendOrder("confirm_order") : SendOrder("new_order")
+                            }} className="button-send">
                                 {t("button2")}
                             </div>
 
@@ -718,21 +828,23 @@ const PostOrder = () => {
                         options={options}
                         mapContainerClassName="map-container">
 
-                        <div className="orders-count">
-                            <div className="loader-box">
-                                <div className="loader"></div>
-                            </div>
-                            <div className="text1">
-                                {t("bagsCount")}:
-                                <div className="num">
-                                    <img src="./images/Cardboard_Box2.png" alt=""/>
-                                    10
+                        {
+                            CountOrders > 0 && <div className="orders-count">
+                                <div className="loader-box">
+                                    <div className="loader"></div>
+                                </div>
+                                <div className="text1">
+                                    {t("bagsCount")}:
+                                    <div className="num">
+                                        <img src="./images/Cardboard_Box2.png" alt=""/>
+                                        {CountOrders}
+                                    </div>
+                                </div>
+                                <div className="text2">
+                                    {t("wait")}
                                 </div>
                             </div>
-                            <div className="text2">
-                                {t("wait")}
-                            </div>
-                        </div>
+                        }
 
                         <div className="drivers-count">
                             <div className="driver">
@@ -1023,7 +1135,7 @@ const PostOrder = () => {
                                 {t("info7")}
                             </div>
                             <div className="num-distance">
-                                km
+                                {distance} km
                             </div>
                         </div>}
 
@@ -1098,6 +1210,15 @@ const PostOrder = () => {
                         >
                             <div ref={nodeRef} className="connent-info">
 
+                                <div className="input-box">
+
+                                    <div className="icon-input">
+                                        <img src="./images/add-package.png" alt=""/>
+                                    </div>
+
+                                    <input className="input2" onChange={getInputs} name="number_cars" placeholder={t("info3")} type="number"/>
+                                </div>
+
                                 <label htmlFor="load_time">{t("info12")}</label>
                                 <div className="input-box">
                                     <div className="icon-input">
@@ -1162,8 +1283,12 @@ const PostOrder = () => {
                     </div>
 
                     <div onClick={() => {
-                        setInfoCargo(true)
-                        PosCargo()
+
+                        if (cargo.type !== "Abroad") {
+                            SendOrder("new_order")
+                            setInfoCargo(true)
+                        } else setInfoCargo(true)
+
                     }} className="button-next">
                         {t("button1")}
                     </div>
