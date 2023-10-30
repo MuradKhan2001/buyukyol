@@ -55,7 +55,7 @@ const PostOrder = () => {
     const [cancelOrder, setCancelOrder] = useState(false);
     const [cancelOrder2, setCancelOrder2] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
-    const [alertSuccess, setAlertSuccess] = useState(false);
+    const [formBox, setFormBox] = useState(false);
     const [many, setMany] = useState(false);
     const [alertForm, setAlertForm] = useState(false);
     const [reason, setReason] = useState("");
@@ -102,10 +102,6 @@ const PostOrder = () => {
     const [locationName2, setLocationName2] = useState("")
     const [cargoInfo, setCargoInfo] = useState({})
 
-
-    const [alertBox, setAlertBox] = useState(false)
-    const [DriverInfo, setDriverInfo] = useState(false)
-    const [DriverAlertText, setDriverAlertText] = useState("")
     const [DriversList, setDriversList] = useState([])
 
     const [alerts, setAlerts] = useState([])
@@ -146,6 +142,10 @@ const PostOrder = () => {
 
     useEffect(() => {
 
+        websocket.onclose = () => {
+            window.location.reload()
+        }
+
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
@@ -160,60 +160,59 @@ const PostOrder = () => {
                 if (data.message.status === "canceled") {
 
                     let id = Date.now()
-                    console.log("Before add", alerts)
-
                     let newAlerts = {
-                        id,
-                        text: t("alert2"), color: "#932626", img: "./images/caution.png"
+                        id, text: t("alert2"), color: "#932626", img: "./images/caution.png"
                     }
-
-                    console.log("After add", newAlerts)
                     setAlerts(prevState => [...prevState, newAlerts])
-
                     alertRemove(3000, id)
-
                     setInfoCargo(false)
+
                 }
 
                 if (data.message.status === "confirmed" || data.message.status === "Added") {
+
                     let id = Date.now()
                     let newAlerts = {
-                        id,
-                        text: t("alert1"), color: "green", img: "./images/caution.png"
+                        id, text: t("alert1"), color: "#218823", img: "./images/check-mark.png"
                     }
                     setAlerts(prevState => [...prevState, newAlerts])
                     setInfoCargo(false)
 
-                    alertRemove(60000, id)
-
+                    alertRemove(3000, id)
                     orderCount();
+                    setFormBox(false)
+                    setDirection("")
+                    setCategoryId("")
+                    setCarId("")
+                    setLocationName1("")
+                    setLocationName2("")
 
-                    // let cargoBox = {
-                    //     command: "new_order",
-                    //     price: "",
-                    //     client: "",
-                    //     car_category: "",
-                    //     car_body_type: "",
-                    //     type: "",
-                    //     address_from: "",
-                    //     latitude_from: "",
-                    //     longitude_from: "",
-                    //     address_to: "",
-                    //     latitude_to: "",
-                    //     longitude_to: "",
-                    //     cargo: "",
-                    //     capacity: "",
-                    //     unit: t("infoWaits1"),
-                    //     currency: "UZS",
-                    //     avans: null,
-                    //     payment_type: "",
-                    //     wait_cost: null,
-                    //     wait_type: t("waitCount1"),
-                    //     load_time: null,
-                    //     start_time: null,
-                    //     number_cars: 1
-                    // }
-                    // setCargo(cargoBox)
+                    let cargoBox = {
+                        command: "new_order",
+                        price: "",
+                        client: "",
+                        car_category: "",
+                        car_body_type: "",
+                        type: "",
+                        address_from: "",
+                        latitude_from: "",
+                        longitude_from: "",
+                        address_to: "",
+                        latitude_to: "",
+                        longitude_to: "",
+                        cargo: "",
+                        capacity: "",
+                        unit: t("infoWaits1"),
+                        currency: "UZS",
+                        avans: null,
+                        payment_type: "",
+                        wait_cost: null,
+                        wait_type: t("waitCount1"),
+                        load_time: null,
+                        start_time: null,
+                        number_cars: 1
+                    }
+                    setCargo(cargoBox)
                 }
 
                 if (data.message.status === "distance") {
@@ -226,8 +225,7 @@ const PostOrder = () => {
 
                 if (data.message.status === "Accepted") {
                     alerts.push({
-                        id: Date.now(),
-                        text: "Haydovchi qabul qildi", color: "#218823", img: "./images/check-mark.png"
+                        id: Date.now(), text: "Haydovchi qabul qildi", color: "#218823", img: "./images/check-mark.png"
                     })
 
                     let newAlert = [...alerts]
@@ -244,8 +242,7 @@ const PostOrder = () => {
 
                 if (data.message.status === "delivering") {
                     alerts.push({
-                        id: Date.now(),
-                        text: "Haydovchi yukladi", color: "#218823", img: "./images/check-mark.png"
+                        id: Date.now(), text: "Haydovchi yukladi", color: "#218823", img: "./images/check-mark.png"
                     })
 
                     let newAlert = [...alerts]
@@ -255,8 +252,7 @@ const PostOrder = () => {
 
                 if (data.message.status === "deliveret") {
                     alerts.push({
-                        id: Date.now(),
-                        text: "Haydovchi yakunladi", color: "#218823", img: "./images/check-mark.png"
+                        id: Date.now(), text: "Haydovchi yakunladi", color: "#218823", img: "./images/check-mark.png"
                     })
 
                     let newAlert = [...alerts]
@@ -437,7 +433,7 @@ const PostOrder = () => {
             cargo.longitude_to = Number(selected.lng.toString().slice(0, 9))
         }
 
-        if (cargo.address_from && cargo.address_to) {
+        if (cargo.address_from && cargo.address_to && direction === "Abroad") {
             let distance = {
                 command: "getdistance",
                 latitude_from: cargo.latitude_from,
@@ -490,105 +486,6 @@ const PostOrder = () => {
                     </div>
                 })}
             </div>}
-
-
-            <CSSTransition
-                in={alertBox}
-                nodeRef={nodeRef}
-                timeout={300}
-                classNames="alert"
-                unmountOnExit
-            >
-                <div className="alerts-box">
-                    <CSSTransition
-                        in={alertForm}
-                        nodeRef={nodeRef}
-                        timeout={300}
-                        classNames="alert"
-                        unmountOnExit
-                    >
-                        <div ref={nodeRef} className="alert-cancel">
-                            <div className="img-box">
-                                <img src="./images/caution.png" alt=""/>
-                            </div>
-                            <div className="text-box">
-                                {t("reasonAlert")}
-                            </div>
-                            <div onClick={() => setAlertForm(false)} className="close">
-                                <img src="./images/close-driver-list.png" alt=""/>
-                            </div>
-                        </div>
-
-                    </CSSTransition>
-
-                    <CSSTransition
-                        in={alertCancel}
-                        nodeRef={nodeRef}
-                        timeout={300}
-                        classNames="alert"
-                        unmountOnExit
-                    >
-                        <div ref={nodeRef} className="alert-cancel">
-                            <div className="img-box">
-                                <img src="./images/caution.png" alt=""/>
-                            </div>
-                            <div className="text-box">
-                                {t("alert2")}
-                            </div>
-                            <div onClick={() => setAlertCancel(false)} className="close">
-                                <img src="./images/close-driver-list.png" alt=""/>
-                            </div>
-                        </div>
-
-                    </CSSTransition>
-
-                    <CSSTransition
-                        in={alertSuccess}
-                        nodeRef={nodeRef}
-                        timeout={300}
-                        classNames="alert"
-                        unmountOnExit
-                    >
-                        <div ref={nodeRef} className="alert-success">
-                            <div className="img-box">
-                                <img src="./images/check-mark.png" alt=""/>
-                            </div>
-                            <div className="text-box">
-                                {t("alert1")}
-                            </div>
-                            <div onClick={() => setAlertSuccess(false)} className="close">
-                                <img src="./images/close-driver-list.png" alt=""/>
-                            </div>
-                        </div>
-
-                    </CSSTransition>
-
-                    <CSSTransition
-                        in={DriverInfo}
-                        nodeRef={nodeRef}
-                        timeout={300}
-                        classNames="alert"
-                        unmountOnExit
-                    >
-                        <div ref={nodeRef} className="alert-success">
-                            <div className="img-box">
-                                <img src="./images/check-mark.png" alt=""/>
-                            </div>
-
-                            <div className="text-box">
-                                {DriverAlertText}
-                            </div>
-
-                            <div onClick={() => setAlertSuccess(false)} className="close">
-                                <img src="./images/close-driver-list.png" alt=""/>
-                            </div>
-                        </div>
-
-                    </CSSTransition>
-                </div>
-
-            </CSSTransition>
-
 
             <CSSTransition
                 in={cancelOrder2}
@@ -727,35 +624,39 @@ const PostOrder = () => {
                         </div>
                         {DriversList.map((item, index) => {
                             return <div key={index} className="driver">
-                                <div className="driver-image">
-                                    <img src={`https://api.buyukyol.uz/${item.driver.image}`} alt=""/>
-                                </div>
 
-                                <div className="text">
-                                    <div className="names">
-                                        {item.driver.first_name}
-                                        {item.driver.last_name}
+                                <div className="section-one">
+                                    <div className="driver-image">
+                                        <img src={`https://api.buyukyol.uz/${item.driver.image}`} alt=""/>
                                     </div>
-                                    <div className="info-car">
-                                        <div>
-                                            {item.driver.documentation ? item.driver.documentation.name : ""}
+
+                                    <div className="text">
+                                        <div className="names">
+                                            {item.driver.first_name}
+                                            {item.driver.last_name}
                                         </div>
-                                        <div>
-                                            {item.driver.documentation ? item.driver.documentation.car_number : ""}
+                                        <div className="info-car">
+                                            <div>
+                                                {item.driver.documentation ? item.driver.documentation.name : ""}
+                                            </div>
+                                            <div>
+                                                {item.driver.documentation ? item.driver.documentation.car_number : ""}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div className="section-two">
+                                    <a href={`tel:${item.driver.phone}`} className="phone">
+                                        <img src="./images/phone.png" alt=""/>
+                                        {item.driver.phone}
+                                    </a>
 
-                                <a href={`tel:${item.driver.phone}`} className="name">
-                                    <img src="./images/phone.png" alt=""/>
-                                </a>
-
-
-                                <div className="cancel-btn">
-                                    {t("button3")}
+                                    <div className="cancel-btn">
+                                        {t("button3")}
+                                        <img src="./images/xbtn.png" alt=""/>
+                                    </div>
                                 </div>
-
                             </div>
                         })}
 
@@ -780,23 +681,26 @@ const PostOrder = () => {
 
                         <div className="location-box">
                             <div className="name">
-                                <img src="./images/location-pin.png" alt=""/>
-                                {t("loc1")}
+                                {t("loc1")}:
                             </div>
+
                             <div className="location">
+                                <img src="./images/location-pin.png" alt=""/>
                                 {cargo.address_from}
                             </div>
                         </div>
 
                         <div className="location-box">
                             <div className="name">
-                                <img src="./images/location-pin.png" alt=""/>
-                                {t("loc3")}
+                                {t("loc3")}:
                             </div>
                             <div className="location">
+                                <img src="./images/location-pin.png" alt=""/>
                                 {cargo.address_to}
                             </div>
                         </div>
+
+                        <div className="line"></div>
 
                         <div className="info-order">
                             <div className="label-order">
@@ -838,10 +742,58 @@ const PostOrder = () => {
 
                         <div className="info-order">
                             <div className="label-order">
+                                {t("info10")}
+                            </div>
+                            <div className="text-order">
+                                {cargo.payment_type}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
                                 {t("info3")}
                             </div>
                             <div className="text-order">
                                 {cargo.number_cars}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info5")}
+                            </div>
+                            <div className="text-order">
+                                {categoryType.map((item, index) => {
+                                    if (item.id === cargo.car_category) {
+                                        return <div key={index}>
+                                            {item.min_weight} - {item.max_weight} {t("infoWaits4")},
+                                            {item.name === "Мини" && t("tariff1")}
+                                            {item.name === "Енгил" && t("tariff2")}
+                                            {item.name === "Ўрта" && t("tariff3")}
+                                            {item.name === "Оғир" && t("tariff4")}
+                                            {item.name === "Ўта оғир" && t("tariff5")}
+                                            {item.name === "Авто Ташувчи" && t("tariff6")}
+                                        </div>
+                                    }
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="info-order">
+                            <div className="label-order">
+                                {t("info6")}
+                            </div>
+                            <div className="text-order">
+                                {
+                                    cars.map((item, index) => {
+                                        if (item.id === cargo.car_body_type) {
+                                            return <div key={index}>
+                                                {item.name}
+                                            </div>
+                                        }
+                                    })
+                                }
+
                             </div>
                         </div>
 
@@ -856,40 +808,12 @@ const PostOrder = () => {
 
                         <div className="info-order">
                             <div className="label-order">
-                                {t("info5")}
-                            </div>
-                            <div className="text-order">
-                                {cargo.car_category.min_weight ? cargo.car_category.min_weight : ""}-
-                                {cargo.car_category.max_weight ? cargo.car_category.max_weight : ""} tonna,
-
-                                {i18next.language === "ru" ? cargo.car_category.name_ru ? cargo.car_category.name_ru : "" : cargo.car_category.name ? cargo.car_category.name : ""}
-                            </div>
-                        </div>
-
-                        <div className="info-order">
-                            <div className="label-order">
-                                {t("info6")}
-                            </div>
-                            <div className="text-order">
-                                {i18next.language === "ru" ? cargo.car_body_type.name_ru ? cargo.car_body_type.name_ru : "" : cargo.car_body_type.name ? cargo.car_body_type.name : ""}
-                            </div>
-                        </div>
-
-                        <div className="info-order">
-                            <div className="label-order">
                                 {t("info9")}
                             </div>
                             <div className="text-order">
-                                {cargo.avans} {cargo.currency}
-                            </div>
-                        </div>
-
-                        <div className="info-order">
-                            <div className="label-order">
-                                {t("info10")}
-                            </div>
-                            <div className="text-order">
-                                {cargo.payment_type}
+                                {
+                                    cargo.avans ?  <> {cargo.avans} {cargo.currency} </> :"--"
+                                }
                             </div>
                         </div>
 
@@ -898,7 +822,7 @@ const PostOrder = () => {
                                 {t("info11")}
                             </div>
                             <div className="text-order">
-                                {cargo.wait_cost} {cargo.currency}
+                                {cargo.wait_cost ?  <> {cargo.wait_cost} {cargo.currency}</> : "--"}
                             </div>
                         </div>
 
@@ -910,7 +834,7 @@ const PostOrder = () => {
                                 {cargo.load_time ? <>
                                     {cargo.load_time.slice(0, 10)},
                                     {cargo.load_time.slice(11, 16)}
-                                </> : ""}
+                                </> : "--"}
 
                             </div>
                         </div>
@@ -923,7 +847,7 @@ const PostOrder = () => {
                                 {cargo.start_time ? <>
                                     {cargo.start_time.slice(0, 10)},
                                     {cargo.start_time.slice(11, 16)}
-                                </> : ""}
+                                </> : "--"}
                             </div>
                         </div>
 
@@ -933,12 +857,14 @@ const PostOrder = () => {
                                 cargo.type !== "Abroad" ? SendOrder("cancel_order") : setInfoCargo(false)
                             }} className="button-cancel">
                                 {t("button3")}
+                                <img src="./images/xbtn.png" alt=""/>
                             </div>
 
                             <div onClick={() => {
                                 cargo.type !== "Abroad" ? SendOrder("confirm_order") : SendOrder("new_order")
                             }} className="button-send">
                                 {t("button2")}
+                                <img src="./images/verified.png" alt=""/>
                             </div>
 
                         </div>
@@ -1078,7 +1004,9 @@ const PostOrder = () => {
                     </GoogleMap>}
 
             </div>
+
             <div className="right-side">
+
                 <div className="title">
                     <img src="./images/Cardboard_Box2.png" alt=""/>
                     {t("post-order")}
@@ -1094,6 +1022,11 @@ const PostOrder = () => {
                     <div onClick={() => {
                         cargo.type = "Abroad";
                         setDirection("Abroad")
+                        setFormBox(true)
+                        if (direction === "Abroad") {
+                            setDirection("")
+                            setFormBox(false)
+                        }
                     }}
                          className={`direction-card ${direction === "Abroad" ? "active-direction" : ""}`}>
                         <img src="./images/xalqaro.png" alt=""/>
@@ -1103,6 +1036,11 @@ const PostOrder = () => {
                     <div onClick={() => {
                         cargo.type = "OUT";
                         setDirection("OUT")
+                        setFormBox(true)
+                        if (direction === "OUT") {
+                            setDirection("")
+                            setFormBox(false)
+                        }
                     }} className={`direction-card ${direction === "OUT" ? "active-direction" : ""}`}>
                         <img src="./images/shahararo.png" alt=""/>
                         <div>{t("direction2")}</div>
@@ -1111,6 +1049,11 @@ const PostOrder = () => {
                     <div onClick={() => {
                         cargo.type = "IN";
                         setDirection("IN")
+                        setFormBox(true)
+                        if (direction === "IN") {
+                            setDirection("")
+                            setFormBox(false)
+                        }
                     }} className={`direction-card ${direction === "IN" ? "active-direction" : ""}`}>
                         <img src="./images/shaharichi.png" alt=""/>
                         <div>{t("direction3")}</div>
@@ -1118,346 +1061,371 @@ const PostOrder = () => {
 
                 </div>
 
+                <CSSTransition
+                    in={formBox}
+                    nodeRef={nodeRef}
+                    timeout={300}
+                    classNames="alert"
+                    unmountOnExit
+                >
+                    <div ref={nodeRef}>
+                        {direction && <>
+                            <div className="title-forms">
+                                {t("tariff")}
+                            </div>
 
-                {direction && <>
-                    <div className="title-forms">
-                        {t("tariff")}
-                    </div>
+                            <div className="tariff-container">
 
-                    <div className="tariff-container">
-
-                        {categoryType.map((item, index) => {
-                            return <div key={index} onClick={() => {
-                                setCategoryId((item.id))
-                                cargo.car_category = item.id
-                                axios.get(`${value.url}api/car-category/${item.id}`, {
-                                    headers: {
-                                        "Accept-Language": i18next.language ? i18next.language : "uz"
-                                    }
-                                }).then((response) => {
-                                    let re = response.data.reverse();
-                                    setCars(re);
-                                }).catch((error) => {
-                                    if (error.response.statusText == "Unauthorized") {
-                                        window.location.pathname = "/";
-                                        localStorage.removeItem("token");
-                                    }
-                                });
-                            }}>
-                                <div className={`tariff-card ${categoryId === item.id && "tariff-active"} `}>
-                                    <img src={item.image} alt=""/>
-                                    <div className="info-category">
-                                        <div className="name">
-                                            {item.name === "Мини" && t("tariff1")}
-                                            {item.name === "Енгил" && t("tariff2")}
-                                            {item.name === "Ўрта" && t("tariff3")}
-                                            {item.name === "Оғир" && t("tariff4")}
-                                            {item.name === "Ўта оғир" && t("tariff5")}
-                                            {item.name === "Авто Ташувчи" && t("tariff6")}
-                                        </div>
-                                        <div className="info-weight">
-                                            {item.id !== 9 && <>
-                                                {item.min_weight} - {item.max_weight} tonna
-                                            </>}
+                                {categoryType.map((item, index) => {
+                                    return <div key={index} onClick={() => {
+                                        setCategoryId((item.id))
+                                        cargo.car_category = item.id
+                                        axios.get(`${value.url}api/car-category/${item.id}`, {
+                                            headers: {
+                                                "Accept-Language": i18next.language ? i18next.language : "uz"
+                                            }
+                                        }).then((response) => {
+                                            let re = response.data.reverse();
+                                            setCars(re);
+                                        }).catch((error) => {
+                                            if (error.response.statusText == "Unauthorized") {
+                                                window.location.pathname = "/";
+                                                localStorage.removeItem("token");
+                                            }
+                                        });
+                                    }}>
+                                        <div className={`tariff-card ${categoryId === item.id && "tariff-active"} `}>
+                                            <img src={item.image} alt=""/>
+                                            <div className="info-category">
+                                                <div className="name">
+                                                    {item.name === "Мини" && t("tariff1")}
+                                                    {item.name === "Енгил" && t("tariff2")}
+                                                    {item.name === "Ўрта" && t("tariff3")}
+                                                    {item.name === "Оғир" && t("tariff4")}
+                                                    {item.name === "Ўта оғир" && t("tariff5")}
+                                                    {item.name === "Авто Ташувчи" && t("tariff6")}
+                                                </div>
+                                                <div className="info-weight">
+                                                    {item.id !== 9 && <>
+                                                        {item.min_weight} - {item.max_weight} tonna
+                                                    </>}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                })}
                             </div>
-                        })}
-                    </div>
-                </>}
+                        </>}
 
-                {categoryId && <>
-                    <div className="title-forms">
-                        {t("trucks")}
-                    </div>
+                        {categoryId && <>
+                            <div className="title-forms">
+                                {t("trucks")}
+                            </div>
 
-                    <div className="cars-containers">
-                        {cars.map((item, index) => {
-                            return <div key={index} onClick={() => {
-                                cargo.car_body_type = item.id
-                                setCarImage(item.car_image)
-                                setCarId(item.id)
-                            }}>
-                                <div className={`cars-card ${item.id === carsId && "cars-active"} `}>
-                                    <div className="cars-info">
-                                        <div className="text">
-                                            <div className="name">
-                                                {t("infoTruck1")}
+                            <div className="cars-containers">
+                                {cars.map((item, index) => {
+                                    return <div key={index} onClick={() => {
+                                        cargo.car_body_type = item.id
+                                        setCarImage(item.car_image)
+                                        setCarId(item.id)
+                                    }}>
+                                        <div className={`cars-card ${item.id === carsId && "cars-active"} `}>
+                                            <div className="cars-info">
+                                                <div className="text">
+                                                    <div className="name">
+                                                        {t("infoTruck1")}
+                                                    </div>
+                                                    <div className="num">{item.widht}</div>
+                                                </div>
+
+                                                <div className="text">
+                                                    <div className="name">
+                                                        {t("infoTruck2")}
+                                                    </div>
+                                                    <div className="num">{item.breadth}</div>
+                                                </div>
+
+                                                <div className="text">
+                                                    <div className="name">
+                                                        {t("infoTruck3")}
+                                                    </div>
+                                                    <div className="num">{item.height}</div>
+                                                </div>
+
+                                                <div className="text">
+                                                    <div className="name">
+                                                        {t("infoTruck4")}
+                                                    </div>
+                                                    <div className="num">{item.cargo_weight / 1000}</div>
+                                                </div>
+
                                             </div>
-                                            <div className="num">{item.widht}</div>
-                                        </div>
 
-                                        <div className="text">
-                                            <div className="name">
-                                                {t("infoTruck2")}
+                                            <div className="car-image">
+                                                <img src={`https://api.buyukyol.uz/${item.car_image}`} alt=""/>
                                             </div>
-                                            <div className="num">{item.breadth}</div>
-                                        </div>
-
-                                        <div className="text">
-                                            <div className="name">
-                                                {t("infoTruck3")}
+                                            <div className="car-name">
+                                                {item.name}
                                             </div>
-                                            <div className="num">{item.height}</div>
                                         </div>
-
-                                        <div className="text">
-                                            <div className="name">
-                                                {t("infoTruck4")}
-                                            </div>
-                                            <div className="num">{item.cargo_weight / 1000}</div>
-                                        </div>
-
                                     </div>
-
-                                    <div className="car-image">
-                                        <img src={`https://api.buyukyol.uz/${item.car_image}`} alt=""/>
-                                    </div>
-                                    <div className="car-name">
-                                        {item.name}
-                                    </div>
-                                </div>
+                                })}
                             </div>
-                        })}
-                    </div>
-                </>}
+                        </>}
 
-                {carsId && <>
-                    <div className="title-forms">
-                        {t("plusInformation")}
-                    </div>
-
-                    <div className="form-informations">
-
-                        <div className="input-box">
-                            <div className="icon-input">
-                                <img src="./images/tracking.png" alt=""/>
-                            </div>
-                            <input onChange={getInputs} name="cargo" placeholder={t("info2")} type="text"/>
-                        </div>
-
-                        <div className="input-box">
-
-                            <div className="icon-input">
-                                <select onChange={getInputs} name="unit" id="unit">
-                                    <option value={t("infoWaits1")}>
-                                        {t("infoWaits1")}
-                                    </option>
-
-                                    <option value={t("infoWaits2")}>
-                                        {t("infoWaits2")}
-                                    </option>
-
-                                    <option value={t("infoWaits3")}>
-                                        {t("infoWaits3")}
-                                    </option>
-
-                                    <option value={t("infoWaits4")}>
-                                        {t("infoWaits4")}
-                                    </option>
-
-                                    <option value={t("infoWaits5")}>
-                                        {t("infoWaits5")}
-                                    </option>
-
-                                    <option value={t("infoWaits6")}>
-                                        {t("infoWaits6")}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <input onChange={getInputs} name="capacity" placeholder={t("infoTruck4")} type="text"/>
-                        </div>
-
-                        <div onClick={() => {
-                            setLocation1(true)
-                            setLocation2(false)
-                        }} className="input-box">
-                            <div className="icon-input">
-                                <img src="./images/location-pin.png" alt=""/>
-                            </div>
-                            <div className="loc1">
-                                {locationName1 ? locationName1 : t("loc1")}
-                            </div>
-                        </div>
-
-                        <div onClick={() => {
-                            setLocation2(true)
-                            setLocation1(false)
-                        }} className="input-box">
-                            <div className="icon-input">
-                                <img src="./images/location-pin.png" alt=""/>
-                            </div>
-                            <div className="loc1">
-                                {locationName2 ? locationName2 : t("loc3")}
-                            </div>
-                        </div>
-
-                        {cargo.type === "Abroad" && <div className="distanse">
-                            <div className="label-dostance">
-                                {t("info7")}
-                            </div>
-                            <div className="num-distance">
-                                {distance} km
-                            </div>
-                        </div>}
-
-                        {cargo.type === "Abroad" && <div className="input-box">
-
-                            <div className="icon-input">
-                                <select onChange={(e) => {
-                                    getInputs(e)
-                                    setCurrency(e.target.value)
-                                }} name="currency" id="currency">
-                                    <option value="UZS">
-                                        UZS
-                                    </option>
-
-                                    <option value="USD">
-                                        USD
-                                    </option>
-
-                                </select>
-                            </div>
-
-                            <input onChange={getInputs} name="price" placeholder={t("info8")} type="text"/>
-                        </div>}
-
-                        <div className="payment-type">
-                            <label htmlFor="type1" className="first-type">
-
-                                <div className="img">
-                                    <img src="./images/money-bag.png" alt=""/>
-                                </div>
-
-                                <div className="inputs">
-                                    <input onChange={getInputs} id="type1" type="radio" name="payment_type"
-                                           value={t("payment1")}/>
-                                </div>
-
-                                <div className="text">
-                                    <label htmlFor="type1">{t("payment1")}</label>
-                                </div>
-                            </label>
-                            <label htmlFor="type2" className="first-type">
-
-                                <div className="img">
-                                    <img src="./images/card-payment.png" alt=""/>
-                                </div>
-
-                                <div className="inputs">
-                                    <input onChange={getInputs} name="payment_type" id="type2" type="radio"
-                                           value={t("payment2")}/>
-                                </div>
-
-                                <div className="text">
-                                    <label htmlFor="type2">{t("payment2")}</label>
-                                </div>
-                            </label>
-                        </div>
-
-                        <div onClick={() => setPlusInfo(!plusInfo)} className="plus-info">
-                            <div></div>
-                            <div className="text">
+                        {carsId && <>
+                            <div className="title-forms">
                                 {t("plusInformation")}
                             </div>
-                            <img src={`./images/arrow${plusInfo ? "" : "2"}.png`} alt=""/>
-                        </div>
 
-                        <CSSTransition
-                            in={plusInfo}
-                            nodeRef={nodeRef}
-                            timeout={300}
-                            classNames="alert"
-                            unmountOnExit
-                        >
-                            <div ref={nodeRef} className="connent-info">
+                            <div className="form-informations">
 
                                 <div className="input-box">
-
                                     <div className="icon-input">
-                                        <img src="./images/add-package.png" alt=""/>
+                                        <img src="./images/tracking.png" alt=""/>
                                     </div>
-
-                                    <input className="input2" onChange={getInputs} name="number_cars"
-                                           placeholder={t("info3")} type="number"/>
+                                    <input onChange={getInputs} name="cargo" placeholder={t("info2")} type="text"/>
                                 </div>
 
-                                <label htmlFor="load_time">{t("info12")}</label>
-                                <div className="input-box">
-                                    <div className="icon-input">
-                                        <img src="./images/clock.png" alt=""/>
-                                    </div>
-                                    <input className="input2" onChange={getInputs} id="load_time" name="load_time"
-                                           placeholder={t("info2")}
-                                           type="datetime-local"/>
-                                </div>
-                                <label htmlFor="start_time">{t("info13")}</label>
-                                <div className="input-box">
-                                    <div className="icon-input">
-                                        <img src="./images/clock.png" alt=""/>
-                                    </div>
-                                    <input className="input2" onChange={getInputs} id="start_time" name="start_time"
-                                           placeholder={t("info2")}
-                                           type="datetime-local"/>
-                                </div>
-
-
                                 <div className="input-box">
 
                                     <div className="icon-input">
-                                        <img src="./images/money.png" alt=""/>
-                                    </div>
-
-                                    <input onChange={getInputs} name="wait_cost" placeholder={t("info11")}
-                                           type="text"/>
-
-                                    <div className="icon-input2">
-                                        {currency}/
-                                        <select onChange={getInputs} name="wait_type" id="unit">
-                                            <option value={t("waitCount1")}>
-                                                {t("waitCount1")}
+                                        <select onChange={getInputs} name="unit" id="unit">
+                                            <option value={t("infoWaits1")}>
+                                                {t("infoWaits1")}
                                             </option>
 
-                                            <option value={t("waitCount2")}>
-                                                {t("waitCount2")}
+                                            <option value={t("infoWaits2")}>
+                                                {t("infoWaits2")}
+                                            </option>
+
+                                            <option value={t("infoWaits3")}>
+                                                {t("infoWaits3")}
+                                            </option>
+
+                                            <option value={t("infoWaits4")}>
+                                                {t("infoWaits4")}
+                                            </option>
+
+                                            <option value={t("infoWaits5")}>
+                                                {t("infoWaits5")}
+                                            </option>
+
+                                            <option value={t("infoWaits6")}>
+                                                {t("infoWaits6")}
                                             </option>
                                         </select>
                                     </div>
+
+                                    <input onChange={getInputs} name="capacity" placeholder={t("infoTruck4")}
+                                           type="text"/>
                                 </div>
 
-                                <div className="input-box">
+                                <div onClick={() => {
+                                    setLocation1(true)
+                                    setLocation2(false)
+                                }} className="input-box">
+                                    <div className="icon-input">
+                                        <img src="./images/location-pin.png" alt=""/>
+                                    </div>
+                                    <div className="loc1">
+                                        {locationName1 ? locationName1 : t("loc1")}
+                                    </div>
+                                </div>
+
+                                <div onClick={() => {
+                                    setLocation2(true)
+                                    setLocation1(false)
+                                }} className="input-box">
+                                    <div className="icon-input">
+                                        <img src="./images/location-pin.png" alt=""/>
+                                    </div>
+                                    <div className="loc1">
+                                        {locationName2 ? locationName2 : t("loc3")}
+                                    </div>
+                                </div>
+
+                                {cargo.type === "Abroad" && distance && <div className="distanse">
+                                    <div className="label-dostance">
+                                        {t("info7")}
+                                    </div>
+                                    <div className="num-distance">
+                                        {distance} km
+                                    </div>
+                                </div>}
+
+                                {cargo.type === "Abroad" && <div className="input-box">
 
                                     <div className="icon-input">
-                                        <img src="./images/money.png" alt=""/>
+                                        <select onChange={(e) => {
+                                            getInputs(e)
+                                            setCurrency(e.target.value)
+                                        }} name="currency" id="currency">
+                                            <option value="UZS">
+                                                UZS
+                                            </option>
+
+                                            <option value="USD">
+                                                USD
+                                            </option>
+
+                                        </select>
                                     </div>
 
-                                    <input onChange={getInputs} name="avans" placeholder={t("info9")} type="text"/>
+                                    <input onChange={getInputs} name="price" placeholder={t("info8")} type="text"/>
+                                </div>}
 
-                                    <div className="icon-input2">
-                                        {currency}
-                                    </div>
+                                <div className="payment-type">
+                                    <label htmlFor="type1" className="first-type">
+
+                                        <div className="img">
+                                            <img src="./images/money-bag.png" alt=""/>
+                                        </div>
+
+                                        <div className="inputs">
+                                            <input onChange={getInputs} id="type1" type="radio" name="payment_type"
+                                                   value={t("payment1")}/>
+                                        </div>
+
+                                        <div className="text">
+                                            <label htmlFor="type1">{t("payment1")}</label>
+                                        </div>
+                                    </label>
+                                    <label htmlFor="type2" className="first-type">
+
+                                        <div className="img">
+                                            <img src="./images/card-payment.png" alt=""/>
+                                        </div>
+
+                                        <div className="inputs">
+                                            <input onChange={getInputs} name="payment_type" id="type2" type="radio"
+                                                   value={t("payment2")}/>
+                                        </div>
+
+                                        <div className="text">
+                                            <label htmlFor="type2">{t("payment2")}</label>
+                                        </div>
+                                    </label>
                                 </div>
+
+                                <div onClick={() => setPlusInfo(!plusInfo)} className="plus-info">
+                                    <div></div>
+                                    <div className="text">
+                                        {t("plusInformation")}
+                                    </div>
+                                    <img src={`./images/arrow${plusInfo ? "" : "2"}.png`} alt=""/>
+                                </div>
+
+                                <CSSTransition
+                                    in={plusInfo}
+                                    nodeRef={nodeRef}
+                                    timeout={300}
+                                    classNames="alert"
+                                    unmountOnExit
+                                >
+                                    <div ref={nodeRef} className="connent-info">
+
+                                        <div className="input-box">
+
+                                            <div className="icon-input">
+                                                <img src="./images/add-package.png" alt=""/>
+                                            </div>
+
+                                            <input className="input2" onChange={getInputs} name="number_cars"
+                                                   placeholder={t("info3")} type="number"/>
+                                        </div>
+
+                                        <label htmlFor="load_time">{t("info12")}</label>
+                                        <div className="input-box">
+                                            <div className="icon-input">
+                                                <img src="./images/clock.png" alt=""/>
+                                            </div>
+                                            <input className="input2" onChange={getInputs} id="load_time"
+                                                   name="load_time"
+                                                   placeholder={t("info2")}
+                                                   type="datetime-local"/>
+                                        </div>
+                                        <label htmlFor="start_time">{t("info13")}</label>
+                                        <div className="input-box">
+                                            <div className="icon-input">
+                                                <img src="./images/clock.png" alt=""/>
+                                            </div>
+                                            <input className="input2" onChange={getInputs} id="start_time"
+                                                   name="start_time"
+                                                   placeholder={t("info2")}
+                                                   type="datetime-local"/>
+                                        </div>
+
+
+                                        <div className="input-box">
+
+                                            <div className="icon-input">
+                                                <img src="./images/money.png" alt=""/>
+                                            </div>
+
+                                            <input onChange={getInputs} name="wait_cost" placeholder={t("info11")}
+                                                   type="text"/>
+
+                                            <div className="icon-input2">
+                                                {currency}/
+                                                <select onChange={getInputs} name="wait_type" id="unit">
+                                                    <option value={t("waitCount1")}>
+                                                        {t("waitCount1")}
+                                                    </option>
+
+                                                    <option value={t("waitCount2")}>
+                                                        {t("waitCount2")}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="input-box">
+
+                                            <div className="icon-input">
+                                                <img src="./images/money.png" alt=""/>
+                                            </div>
+
+                                            <input onChange={getInputs} name="avans" placeholder={t("info9")}
+                                                   type="text"/>
+
+                                            <div className="icon-input2">
+                                                {currency}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </CSSTransition>
+
 
                             </div>
 
-                        </CSSTransition>
+                            <div onClick={() => {
 
+                                if (cargo.type !== "Abroad" && cargo.cargo && cargo.capacity && cargo.address_from && cargo.address_to && cargo.payment_type){
+                                    SendOrder("new_order")
+                                    setInfoCargo(true)
+                                } else if (cargo.type === "Abroad" && cargo.cargo && cargo.capacity && cargo.address_from && cargo.address_to && cargo.payment_type && cargo.price){
+                                    setInfoCargo(true)
+                                } else {
+                                    let id = Date.now()
+                                    let newAlerts = {
+                                        id, text: t("alert3"), color: "#9f9c1e", img: "./images/caution3.png"
+                                    }
+                                    setAlerts(prevState => [...prevState, newAlerts])
+                                    alertRemove(3000, id)
+                                }
 
+                            }} className="button-next">
+                                {t("button1")}
+                                <img src="./images/arrowr.png" alt=""/>
+                            </div>
+                        </>}
                     </div>
 
-                    <div onClick={() => {
+                </CSSTransition>
 
-                        if (cargo.type !== "Abroad") {
-                            SendOrder("new_order")
-                            setInfoCargo(true)
-                        } else setInfoCargo(true)
-
-                    }} className="button-next">
-                        {t("button1")}
-                    </div>
-                </>}
 
             </div>
 
