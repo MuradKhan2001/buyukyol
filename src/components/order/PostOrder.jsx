@@ -400,7 +400,7 @@ const PostOrder = () => {
                 onChange={(e) => setValue(e.target.value)}
                 disabled={!ready}
                 className="combobox-input"
-                placeholder="Search an address"
+                placeholder={t("input1")}
             />
             <ComboboxPopover>
                 <ComboboxList>
@@ -414,23 +414,44 @@ const PostOrder = () => {
     const getAddressLocation = () => {
 
         if (location1) {
-            cargo.address_from = locationName
-            setLocationName1(locationName)
-            setLocation1(false)
-            setSelected(null)
+            if (locationName && selected) {
 
-            cargo.latitude_from = Number(selected.lat.toString().slice(0, 9))
-            cargo.longitude_from = Number(selected.lng.toString().slice(0, 9))
+                cargo.address_from = locationName
+                setLocationName1(locationName)
+                setLocation1(false)
+                setSelected(null)
+
+                cargo.latitude_from = Number(selected.lat.toString().slice(0, 9))
+                cargo.longitude_from = Number(selected.lng.toString().slice(0, 9))
+
+            } else {
+                let id = Date.now()
+                let newAlerts = {
+                    id, text: t("alert7"), color: "#9f9c1e", img: "./images/caution3.png"
+                }
+                setAlerts(prevState => [...prevState, newAlerts])
+                alertRemove(3000, id)
+            }
+
         }
 
         if (location2) {
-            cargo.address_to = locationName
-            setLocationName2(locationName)
-            setLocation2(false)
-            setSelected(null)
+            if (locationName && selected) {
+                cargo.address_to = locationName
+                setLocationName2(locationName)
+                setLocation2(false)
+                setSelected(null)
 
-            cargo.latitude_to = Number(selected.lat.toString().slice(0, 9))
-            cargo.longitude_to = Number(selected.lng.toString().slice(0, 9))
+                cargo.latitude_to = Number(selected.lat.toString().slice(0, 9))
+                cargo.longitude_to = Number(selected.lng.toString().slice(0, 9))
+            } else {
+                let id = Date.now()
+                let newAlerts = {
+                    id, text: t("alert7"), color: "#9f9c1e", img: "./images/caution3.png"
+                }
+                setAlerts(prevState => [...prevState, newAlerts])
+                alertRemove(3000, id)
+            }
         }
 
         if (cargo.address_from && cargo.address_to && direction === "Abroad") {
@@ -812,7 +833,7 @@ const PostOrder = () => {
                             </div>
                             <div className="text-order">
                                 {
-                                    cargo.avans ?  <> {cargo.avans} {cargo.currency} </> :"--"
+                                    cargo.avans ? <> {cargo.avans} {cargo.currency} </> : "--"
                                 }
                             </div>
                         </div>
@@ -822,7 +843,7 @@ const PostOrder = () => {
                                 {t("info11")}
                             </div>
                             <div className="text-order">
-                                {cargo.wait_cost ?  <> {cargo.wait_cost} {cargo.currency}</> : "--"}
+                                {cargo.wait_cost ? <> {cargo.wait_cost} {cargo.currency}</> : "--"}
                             </div>
                         </div>
 
@@ -879,17 +900,27 @@ const PostOrder = () => {
 
                         <div className="header">
                             <div className="text">
-                                <img src="./images/Cardboard_Box2.png" alt=""/>
-                                {location1 ? t("loc2") : t("loc4")}
+
+                                {location1 ? <>
+                                    <img src="./images/placeholder.png" alt=""/>
+                                    {t("loc2")}
+                                </> : <>
+                                    <img src="./images/placeholder2.png" alt=""/>
+                                    {t("loc4")}
+                                </>}
+
                             </div>
+
                             <div className="forms">
 
                                 <div className="places-container">
                                     <PlacesAutocomplete setSelected={setSelected}/>
+                                    <img src="./images/magnifier.png" alt=""/>
                                 </div>
 
                                 <div onClick={GetMyLocation} className="my-location">
                                     <img src="./images/myLocation.png" alt=""/>
+                                    Joriy joylashuv
                                 </div>
 
                                 <div onClick={getAddressLocation} className="get-location">
@@ -1029,6 +1060,11 @@ const PostOrder = () => {
                         }
                     }}
                          className={`direction-card ${direction === "Abroad" ? "active-direction" : ""}`}>
+                        {
+                            direction === "Abroad" && <div className="tick-icon">
+                                <img src="./images/tick.png" alt=""/>
+                            </div>
+                        }
                         <img src="./images/xalqaro.png" alt=""/>
                         <div>{t("direction1")}</div>
                     </div>
@@ -1042,6 +1078,11 @@ const PostOrder = () => {
                             setFormBox(false)
                         }
                     }} className={`direction-card ${direction === "OUT" ? "active-direction" : ""}`}>
+                        {
+                            direction === "OUT" && <div className="tick-icon">
+                                <img src="./images/tick.png" alt=""/>
+                            </div>
+                        }
                         <img src="./images/shahararo.png" alt=""/>
                         <div>{t("direction2")}</div>
                     </div>
@@ -1055,6 +1096,11 @@ const PostOrder = () => {
                             setFormBox(false)
                         }
                     }} className={`direction-card ${direction === "IN" ? "active-direction" : ""}`}>
+                        {
+                            direction === "IN" && <div className="tick-icon">
+                                <img src="./images/tick.png" alt=""/>
+                            </div>
+                        }
                         <img src="./images/shaharichi.png" alt=""/>
                         <div>{t("direction3")}</div>
                     </div>
@@ -1094,7 +1140,12 @@ const PostOrder = () => {
                                             }
                                         });
                                     }}>
+
                                         <div className={`tariff-card ${categoryId === item.id && "tariff-active"} `}>
+                                            {categoryId === item.id && <div className="tick-icon">
+                                                <img src="./images/tick.png" alt=""/>
+                                            </div>}
+
                                             <img src={item.image} alt=""/>
                                             <div className="info-category">
                                                 <div className="name">
@@ -1403,10 +1454,10 @@ const PostOrder = () => {
 
                             <div onClick={() => {
 
-                                if (cargo.type !== "Abroad" && cargo.cargo && cargo.capacity && cargo.address_from && cargo.address_to && cargo.payment_type){
+                                if (cargo.type !== "Abroad" && cargo.cargo && cargo.capacity && cargo.address_from && cargo.address_to && cargo.payment_type) {
                                     SendOrder("new_order")
                                     setInfoCargo(true)
-                                } else if (cargo.type === "Abroad" && cargo.cargo && cargo.capacity && cargo.address_from && cargo.address_to && cargo.payment_type && cargo.price){
+                                } else if (cargo.type === "Abroad" && cargo.cargo && cargo.capacity && cargo.address_from && cargo.address_to && cargo.payment_type && cargo.price) {
                                     setInfoCargo(true)
                                 } else {
                                     let id = Date.now()

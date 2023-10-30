@@ -49,7 +49,8 @@ $colorText: #333232;
   background-image: url("./bg-images/bg4.jpg");
   background-size: 100%;
   position: relative;
-  color: #333232!important;
+  color: #333232 !important;
+
 
   .alerts-box {
     width: 360px;
@@ -59,6 +60,7 @@ $colorText: #333232;
     top: 30px;
     right: 50px;
     z-index: 120;
+    transition: 0.4s;
 
     .alert-style {
       margin-top: 5px;
@@ -73,6 +75,7 @@ $colorText: #333232;
       justify-content: space-between;
       padding-left: 20px;
       padding-right: 15px;
+      transition: 0.4s;
 
       .img-box {
         width: 15%;
@@ -506,9 +509,8 @@ $colorText: #333232;
     width: 100%;
     height: calc(100vh - 100px);
     display: flex;
-
     .left-side {
-      width: 50%;
+      width: 58%;
       height: 100%;
       padding: 10px 10px 20px 40px;
 
@@ -516,6 +518,7 @@ $colorText: #333232;
         width: 100%;
         height: 100%;
         position: relative;
+        border-radius: 20px;
 
         .orders-count {
           position: absolute;
@@ -716,8 +719,13 @@ $colorText: #333232;
       }
 
       .get-location-container {
+        padding: 15px;
         width: 100%;
         height: 100%;
+        background-color: rgba(255, 255, 255, 0.3);
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px);
+        border-radius: 10px;
 
         .header {
           width: 100%;
@@ -729,9 +737,9 @@ $colorText: #333232;
             justify-content: center;
             align-items: center;
             width: 100%;
-            background-color: rgb(255, 255, 255, 0.2);
+            background-color: rgb(255, 255, 255, 0.7);
             text-align: center;
-            color: white;
+            color: $colorText;
             border-radius: 5px;
             font-weight: bold;
 
@@ -748,36 +756,62 @@ $colorText: #333232;
             align-items: center;
 
             .places-container {
+              position: relative;
+              width: 200px;
 
+              box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+              input {
+                padding-right: 40px;
+                width: 100%;
+                height: 36px;
+                padding-left: 10px;
+                border-radius: 5px;
+                border: none;
+                font-size: 14px;
+
+                &:focus {
+                  outline: none;
+                }
+              }
+
+
+              img {
+                top: 2px;
+                right: 5px;
+                width: 32px;
+                position: absolute;
+              }
             }
 
             .my-location {
-              width: 50px;
-              height: 50px;
-              border-radius: 50%;
+              padding: 0px 10px 0px 10px;
+              height: 36px;
+              border-radius: 5px;
               background-color: white;
               display: flex;
               align-items: center;
               justify-content: center;
               transition: 0.3s;
               cursor: pointer;
-
+              font-size: 12px;
+              font-weight: bold;
               img {
-                width: 90%;
+                width: 35px;
               }
-
               &:hover {
                 box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
               }
             }
 
             .get-location {
-              padding: 10px 20px 10px 20px;
+              padding: 0px 20px 0px 20px;
+              height: 36px;
               background-color: white;
               display: flex;
               justify-content: center;
               align-items: center;
-              border-radius: 10px;
+              border-radius: 5px;
               cursor: pointer;
               font-weight: bold;
               font-size: 14px;
@@ -804,8 +838,8 @@ $colorText: #333232;
     }
 
     .right-side {
-      padding: 10px 40px 20px 20px;
-      width: 50%;
+      padding: 10px 15px 20px 15px;
+      width: 42%;
       height: 100%;
       overflow-y: auto;
       padding-bottom: 50px;
@@ -846,8 +880,9 @@ $colorText: #333232;
         color: white;
 
         .direction-card {
-          width: 160px;
-          height: 150px;
+          position: relative;
+          width: 155px;
+          height: 140px;
           background-color: rgb(0, 0, 0, 0.4);
           display: flex;
           justify-content: center;
@@ -860,23 +895,29 @@ $colorText: #333232;
           border-radius: 8px;
           border: 2px solid #646161;
           transition: 0.3s;
-
           img {
             margin: 0 auto;
-            width: 90%;
+            width: 73%;
             padding-bottom: 6px;
           }
-
           &:hover {
             box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
+          }
+
+          .tick-icon{
+            position: absolute;
+            top: 1px;
+            right: 4px;
+            img{
+              width: 32px;
+            }
           }
 
         }
 
         .active-direction {
-          transform: scale(1.08);
+          transform: scale(1.05);
           box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
-          background-color: rgb(0, 0, 0, 0.8);
         }
 
       }
@@ -918,6 +959,16 @@ $colorText: #333232;
           border: 2px solid white;
           cursor: pointer;
           transition: 0.3s;
+          position: relative;
+
+          .tick-icon{
+            position: absolute;
+            top: 12px;
+            right: 5px;
+            img{
+              width: 26px;
+            }
+          }
 
           img {
             margin: -12px auto 10px auto;
@@ -942,9 +993,8 @@ $colorText: #333232;
         }
 
         .tariff-active {
-          border: 2px solid #655d5d;
           transform: scale(1.06);
-          background-color: rgb(255, 255, 255, 0.8);
+          background-color: rgb(255, 255, 255, 0.6);
         }
       }
 
@@ -1052,14 +1102,17 @@ $colorText: #333232;
           opacity: 0;
           transform: scale(0.9);
         }
+
         .alert-enter-active {
           opacity: 1;
           transform: translateX(0);
           transition: opacity 300ms, transform 300ms;
         }
+
         .alert-exit {
           opacity: 1;
         }
+
         .alert-exit-active {
           opacity: 0;
           transform: scale(0.9);
@@ -1338,10 +1391,12 @@ $colorText: #333232;
         align-items: center;
         font-weight: bold;
         transition: 0.3s;
-        img{
+
+        img {
           width: 30px;
           margin-left: 5px;
         }
+
         &:hover {
           box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
         }
