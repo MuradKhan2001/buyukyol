@@ -1004,7 +1004,7 @@ const MyProfile = () => {
                         <div className="orders-box">
                             {
                                 ordersList.map((item, index) => {
-                                    if (item.status === "Rejected") return <div key={index} className="order">
+                                    if (item.status === "Delivered") return <div key={index} className="order">
                                         <div className="left-side-order">
                                             <div className="title-order4">
                                                 <div className="d-flex">

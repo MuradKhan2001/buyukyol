@@ -103,6 +103,13 @@ const PostOrder = () => {
     const [cargoInfo, setCargoInfo] = useState({})
 
 
+    const [alertBox, setAlertBox] = useState(false)
+    const [DriverInfo, setDriverInfo] = useState(false)
+    const [DriverAlertText, setDriverAlertText] = useState("")
+    const [DriversList, setDriversList] = useState([])
+
+    const [alerts, setAlerts] = useState([])
+
     const getInputs = (e) => {
 
         if (e.target.name === "capacity" || e.target.name === "price") {
@@ -129,31 +136,84 @@ const PostOrder = () => {
         });
     }
 
+    const alertRemove = (time, id) => {
+
+        setTimeout(() => {
+            setAlerts(prevAlerts => prevAlerts.filter(item => item.id !== id))
+        }, time);
+
+    }
+
     useEffect(() => {
 
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
-            console.log(data);
+            // console.log(data.message);
+
+            if (!('status' in data.message)) {
+                setDriversList(data.message)
+            }
 
             if (data.message.status) {
 
                 if (data.message.status === "canceled") {
-                    setAlertCancel(true);
+
+                    let id = Date.now()
+                    console.log("Before add", alerts)
+
+                    let newAlerts = {
+                        id,
+                        text: t("alert2"), color: "#932626", img: "./images/caution.png"
+                    }
+
+                    console.log("After add", newAlerts)
+                    setAlerts(prevState => [...prevState, newAlerts])
+
+                    alertRemove(3000, id)
+
                     setInfoCargo(false)
-                    setTimeout(() => {
-                        setAlertCancel(false);
-                    }, 3000);
                 }
 
                 if (data.message.status === "confirmed" || data.message.status === "Added") {
-                    setAlertSuccess(true);
+                    let id = Date.now()
+                    let newAlerts = {
+                        id,
+                        text: t("alert1"), color: "green", img: "./images/caution.png"
+                    }
+                    setAlerts(prevState => [...prevState, newAlerts])
                     setInfoCargo(false)
-                    setTimeout(() => {
-                        setAlertSuccess(false);
-                    }, 3000);
+
+                    alertRemove(60000, id)
+
                     orderCount();
 
+                    // let cargoBox = {
+                    //     command: "new_order",
+                    //     price: "",
+                    //     client: "",
+                    //     car_category: "",
+                    //     car_body_type: "",
+                    //     type: "",
+                    //     address_from: "",
+                    //     latitude_from: "",
+                    //     longitude_from: "",
+                    //     address_to: "",
+                    //     latitude_to: "",
+                    //     longitude_to: "",
+                    //     cargo: "",
+                    //     capacity: "",
+                    //     unit: t("infoWaits1"),
+                    //     currency: "UZS",
+                    //     avans: null,
+                    //     payment_type: "",
+                    //     wait_cost: null,
+                    //     wait_type: t("waitCount1"),
+                    //     load_time: null,
+                    //     start_time: null,
+                    //     number_cars: 1
+                    // }
+                    // setCargo(cargoBox)
                 }
 
                 if (data.message.status === "distance") {
@@ -164,8 +224,52 @@ const PostOrder = () => {
                     setCargoInfo(data.message)
                 }
 
+                if (data.message.status === "Accepted") {
+                    alerts.push({
+                        id: Date.now(),
+                        text: "Haydovchi qabul qildi", color: "#218823", img: "./images/check-mark.png"
+                    })
 
-            } else console.log(data.message)
+                    let newAlert = [...alerts]
+                    setAlerts(newAlert)
+
+                    alertRemove(60000, newAlert.id)
+
+                    let driver = data.message
+
+                    let newDriverList = DriversList.concat(driver)
+
+                    setDriversList(newDriverList)
+                }
+
+                if (data.message.status === "delivering") {
+                    alerts.push({
+                        id: Date.now(),
+                        text: "Haydovchi yukladi", color: "#218823", img: "./images/check-mark.png"
+                    })
+
+                    let newAlert = [...alerts]
+                    setAlerts(newAlert)
+                    alertRemove(60000, newAlert.id)
+                }
+
+                if (data.message.status === "deliveret") {
+                    alerts.push({
+                        id: Date.now(),
+                        text: "Haydovchi yakunladi", color: "#218823", img: "./images/check-mark.png"
+                    })
+
+                    let newAlert = [...alerts]
+                    setAlerts(newAlert)
+                    alertRemove(60000, newAlert.id)
+
+                    let newDriverList = DriversList.filter((item) => data.message.id !== item.id)
+
+                    setDriversList(newDriverList)
+
+                }
+
+            }
         };
 
         axios.get(`${value.url}api/car-category/`, {
@@ -190,6 +294,7 @@ const PostOrder = () => {
 
             setCenter(locMy)
         });
+
     }, []);
 
 
@@ -354,14 +459,12 @@ const PostOrder = () => {
             console.log(cargo)
         } else if (command === "cancel_order") {
             let order = {
-                command: command,
-                id: cargoInfo.id
+                command: command, id: cargoInfo.id
             };
             websocket.send(JSON.stringify(order));
         } else if (command === "confirm_order") {
             let order = {
-                command: command,
-                id: cargoInfo.id
+                command: command, id: cargoInfo.id
             };
             websocket.send(JSON.stringify(order));
         }
@@ -372,43 +475,156 @@ const PostOrder = () => {
         <Navbar/>
         <div className="order-contents">
 
+            {alerts.length > 0 && <div className="alerts-box">
+                {alerts.map((item, index) => {
+                    return <div key={index} style={{color: item.color}} className="alert-style">
+                        <div className="img-box">
+                            <img src={item.img} alt=""/>
+                        </div>
+                        <div className="text-box">
+                            {item.text}
+                        </div>
+                        <div onClick={() => alertRemove(0, item.id)} className="close">
+                            <img src="./images/close-driver-list.png" alt=""/>
+                        </div>
+                    </div>
+                })}
+            </div>}
+
+
             <CSSTransition
-                in={alertCancel}
+                in={alertBox}
                 nodeRef={nodeRef}
                 timeout={300}
                 classNames="alert"
                 unmountOnExit
             >
-                <div ref={nodeRef} className="alert-cancel">
-                    <div className="img-box">
-                        <img src="./images/caution.png" alt=""/>
-                    </div>
-                    <div className="text-box">
-                        {t("alert2")}
-                    </div>
-                    <div onClick={() => setAlertCancel(false)} className="close">
-                        <img src="./images/close-driver-list.png" alt=""/>
-                    </div>
+                <div className="alerts-box">
+                    <CSSTransition
+                        in={alertForm}
+                        nodeRef={nodeRef}
+                        timeout={300}
+                        classNames="alert"
+                        unmountOnExit
+                    >
+                        <div ref={nodeRef} className="alert-cancel">
+                            <div className="img-box">
+                                <img src="./images/caution.png" alt=""/>
+                            </div>
+                            <div className="text-box">
+                                {t("reasonAlert")}
+                            </div>
+                            <div onClick={() => setAlertForm(false)} className="close">
+                                <img src="./images/close-driver-list.png" alt=""/>
+                            </div>
+                        </div>
+
+                    </CSSTransition>
+
+                    <CSSTransition
+                        in={alertCancel}
+                        nodeRef={nodeRef}
+                        timeout={300}
+                        classNames="alert"
+                        unmountOnExit
+                    >
+                        <div ref={nodeRef} className="alert-cancel">
+                            <div className="img-box">
+                                <img src="./images/caution.png" alt=""/>
+                            </div>
+                            <div className="text-box">
+                                {t("alert2")}
+                            </div>
+                            <div onClick={() => setAlertCancel(false)} className="close">
+                                <img src="./images/close-driver-list.png" alt=""/>
+                            </div>
+                        </div>
+
+                    </CSSTransition>
+
+                    <CSSTransition
+                        in={alertSuccess}
+                        nodeRef={nodeRef}
+                        timeout={300}
+                        classNames="alert"
+                        unmountOnExit
+                    >
+                        <div ref={nodeRef} className="alert-success">
+                            <div className="img-box">
+                                <img src="./images/check-mark.png" alt=""/>
+                            </div>
+                            <div className="text-box">
+                                {t("alert1")}
+                            </div>
+                            <div onClick={() => setAlertSuccess(false)} className="close">
+                                <img src="./images/close-driver-list.png" alt=""/>
+                            </div>
+                        </div>
+
+                    </CSSTransition>
+
+                    <CSSTransition
+                        in={DriverInfo}
+                        nodeRef={nodeRef}
+                        timeout={300}
+                        classNames="alert"
+                        unmountOnExit
+                    >
+                        <div ref={nodeRef} className="alert-success">
+                            <div className="img-box">
+                                <img src="./images/check-mark.png" alt=""/>
+                            </div>
+
+                            <div className="text-box">
+                                {DriverAlertText}
+                            </div>
+
+                            <div onClick={() => setAlertSuccess(false)} className="close">
+                                <img src="./images/close-driver-list.png" alt=""/>
+                            </div>
+                        </div>
+
+                    </CSSTransition>
                 </div>
 
             </CSSTransition>
 
+
             <CSSTransition
-                in={alertSuccess}
+                in={cancelOrder2}
                 nodeRef={nodeRef}
                 timeout={300}
                 classNames="alert"
                 unmountOnExit
             >
-                <div ref={nodeRef} className="alert-success">
-                    <div className="img-box">
-                        <img src="./images/check-mark.png" alt=""/>
-                    </div>
-                    <div className="text-box">
-                        {t("alert1")}
-                    </div>
-                    <div onClick={() => setAlertSuccess(false)} className="close">
-                        <img src="./images/close-driver-list.png" alt=""/>
+                <div className="reason-list">
+                    <div ref={nodeRef} className="orders-reason-box">
+                        <div className="title">
+                            <div></div>
+                            <div>{t("reasonText1")}</div>
+                            <div className="cancel">
+                                <img onClick={() => {
+                                    setCancelOrder2(false);
+                                }} src="./images/close-driver-list.png" alt=""/>
+                            </div>
+                        </div>
+                        <div className="cancel-order-info">
+                            <div>
+                                <input onChange={() => setMany(true)} id="reasonYes" type="radio" name="reasons"/>
+                                <label htmlFor="reasonYes">{t("yes")}</label>
+                            </div>
+
+                            <div>
+                                <input checked={true} onChange={() => setMany(false)} id="reasonNo" type="radio"
+                                       name="reasons"/>
+                                <label htmlFor="reasonNo">{t("no")}</label>
+                            </div>
+
+                            <div onClick={() => {
+                                setCancelOrder2(false);
+                                setCancelOrder(true);
+                            }} className="cancel-btn">{t("button2")}</div>
+                        </div>
                     </div>
                 </div>
 
@@ -494,67 +710,6 @@ const PostOrder = () => {
             </CSSTransition>
 
             <CSSTransition
-                in={cancelOrder2}
-                nodeRef={nodeRef}
-                timeout={300}
-                classNames="alert"
-                unmountOnExit
-            >
-                <div className="reason-list">
-                    <div ref={nodeRef} className="orders-reason-box">
-                        <div className="title">
-                            <div></div>
-                            <div>{t("reasonText1")}</div>
-                            <div className="cancel">
-                                <img onClick={() => {
-                                    setCancelOrder2(false);
-                                }} src="./images/close-driver-list.png" alt=""/>
-                            </div>
-                        </div>
-                        <div className="cancel-order-info">
-                            <div>
-                                <input onChange={() => setMany(true)} id="reasonYes" type="radio" name="reasons"/>
-                                <label htmlFor="reasonYes">{t("yes")}</label>
-                            </div>
-
-                            <div>
-                                <input checked={true} onChange={() => setMany(false)} id="reasonNo" type="radio"
-                                       name="reasons"/>
-                                <label htmlFor="reasonNo">{t("no")}</label>
-                            </div>
-
-                            <div onClick={() => {
-                                setCancelOrder2(false);
-                                setCancelOrder(true);
-                            }} className="cancel-btn">{t("button2")}</div>
-                        </div>
-                    </div>
-                </div>
-
-            </CSSTransition>
-
-            <CSSTransition
-                in={alertForm}
-                nodeRef={nodeRef}
-                timeout={300}
-                classNames="alert"
-                unmountOnExit
-            >
-                <div ref={nodeRef} className="alert-cancel">
-                    <div className="img-box">
-                        <img src="./images/caution.png" alt=""/>
-                    </div>
-                    <div className="text-box">
-                        {t("reasonAlert")}
-                    </div>
-                    <div onClick={() => setAlertForm(false)} className="close">
-                        <img src="./images/close-driver-list.png" alt=""/>
-                    </div>
-                </div>
-
-            </CSSTransition>
-
-            <CSSTransition
                 in={driverList}
                 nodeRef={nodeRef}
                 timeout={300}
@@ -570,30 +725,40 @@ const PostOrder = () => {
                             <div><img onClick={() => setDriverList(false)} src="./images/close-driver-list.png" alt=""/>
                             </div>
                         </div>
-                        <div className="driver">
-                            <div className="driver-image">
-                                <img src="./images/person.jpg" alt=""/>
-                            </div>
+                        {DriversList.map((item, index) => {
+                            return <div key={index} className="driver">
+                                <div className="driver-image">
+                                    <img src={`https://api.buyukyol.uz/${item.driver.image}`} alt=""/>
+                                </div>
 
-                            <div className="text">
-                                <div className="names">Stiven Jack</div>
-                                <div className="info-car">
-                                    <div>
-                                        MAN
+                                <div className="text">
+                                    <div className="names">
+                                        {item.driver.first_name}
+                                        {item.driver.last_name}
                                     </div>
-                                    <div>
-                                        L288SA
+                                    <div className="info-car">
+                                        <div>
+                                            {item.driver.documentation ? item.driver.documentation.name : ""}
+                                        </div>
+                                        <div>
+                                            {item.driver.documentation ? item.driver.documentation.car_number : ""}
+                                        </div>
                                     </div>
                                 </div>
+
+
+                                <a href={`tel:${item.driver.phone}`} className="name">
+                                    <img src="./images/phone.png" alt=""/>
+                                </a>
+
+
+                                <div className="cancel-btn">
+                                    {t("button3")}
+                                </div>
+
                             </div>
+                        })}
 
-                            <img src="./images/phone.png" alt=""/>
-
-                            <div className="cancel-btn">
-                                {t("button3")}
-                            </div>
-
-                        </div>
                     </div>
                 </div>
 
@@ -828,47 +993,45 @@ const PostOrder = () => {
                         options={options}
                         mapContainerClassName="map-container">
 
-                        {
-                            CountOrders > 0 && <div className="orders-count">
-                                <div className="loader-box">
-                                    <div className="loader"></div>
-                                </div>
-                                <div className="text1">
-                                    {t("bagsCount")}:
-                                    <div className="num">
-                                        <img src="./images/Cardboard_Box2.png" alt=""/>
-                                        {CountOrders}
-                                    </div>
-                                </div>
-                                <div className="text2">
-                                    {t("wait")}
+                        {CountOrders > 0 && <div className="orders-count">
+                            <div className="loader-box">
+                                <div className="loader"></div>
+                            </div>
+                            <div className="text1">
+                                {t("bagsCount")}:
+                                <div className="num">
+                                    <img src="./images/Cardboard_Box2.png" alt=""/>
+                                    {CountOrders}
                                 </div>
                             </div>
-                        }
+                            <div className="text2">
+                                {t("wait")}
+                            </div>
+                        </div>}
 
-                        <div className="drivers-count">
+                        {DriversList[0] && <div className="drivers-count">
+
                             <div className="driver">
                                 <div className="top-side">
                                     <div className="driver-image">
-                                        <img src="./images/person.jpg" alt=""/>
+                                        <img src={`https://api.buyukyol.uz/${DriversList[0].driver.image}`} alt=""/>
                                     </div>
+
                                     <div className="name">
-                                        Jack Stiven
+                                        {DriversList[0].driver.frist_name}
+                                        {DriversList[0].driver.last_name}
                                     </div>
                                 </div>
 
                                 <div className="body-side">
                                     <div className="text">
-                                        MAN
+                                        {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.name : ""}
                                     </div>
                                     <div className="text">
-                                        L288SA
+                                        {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.car_number : ""}
                                     </div>
                                 </div>
 
-                                <div className="label-text">
-                                    Qabul qilingan...
-                                </div>
                                 <div onClick={() => setCancelOrder(true)} className="cancel-btn">
                                     {t("button3")}
                                 </div>
@@ -877,7 +1040,8 @@ const PostOrder = () => {
                             <div onClick={() => setDriverList(true)} className="all-drivers">
                                 <img src="./images/more.png" alt=""/>
                             </div>
-                        </div>
+
+                        </div>}
 
                         {/*{locationsList.length >= 0 ?*/}
 
@@ -1216,7 +1380,8 @@ const PostOrder = () => {
                                         <img src="./images/add-package.png" alt=""/>
                                     </div>
 
-                                    <input className="input2" onChange={getInputs} name="number_cars" placeholder={t("info3")} type="number"/>
+                                    <input className="input2" onChange={getInputs} name="number_cars"
+                                           placeholder={t("info3")} type="number"/>
                                 </div>
 
                                 <label htmlFor="load_time">{t("info12")}</label>
