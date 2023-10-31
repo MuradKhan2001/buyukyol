@@ -6,6 +6,7 @@ import axios, {get} from "axios";
 import i18next from "i18next";
 import {MyContext} from "../app/App";
 import {GoogleMap, InfoWindow, Marker, useLoadScript} from "@react-google-maps/api";
+import ReactStars from 'react-stars'
 
 import usePlacesAutocomplete, {
     getGeocode, getLatLng,
@@ -103,7 +104,8 @@ const PostOrder = () => {
     const [cargoInfo, setCargoInfo] = useState({})
 
     const [DriversList, setDriversList] = useState([])
-
+    const [DriversListRaid, setDriversListRaid] = useState([])
+    const [raidCount, setRaidCount] = useState(0)
     const [alerts, setAlerts] = useState([])
 
     const getInputs = (e) => {
@@ -140,6 +142,18 @@ const PostOrder = () => {
 
     }
 
+    const updateDriversList = (id) =>{
+        const filter_driver = (prevState) =>{
+
+            let driver = prevState.filter(item => item.id === id)
+            console.log(driver)
+            setDriversListRaid(driver)
+            return prevState.filter(item => item.id !== id)
+        }
+
+        setDriversList(filter_driver)
+    }
+
     useEffect(() => {
 
         websocket.onclose = () => {
@@ -149,16 +163,19 @@ const PostOrder = () => {
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
-            // console.log(data.message);
+            if ( !('status' in data.message) ) {
 
-            if (!('status' in data.message)) {
-                setDriversList(data.message)
+                let driver = data.message.filter((item) => (item.status !== "Delivered"))
+                setDriversList(driver)
+
+                let raidDriver = data.message.filter((item) => (item.status === "Delivered"))
+                setDriversListRaid(raidDriver)
+
             }
 
             if (data.message.status) {
 
                 if (data.message.status === "canceled") {
-
                     let id = Date.now()
                     let newAlerts = {
                         id, text: t("alert2"), color: "#932626", img: "./images/caution.png"
@@ -166,19 +183,17 @@ const PostOrder = () => {
                     setAlerts(prevState => [...prevState, newAlerts])
                     alertRemove(3000, id)
                     setInfoCargo(false)
-
                 }
 
                 if (data.message.status === "confirmed" || data.message.status === "Added") {
-
                     let id = Date.now()
                     let newAlerts = {
                         id, text: t("alert1"), color: "#218823", img: "./images/check-mark.png"
                     }
                     setAlerts(prevState => [...prevState, newAlerts])
-                    setInfoCargo(false)
-
                     alertRemove(3000, id)
+
+                    setInfoCargo(false)
                     orderCount();
                     setFormBox(false)
                     setDirection("")
@@ -224,44 +239,35 @@ const PostOrder = () => {
                 }
 
                 if (data.message.status === "Accepted") {
-                    alerts.push({
-                        id: Date.now(), text: "Haydovchi qabul qildi", color: "#218823", img: "./images/check-mark.png"
-                    })
-
-                    let newAlert = [...alerts]
-                    setAlerts(newAlert)
-
-                    alertRemove(60000, newAlert.id)
+                    let id = Date.now()
+                    let newAlerts = {
+                        id, text: t("alert8"), color: "#218823", img: "./images/check-mark.png"
+                    }
+                    setAlerts(prevState => [...prevState, newAlerts])
+                    alertRemove(30000, id)
 
                     let driver = data.message
-
-                    let newDriverList = DriversList.concat(driver)
-
-                    setDriversList(newDriverList)
+                    setDriversList(prevDriversList => [...prevDriversList, driver])
                 }
 
                 if (data.message.status === "delivering") {
-                    alerts.push({
-                        id: Date.now(), text: "Haydovchi yukladi", color: "#218823", img: "./images/check-mark.png"
-                    })
-
-                    let newAlert = [...alerts]
-                    setAlerts(newAlert)
-                    alertRemove(60000, newAlert.id)
+                    let id = Date.now()
+                    let newAlerts = {
+                        id, text: t("alert9"), color: "#218823", img: "./images/check-mark.png"
+                    }
+                    setAlerts(prevState => [...prevState, newAlerts])
+                    alertRemove(30000, id)
                 }
 
-                if (data.message.status === "deliveret") {
-                    alerts.push({
-                        id: Date.now(), text: "Haydovchi yakunladi", color: "#218823", img: "./images/check-mark.png"
-                    })
+                if (data.message.status === "delivered") {
+                    let id = Date.now()
+                    let newAlerts = {
+                        id, text: t("alert10"), color: "#218823", img: "./images/check-mark.png"
+                    }
+                    setAlerts(prevState => [...prevState, newAlerts])
+                    alertRemove(30000, id)
 
-                    let newAlert = [...alerts]
-                    setAlerts(newAlert)
-                    alertRemove(60000, newAlert.id)
-
-                    let newDriverList = DriversList.filter((item) => data.message.id !== item.id)
-
-                    setDriversList(newDriverList)
+                    updateDriversList(data.message.id)
 
                 }
 
@@ -287,13 +293,10 @@ const PostOrder = () => {
         navigator.geolocation.getCurrentPosition(position => {
             const {latitude, longitude} = position.coords;
             let locMy = {lat: latitude, lng: longitude}
-
             setCenter(locMy)
         });
 
     }, []);
-
-
     const onMarkerClick = (location) => {
         setSelectedLocation(location);
     };
@@ -487,6 +490,50 @@ const PostOrder = () => {
         }
 
     };
+    const sendRaid = (id, did) => {
+
+        let raidList = {
+            driver: id,
+            delivery: did,
+            mark: raidCount
+        }
+
+        console.log(raidList)
+
+        axios.post(`${value.url}api/comment/`, raidList, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        }).then((response) => {
+
+            let id = Date.now()
+            let newAlerts = {
+                id, text: t("raidDriverText"), color: "#218823", img: "./images/check-mark.png"
+            }
+            setAlerts(prevState => [...prevState, newAlerts])
+            setInfoCargo(false)
+            alertRemove(3000, id)
+
+            setDriversListRaid(prevAlerts => prevAlerts.filter((item, index) => index > 0))
+
+        }).catch((error) => {
+            if (error.response.statusText == "Unauthorized") {
+                window.location.pathname = "/";
+                localStorage.removeItem("token");
+            }
+        });
+
+    }
+    const cancelRaid = (id) => {
+
+        let cancelRaid = {
+            command: "unrate",
+            id: id
+        }
+
+        websocket.send(JSON.stringify(cancelRaid));
+        setDriversListRaid(prevAlerts => prevAlerts.filter((item, index) => index > 0))
+    }
 
     return <div className="order-wrapper">
         <Navbar/>
@@ -640,7 +687,8 @@ const PostOrder = () => {
                         <div className="title">
                             <div></div>
                             <div>  {t("driver")}</div>
-                            <div><img onClick={() => setDriverList(false)} src="./images/close-driver-list.png" alt=""/>
+                            <div>
+                                <img onClick={() => setDriverList(false)} src="./images/close-driver-list.png" alt=""/>
                             </div>
                         </div>
                         {DriversList.map((item, index) => {
@@ -894,6 +942,68 @@ const PostOrder = () => {
 
             </CSSTransition>
 
+            {DriversListRaid.length > 0 &&
+
+                <div className="raid-driver">
+                    <div className="driver">
+
+                        <div className="header">
+                            <div></div>
+                            <div className="title">{t("raidDriver")}</div>
+                            <img onClick={() => cancelRaid(DriversListRaid[0].id)} src="./images/close-driver-list.png"
+                                 alt=""/>
+                        </div>
+
+                        <div className="section-one">
+                            <div className="driver-image">
+                                <img src={`https://api.buyukyol.uz/${DriversListRaid[0].driver.image}`} alt=""/>
+                            </div>
+
+                            <div className="text">
+                                <div className="names">
+                                    {DriversListRaid[0].driver.first_name}
+                                    {DriversListRaid[0].driver.last_name}
+                                </div>
+                                <div className="info-car">
+                                    <div>
+                                        {DriversListRaid[0].driver.documentation ? DriversListRaid[0].driver.documentation.name : ""}
+                                    </div>
+                                    <div>
+                                        {DriversListRaid[0].driver.documentation ? DriversListRaid[0].driver.documentation.car_number : ""}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="section-two">
+
+                            <a href={`tel:${DriversListRaid[0].driver.phone}`} className="phone">
+                                <img src="./images/phone.png" alt=""/>
+                                {DriversListRaid[0].driver.phone}
+                            </a>
+
+                            <ReactStars
+                                count={5}
+                                onChange={(e) => {
+                                    setRaidCount(e)
+                                }} size={32}
+                                color2={'#dcdb35'}
+                                half={false}/>
+
+                        </div>
+
+                        <div className="footer">
+                            <div onClick={() => sendRaid(DriversListRaid[0].driver.id, DriversListRaid[0].id)}
+                                 className="send-btn">
+                                {t("sentButton")}
+                                <img src="./images/send.png" alt=""/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
             <div className="left-side">
 
                 {location1 || location2 ? <div className="get-location-container">
@@ -950,6 +1060,7 @@ const PostOrder = () => {
                         options={options}
                         mapContainerClassName="map-container">
 
+
                         {CountOrders > 0 && <div className="orders-count">
                             <div className="loader-box">
                                 <div className="loader"></div>
@@ -965,8 +1076,8 @@ const PostOrder = () => {
                                 {t("wait")}
                             </div>
                         </div>}
-
-                        {DriversList[0] && <div className="drivers-count">
+                        {console.log('1000000000000000000000',DriversList)}
+                        {DriversList[0]  && <div className="drivers-count">
 
                             <div className="driver">
                                 <div className="top-side">

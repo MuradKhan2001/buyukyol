@@ -137,6 +137,11 @@
   "yes": "Ha",
   "no": "Yoq",
   "reasonAlert": "Sababni tanlang!",
-  "alert7": "Manzilni belgilang!"
+  "alert7": "Manzilni belgilang!",
+  "alert8": "Haydovchi buyurtmani qabul qildi!",
+  "alert9": "Yukingiz yuklandi!",
+  "alert10": "Buyurtmangiz yakunlandi!",
+  "raidDriver": "Haydovchini baxolang",
+  "raidDriverText": "Baxolandi!"
 }
 
