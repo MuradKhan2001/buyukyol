@@ -78,7 +78,7 @@
   "wait": "Kuting...",
   "direction": "Yo'nalishlar",
   "direction1": "Xalqaro",
-  "direction2": "Viloyatlar aor",
+  "direction2": "Viloyatlar aro",
   "direction3": "Viloyat ichi",
   "tariff": "Ta'rif turlari",
   "tariff1": "Mini",
@@ -141,7 +141,7 @@
   "alert8": "Haydovchi buyurtmani qabul qildi!",
   "alert9": "Yukingiz yuklandi!",
   "alert10": "Buyurtmangiz yakunlandi!",
-  "raidDriver": "Haydovchini baxolang",
-  "raidDriverText": "Baxolandi!"
+  "raidDriver": "Haydovchini baholang",
+  "raidDriverText": "Baholandi!"
 }
 

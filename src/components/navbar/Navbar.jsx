@@ -7,16 +7,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./navbar.scss"
 import axios from "axios";
 import {MyContext} from "../app/App";
-import {CSSTransition} from "react-transition-group";
 
 const Navbar = () => {
     let value = useContext(MyContext);
     const [nav, setNav] = useState(false);
     const navigate = useNavigate();
     const {t} = useTranslation();
-    const [user, setUser] = useState([]);
-    const [alertCancel, setAlertCancel] = useState(false);
-    const nodeRef = useRef(null);
     const menu = [
         {
             name: t('home'),
@@ -64,47 +60,27 @@ const Navbar = () => {
     ];
 
     useEffect(() => {
-
         if (localStorage.getItem("token")) {
             axios.get(`${value.url}api/client/`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
             }).then((response) => {
-                setUser(response.data)
+                localStorage.setItem("user_name",response.data.first_name)
             }).catch((error) => {
                 if (error.response.statusText == "Unauthorized") {
                     window.location.pathname = "/login-client";
                     localStorage.removeItem("token");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("user_name");
+
                 }
             });
         }
-
     }, []);
 
 
     return <nav className="navbar-container">
-
-        <CSSTransition
-            in={alertCancel}
-            nodeRef={nodeRef}
-            timeout={300}
-            classNames="alert"
-            unmountOnExit
-        >
-            <div ref={nodeRef} className="alert-cancel">
-                <div className="img-box">
-                    <img src="./images/caution2.png" alt=""/>
-                </div>
-                <div className="text-box">
-                    Buyurtma berish uchun ro'yxatdan o'tishingizni so'raymiz!
-                </div>
-                <div onClick={() => setAlertCancel(false)} className="close">
-                    <img src="./images/close-driver-list.png" alt=""/>
-                </div>
-            </div>
-
-        </CSSTransition>
 
         <div className="logo">
             <img onClick={() => {
@@ -122,11 +98,7 @@ const Navbar = () => {
                             if (localStorage.getItem("userId")) {
                                 navigate(item.link)
                             } else {
-                                setAlertCancel(true);
-                                setNav(false)
-                                setTimeout(() => {
-                                    setAlertCancel(false);
-                                }, 5000)
+                                navigate("/login-client")
                             }
 
                         } else navigate(item.link);
@@ -168,14 +140,13 @@ const Navbar = () => {
             </Dropdown>
         </div>
 
-
         {
             localStorage.getItem("userId") ? <div className="user-profile">
                 <Dropdown>
                     <Dropdown.Toggle variant="none" id="dropdown-basic">
                         <img className="security-icon" src="./images/profile.png" alt=""/>
                         <div className="Name">
-                            {user.first_name}
+                            {localStorage.getItem("user_name")}
                         </div>
                     </Dropdown.Toggle>
 
@@ -183,21 +154,22 @@ const Navbar = () => {
                         <Dropdown.Item onClick={() => {
                             navigate('/my-profile')
                         }}>
-                            Profilim
+                            {t("prfile")}
                         </Dropdown.Item>
 
                         <Dropdown.Item onClick={() => {
                             window.location.pathname = "/";
                             localStorage.removeItem("token");
                             localStorage.removeItem("userId");
-                            window.location.pathname = "/";
+                            localStorage.removeItem("user_name");
                         }}>
-                            Chiqish
+                            {t("button4")}
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-            </div> : <div onClick={() => navigate('/login-client')} className="login-btn">
-                Kirish
+            </div> :
+                <div onClick={() => navigate('/login-client')} className="login-btn">
+                {t("button5")}
             </div>
         }
 

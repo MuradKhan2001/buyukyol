@@ -112,5 +112,11 @@
   "reason4": "Another reason...",
   "yes": "Yes",
   "no": "No",
-  "reasonAlert": "Choose a reason!"
+  "reasonAlert": "Choose a reason!",
+  "alert7": "Specify the address!",
+  "alert8": "The driver has accepted the order!",
+  "alert 9": "Your cargo is loaded!",
+  "alert 10": "Your order is completed!",
+  "raid Driver": "Rate the driver",
+  "raidDriverText": "Rated!"
 }
