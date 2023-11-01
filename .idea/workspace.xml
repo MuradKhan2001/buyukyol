@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/buyuk-yol-app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/Truck.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/about.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/active- order.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/add-package.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/add1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/agreement.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/block.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/block1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/close.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/close2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/contact-us.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/credit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/customer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/dark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/delete.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/discount.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/download.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/driver.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/driver1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/edit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/edit2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/exchange.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/filter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/flexibility.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/font.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/handshake.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/location1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/location2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/lock.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/message.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/mode.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/money.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/news.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/next.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/notification.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/payment.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/photo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/prev.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/price-tag.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/rating.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/received.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/search.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/shopping.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/taxes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/tick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/ticket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/truck-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/truck-icon2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/truck.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/verified.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/verified1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/view.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/admin/wallet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/androit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/bag.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/clients.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/clip.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/close.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/download.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/facebook.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/footer1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/gps.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/instagram.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/ios.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/logo1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/logo4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/logout.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/menu.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/partner1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/phone-call.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/service.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/telegram.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/users.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/video.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/work-pagination-next.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/images/work-pagination-prev.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/369.66107f37.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/369.66107f37.chunk.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/704.c7321508.chunk.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/704.c7321508.chunk.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.d7d34756.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.d7d34756.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/369.ce901dbf.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/369.ce901dbf.chunk.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/369.ce901dbf.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/704.81aa02ae.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/704.81aa02ae.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.9bb9fb0a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.9bb9fb0a.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.9bb9fb0a.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/1366X768.943e2dc4c847568f5411.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/1440x900.aed2ea0c3b37b94f9700.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/bg4.ba23b9b86ddb72355248.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/footer1.692e509b6b56bbe1f9a7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/slick.2630a3e3eab21c607e21.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/slick.295183786cd8a1389865.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/slick.a4e97f5a2a64f0ab1323.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/slick.c94f7671dcc99dce43e2.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/download.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/download.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/about-app/AboutApp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about-app/AboutApp.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/about-app/about-app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about-app/about-app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/about-app/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about-app/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/Admin/images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/Admin/images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/agreement/Agreement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/Agreement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/agreement/agreement.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/agreement.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/agreement/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/contact/Contact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/Contact.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/contact/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/contact/contact.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/contact.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/footer/bg-image/footer2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/footer/bg-image/news2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/footer/footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer/footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/bg-images/1366X768.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/bg-images/1366X768.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/bg-images/1440x900.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/bg-images/1440x900.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/loader/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login-client/LoginClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/LoginClient.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login-client/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login-client/loginClient.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/loginClient.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/my-profile/MyProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/my-profile/MyProfile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/my-profile/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/my-profile/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navbar/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/notFound/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notFound/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/order/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/register-client/RegisterClient.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register-client/RegisterClient.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/register-client/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register-client/bg-images/bg4.jpg" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="SCSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2MeE5VfPlf4fYDZfdCvd01Dlf8r" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Projects/buyuk-yol-app/src/components/order&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Projects\buyuk-yol-app\src\components\order" />
+      <recent name="F:\Projects\buyuk-yol-app\src\components\notFound" />
+      <recent name="F:\Projects\buyuk-yol-app\src\components\my-profile" />
+      <recent name="F:\Projects\buyuk-yol-app\src\components\register-client" />
+      <recent name="F:\Projects\buyuk-yol-app\src\components\login-client" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Projects\buyuk-yol-app\src\components\admin" />
+      <recent name="F:\Projects\buyuk-yol-app\src\components\admin\home" />
+      <recent name="F:\Projects\buyuk-yol-app\src\components\service" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="" />
+      <created>1678119464954</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678119464954</updated>
+      <workItem from="1678119468308" duration="6936000" />
+      <workItem from="1678175250594" duration="57184000" />
+      <workItem from="1678343700446" duration="4883000" />
+      <workItem from="1679990802061" duration="62420000" />
+      <workItem from="1682491893255" duration="16622000" />
+      <workItem from="1682577489242" duration="20812000" />
+      <workItem from="1682674011003" duration="10249000" />
+      <workItem from="1682747448118" duration="17761000" />
+      <workItem from="1682842216531" duration="10614000" />
+      <workItem from="1682923333358" duration="19658000" />
+      <workItem from="1683107206103" duration="29758000" />
+      <workItem from="1683227245138" duration="1087000" />
+      <workItem from="1683268598642" duration="19000" />
+      <workItem from="1683295744877" duration="2153000" />
+      <workItem from="1683352648309" duration="9092000" />
+      <workItem from="1683536973804" duration="18309000" />
+      <workItem from="1683611258404" duration="7871000" />
+      <workItem from="1683646387509" duration="9333000" />
+      <workItem from="1683657409765" duration="1044000" />
+      <workItem from="1683698501854" duration="15913000" />
+      <workItem from="1683795352711" duration="10274000" />
+      <workItem from="1684146293786" duration="7501000" />
+      <workItem from="1684302399829" duration="21601000" />
+      <workItem from="1684491491403" duration="3297000" />
+      <workItem from="1684502615262" duration="3535000" />
+      <workItem from="1684517890485" duration="793000" />
+      <workItem from="1684570329445" duration="2044000" />
+      <workItem from="1684647664960" duration="16000" />
+      <workItem from="1684931126310" duration="730000" />
+      <workItem from="1685430260199" duration="4926000" />
+      <workItem from="1685450974631" duration="5113000" />
+      <workItem from="1685536931009" duration="340000" />
+      <workItem from="1686237509040" duration="1750000" />
+      <workItem from="1686668001376" duration="1119000" />
+      <workItem from="1686724073479" duration="4067000" />
+      <workItem from="1686730604769" duration="142000" />
+      <workItem from="1688983752491" duration="2589000" />
+      <workItem from="1690198465623" duration="3353000" />
+      <workItem from="1690792956232" duration="4036000" />
+      <workItem from="1692076702012" duration="7652000" />
+      <workItem from="1692359604426" duration="3934000" />
+      <workItem from="1692962982007" duration="4175000" />
+      <workItem from="1693133556378" duration="1729000" />
+      <workItem from="1693315423288" duration="3411000" />
+      <workItem from="1694261115500" duration="2293000" />
+      <workItem from="1694410692942" duration="1373000" />
+      <workItem from="1694412135199" duration="5940000" />
+      <workItem from="1694603908785" duration="4868000" />
+      <workItem from="1694683578530" duration="4823000" />
+      <workItem from="1694771773744" duration="7585000" />
+      <workItem from="1694841479041" duration="2481000" />
+      <workItem from="1695203592208" duration="5903000" />
+      <workItem from="1695291428500" duration="526000" />
+      <workItem from="1695541824192" duration="2015000" />
+      <workItem from="1695622905121" duration="3394000" />
+      <workItem from="1695981019189" duration="1635000" />
+      <workItem from="1696327703583" duration="65000" />
+      <workItem from="1696658460157" duration="952000" />
+      <workItem from="1696912890823" duration="8455000" />
+      <workItem from="1696931207998" duration="2995000" />
+      <workItem from="1697004143272" duration="112801000" />
+      <workItem from="1697795204204" duration="105750000" />
+      <workItem from="1698250785486" duration="13404000" />
+      <workItem from="1698335071839" duration="5916000" />
+      <workItem from="1698341428874" duration="39000" />
+      <workItem from="1698341479662" duration="2060000" />
+      <workItem from="1698343783494" duration="2833000" />
+      <workItem from="1698387371056" duration="2153000" />
+      <workItem from="1698390910649" duration="29659000" />
+      <workItem from="1698430434981" duration="4614000" />
+      <workItem from="1698469724408" duration="6337000" />
+      <workItem from="1698646211041" duration="67299000" />
+      <workItem from="1698817410493" duration="29988000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -172,6 +172,7 @@ const Home = () => {
     };
 
     const handleSendMessage = () => {
+
         if (sendBox.first_name.trim().length > 0 && sendBox.phone.trim().length) {
 
             axios.post(`${value.url}dashboard/contactus/`, sendBox).then((response) => {
@@ -203,7 +204,10 @@ const Home = () => {
 
 
     return <div className="home-wrapper">
-        <div onClick={() => navigate("/post-order")} className="post-order-box">
+        <div onClick={() => {
+            localStorage.getItem("userId") ? navigate("/post-order"):
+                navigate("/login-client")
+        }} className="post-order-box">
            <div className="sloy">
                <div className="text">
                    {t("post-order")}
@@ -211,6 +215,7 @@ const Home = () => {
                <img src="./images/Cardboard_Box2.png" alt=""/>
            </div>
         </div>
+
         <div className="home-page">
             <Navbar/>
             <div className={`home-content ${window.screen.width < 768 ? "" : "container"} `}>
@@ -423,7 +428,10 @@ const Home = () => {
                                 <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
                                 <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                             </svg>
-                        </div> : <span>{t('sentButton')}</span>
+                        </div> : <span>
+                            {t('sentButton')}
+                            <img src="./images/send2.png" alt=""/>
+                        </span>
                     }
                 </div>
             </div>

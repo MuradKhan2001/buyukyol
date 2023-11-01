@@ -488,9 +488,13 @@ const MyProfile = () => {
                                                     </div>
                                                     <div className="text-order">
                                                         {item.car_category.min_weight ? item.car_category.min_weight : ""}-
-                                                        {item.car_category.max_weight ? item.car_category.max_weight : ""} tonna,
-                                                        {i18next.language === "ru" ? item.car_category.name_ru ? item.car_category.name_ru : "" :
-                                                            item.car_category.name ? item.car_category.name : ""}
+                                                        {item.car_category.max_weight ? item.car_category.max_weight : ""} {t("infoWaits4")},
+                                                        {item.car_category.name === "Мини" && t("tariff1")}
+                                                        {item.car_category.name === "Енгил" && t("tariff2")}
+                                                        {item.car_category.name === "Ўрта" && t("tariff3")}
+                                                        {item.car_category.name === "Оғир" && t("tariff4")}
+                                                        {item.car_category.name === "Ўта оғир" && t("tariff5")}
+                                                        {item.car_category.name === "Авто Ташувчи" && t("tariff6")}
                                                     </div>
                                                 </div>
 
@@ -690,9 +694,13 @@ const MyProfile = () => {
                                                 </div>
                                                 <div className="text-order">
                                                     {item.car_category.min_weight ? item.car_category.min_weight : ""}-
-                                                    {item.car_category.max_weight ? item.car_category.max_weight : ""} tonna,
-                                                    {i18next.language === "ru" ? item.car_category.name_ru ? item.car_category.name_ru : "" :
-                                                        item.car_category.name ? item.car_category.name : ""}
+                                                    {item.car_category.max_weight ? item.car_category.max_weight : ""} {t("infoWaits4")},
+                                                    {item.car_category.name === "Мини" && t("tariff1")}
+                                                    {item.car_category.name === "Енгил" && t("tariff2")}
+                                                    {item.car_category.name === "Ўрта" && t("tariff3")}
+                                                    {item.car_category.name === "Оғир" && t("tariff4")}
+                                                    {item.car_category.name === "Ўта оғир" && t("tariff5")}
+                                                    {item.car_category.name === "Авто Ташувчи" && t("tariff6")}
                                                 </div>
                                             </div>
 
@@ -889,9 +897,13 @@ const MyProfile = () => {
                                                 </div>
                                                 <div className="text-order">
                                                     {item.car_category.min_weight ? item.car_category.min_weight : ""}-
-                                                    {item.car_category.max_weight ? item.car_category.max_weight : ""} tonna,
-                                                    {i18next.language === "ru" ? item.car_category.name_ru ? item.car_category.name_ru : "" :
-                                                        item.car_category.name ? item.car_category.name : ""}
+                                                    {item.car_category.max_weight ? item.car_category.max_weight : ""} {t("infoWaits4")},
+                                                    {item.car_category.name === "Мини" && t("tariff1")}
+                                                    {item.car_category.name === "Енгил" && t("tariff2")}
+                                                    {item.car_category.name === "Ўрта" && t("tariff3")}
+                                                    {item.car_category.name === "Оғир" && t("tariff4")}
+                                                    {item.car_category.name === "Ўта оғир" && t("tariff5")}
+                                                    {item.car_category.name === "Авто Ташувчи" && t("tariff6")}
                                                 </div>
                                             </div>
 
@@ -1116,9 +1128,13 @@ const MyProfile = () => {
                                                 </div>
                                                 <div className="text-order">
                                                     {item.car_category.min_weight ? item.car_category.min_weight : ""}-
-                                                    {item.car_category.max_weight ? item.car_category.max_weight : ""} tonna,
-                                                    {i18next.language === "ru" ? item.car_category.name_ru ? item.car_category.name_ru : "" :
-                                                        item.car_category.name ? item.car_category.name : ""}
+                                                    {item.car_category.max_weight ? item.car_category.max_weight : ""} {t("infoWaits4")},
+                                                    {item.car_category.name === "Мини" && t("tariff1")}
+                                                    {item.car_category.name === "Енгил" && t("tariff2")}
+                                                    {item.car_category.name === "Ўрта" && t("tariff3")}
+                                                    {item.car_category.name === "Оғир" && t("tariff4")}
+                                                    {item.car_category.name === "Ўта оғир" && t("tariff5")}
+                                                    {item.car_category.name === "Авто Ташувчи" && t("tariff6")}
                                                 </div>
                                             </div>
 

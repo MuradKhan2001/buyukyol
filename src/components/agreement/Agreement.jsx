@@ -40,34 +40,33 @@ const Agreement = () => {
     };
 
     return <div className="agreement-wrapper">
-        <Navbar/>
-
-        {
-            MainList.map((item, index) => {
-                return <div key={index} className="list-agreement container">
-                    <div className="header-side">
-                        <div className="paper-clip">
-                            <img src="./images/clip.png" alt=""/>
-                        </div>
-                        <div className="icon">
-                            <div onClick={() => getDownloadFile(item.contract)}>
-                                <img src="./images/download.png" alt=""/>
+        <div className="mirror-sloy">
+            <Navbar/>
+            {
+                MainList.map((item, index) => {
+                    return <div key={index} className="list-agreement container">
+                        <div className="header-side">
+                            <div className="paper-clip">
+                                <img src="./images/clip.png" alt=""/>
                             </div>
-                            <p>Yuklash</p>
+                            <div className="icon">
+                                <div onClick={() => getDownloadFile(item.contract)}>
+                                    <img src="./images/download.png" alt=""/>
+                                </div>
+                                <p>Yuklash</p>
+                            </div>
+                        </div>
+                        <div className="body-side">
+                            <div className="title">{t('contract')}</div>
+                            <div className="text">
+                                {item.description}
+                            </div>
                         </div>
                     </div>
-                    <div className="body-side">
-                        <div className="title">{t('contract')}</div>
-                        <div className="text">
-                            {item.description}
-                        </div>
-                    </div>
-                </div>
-            })
-        }
-
-
-        <Footer/>
+                })
+            }
+            <Footer/>
+        </div>
     </div>
 };
 

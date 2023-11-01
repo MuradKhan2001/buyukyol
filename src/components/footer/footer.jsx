@@ -74,8 +74,8 @@ const Footer = () => {
                         {t('menu')}
                     </div>
                     {
-                        menu.map((item)=>{
-                            return <div key={item.id} onClick={()=>{
+                        menu.map((item, index)=>{
+                            return <div key={index} onClick={()=>{
                                 navigate(item.link)
                             }} className="menu-items">{item.name}</div>
                         })

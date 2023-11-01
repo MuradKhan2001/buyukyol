@@ -158,8 +158,9 @@ const LoginClient = () => {
                         <AuthCode allowedCharacters='numeric' length="5" onChange={handleOnChange}/>
                     </div>
 
-                    <div onClick={() => {
-                        if (check < 5) {
+                {
+                    check < 3 && <div onClick={() => {
+                        if (check < 3) {
                             HandleLogin();
                             setAlertCancel(true);
                             setStatusError("3");
@@ -171,6 +172,7 @@ const LoginClient = () => {
                     }} className="recode">
                         {t("title2")}
                     </div>
+                }
 
                     <div onClick={CheckCode} onKeyUp={() => console.log("enter")} className="login-btn">
                         {t("button2")}

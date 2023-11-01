@@ -89,7 +89,9 @@
 
   .login-card {
     width: 28%;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
     box-shadow: rgb(255, 255, 255) 0px 0px 15px 0px;
     border-radius: 10px;
     padding: 25px;
@@ -270,7 +272,8 @@
 }
 
 @media (max-width: 768px) {
-  .login-container {
+  .register-container {
+    background-size: cover;
     .login-card {
       width: 90%;
     }
