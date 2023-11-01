@@ -9,10 +9,12 @@ import {useTranslation} from "react-i18next";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MyContext} from "../app/App";
+import {useNavigate} from "react-router-dom";
 
 
 const Home = () => {
     let value = useContext(MyContext);
+    const navigate = useNavigate();
     const {t} = useTranslation();
     const [newsList, setNewsList] = useState([]);
     const [galary, setGalary] = useState([]);
@@ -201,9 +203,16 @@ const Home = () => {
 
 
     return <div className="home-wrapper">
+        <div onClick={() => navigate("/post-order")} className="post-order-box">
+           <div className="sloy">
+               <div className="text">
+                   {t("post-order")}
+               </div>
+               <img src="./images/Cardboard_Box2.png" alt=""/>
+           </div>
+        </div>
         <div className="home-page">
             <Navbar/>
-
             <div className={`home-content ${window.screen.width < 768 ? "" : "container"} `}>
                 <div className="left-side"></div>
                 <div className="ride-side">
@@ -213,7 +222,8 @@ const Home = () => {
                     </div>
 
                     <div className="button-box">
-                        <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol" target="_blank">
+                        <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol"
+                           target="_blank">
                             <button>
                                 <div className="icon">
                                     <img src="./images/androit.png" alt=""/>
@@ -418,6 +428,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
+
         <Footer/>
     </div>
 };

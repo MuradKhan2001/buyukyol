@@ -18,6 +18,7 @@ import {CSSTransition} from "react-transition-group";
 import LoaderAdmin from "./LoaderAdmin";
 
 const API_KEY = "AIzaSyCC6N2vc_sH_7oTAcvr-kyv5iKt2ng7bsk";
+const libraries = ['places'];
 
 let city, country;
 navigator.geolocation.getCurrentPosition(position => {
@@ -38,7 +39,6 @@ navigator.geolocation.getCurrentPosition(position => {
 const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${city}/${country}/?token=${localStorage.getItem('token')}`);
 
 const PostOrder = () => {
-
     let value = useContext(MyContext);
     const {t} = useTranslation();
     const nodeRef = useRef(null);
@@ -46,7 +46,6 @@ const PostOrder = () => {
     const [cancelOrder, setCancelOrder] = useState(false);
     const [formBox, setFormBox] = useState(false);
     const [reason, setReason] = useState("");
-
 
     const [categoryType, setCategoryType] = useState([]);
     const [cars, setCars] = useState([]);
@@ -85,7 +84,7 @@ const PostOrder = () => {
     const [CountOrders, setCountOrders] = useState(0)
     const [cargoInfo, setCargoInfo] = useState({})
     const [distance, setDistance] = useState("");
-
+    const [cargoId, setCargoId] = useState("")
 
     const [locationName, setLocationName] = useState("true")
     const [location1, setLocation1] = useState(false)
@@ -98,23 +97,7 @@ const PostOrder = () => {
     const [locationName2, setLocationName2] = useState("")
 
     const [driverList, setDriverList] = useState(false)
-    const [activeDriversList, setActiveDriversList] = useState([
-        {
-            driver: 276,
-            car_number: "gg",
-            phone_number: "998937874661",
-            longitude: 69.1973986,
-            latitude: 41.259737
-        },
-        {
-            driver: 277,
-            car_number: "AAZAZAZ",
-            phone_number: "999999999",
-            longitude: 68.1973986,
-            latitude: 41.259737
-        }
-
-    ]);
+    const [activeDriversList, setActiveDriversList] = useState([]);
     const [DriversList, setDriversList] = useState([])
     const [DriversListRaid, setDriversListRaid] = useState([])
     const [raidCount, setRaidCount] = useState(0)
@@ -186,6 +169,7 @@ const PostOrder = () => {
             if (data.message.status) {
 
                 if (data.message.status === "canceled") {
+
                     let id = Date.now()
                     let newAlerts = {
                         id, text: t("alert2"), color: "#932626", img: "./images/caution.png"
@@ -193,6 +177,10 @@ const PostOrder = () => {
                     setAlerts(prevState => [...prevState, newAlerts])
                     alertRemove(3000, id)
                     setInfoCargo(false)
+
+                    setCancelOrder(false)
+
+                    setDriversList(prevState => prevState.filter(item => item.order_id !== data.message.order_id))
                 }
 
                 if (data.message.status === "confirmed" || data.message.status === "Added") {
@@ -294,9 +282,17 @@ const PostOrder = () => {
 
             }
 
-            // if (data.message.status === "location") {
-            //     setActiveDriversList(data.message.driver)
-            // }
+            if (data.message.status === "location") {
+
+                console.log(data.message.driver)
+
+                const update = (prevState) => {
+                    var drivers = prevState.filter((item)=> data.message.driver[0].driver !== item.driver)
+                    return [...drivers,data.message.driver[0]]
+                }
+
+                setActiveDriversList(update)
+            }
 
         };
 
@@ -327,8 +323,27 @@ const PostOrder = () => {
 
     }, []);
 
+    useEffect(() => {
+        const web = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${city}/${country}/?token=${localStorage.getItem('token')}`)
+
+        web.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (!('status' in data.message)) {
+
+                let driver = data.message.filter((item) => (item.status !== "Delivered"))
+                setDriversList(driver)
+
+                let raidDriver = data.message.filter((item) => (item.status === "Delivered"))
+                setDriversListRaid(raidDriver)
+
+            }
+        }
+
+    }, []);
+
     const {isLoaded} = useLoadScript({
-        googleMapsApiKey: API_KEY, libraries: ["places"]
+        googleMapsApiKey: API_KEY,
+        libraries: libraries
     });
 
     const options = useMemo(() => ({
@@ -390,8 +405,6 @@ const PostOrder = () => {
             let neighbourhood = res.data.address.neighbourhood;
             let county = res.data.address.county;
             let road = res.data.address.road;
-
-            console.log(res.data.address)
 
             let fullAddress = `${country ? country + "," : ""} ${city ? city + "," : ""} ${suburb ? suburb + "," : ""} 
             ${neighbourhood ? neighbourhood + "," : ""} ${county ? county + "," : ""} ${road ? road : ""}`
@@ -494,13 +507,12 @@ const PostOrder = () => {
     const onCloseClick = () => {
         setSelectedLocation(null);
     };
-
     const SendOrder = (command) => {
 
         if (command === "new_order") {
             cargo.client = Number(localStorage.getItem("userId"))
             websocket.send(JSON.stringify(cargo));
-            console.log(cargo)
+
         } else if (command === "cancel_order") {
             let order = {
                 command: command, id: cargoInfo.id
@@ -514,7 +526,7 @@ const PostOrder = () => {
         }
 
     };
-    const cancelOrders = (cargoId) => {
+    const cancelOrders = () => {
 
         let order = {
             command: "cancel_order",
@@ -532,8 +544,6 @@ const PostOrder = () => {
             delivery: did,
             mark: raidCount
         }
-
-        console.log(raidList)
 
         axios.post(`${value.url}api/comment/`, raidList, {
             headers: {
@@ -658,7 +668,7 @@ const PostOrder = () => {
                                 } else {
                                     let id = Date.now()
                                     let newAlerts = {
-                                        id, text: t("alert3"), color: "#9f9c1e", img: "./images/caution3.png"
+                                        id, text: t("reasonAlert"), color: "#9f9c1e", img: "./images/caution3.png"
                                     }
                                     setAlerts(prevState => [...prevState, newAlerts])
                                     alertRemove(3000, id)
@@ -703,10 +713,12 @@ const PostOrder = () => {
                                         </div>
                                         <div className="info-car">
                                             <div>
-                                                <img src="./images/truck.png" alt=""/> {item.driver.documentation ? item.driver.documentation.name : ""}
+                                                <img src="./images/truck.png"
+                                                     alt=""/> {item.driver.documentation ? item.driver.documentation.name : ""}
                                             </div>
                                             <div>
-                                                <img src="./images/carnumber.png" alt=""/>  {item.driver.documentation ? item.driver.documentation.car_number : ""}
+                                                <img src="./images/carnumber.png"
+                                                     alt=""/> {item.driver.documentation ? item.driver.documentation.car_number : ""}
                                             </div>
                                         </div>
                                     </div>
@@ -718,7 +730,10 @@ const PostOrder = () => {
                                         {item.driver.phone}
                                     </a>
 
-                                    <div onClick={()=>setCancelOrder(true)} className="cancel-btn">
+                                    <div onClick={() => {
+                                        setCancelOrder(true);
+                                        setCargoId(item.order_id)
+                                    }} className="cancel-btn">
                                         {t("button3")}
                                         <img src="./images/xbtn.png" alt=""/>
                                     </div>
@@ -940,7 +955,6 @@ const PostOrder = () => {
             </CSSTransition>
 
             {DriversListRaid.length > 0 &&
-
                 <div className="raid-driver">
                     <div className="driver">
 
@@ -1057,6 +1071,39 @@ const PostOrder = () => {
                         options={options}
                         mapContainerClassName="map-container">
 
+                        {activeDriversList.length >= 0 ?
+
+                            <>
+                                {activeDriversList.map((item, index) => {
+                                    return <Marker
+                                        key={index}
+                                        position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
+                                        icon={icon}
+                                        onClick={() => onMarkerClick(item)}
+                                    />
+                                })}
+
+                                {selectedLocation && (
+                                    <InfoWindow
+                                        position={{
+                                            lat: Number(selectedLocation.latitude),
+                                            lng: Number(selectedLocation.longitude)
+                                        }}
+                                        onCloseClick={onCloseClick}
+                                    >
+                                        <div className="info-box-car">
+                                            <div className="info-text">
+                                                <span>Moshina raqam:</span>
+                                                {selectedLocation.car_number} <br/>
+                                                <span>Tel raqam:</span>
+                                                {selectedLocation.phone_number}
+                                            </div>
+                                        </div>
+                                    </InfoWindow>)}
+                            </>
+
+                            : ""}
+
                         {CountOrders > 0 && <div className="orders-count">
                             <div className="loader-box">
                                 <div className="loader"></div>
@@ -1075,7 +1122,7 @@ const PostOrder = () => {
 
                         {DriversList[0] && <div className="drivers-count">
 
-                            <div onClick={()=>setDriverList(true)} className="driver">
+                            <div onClick={() => setDriverList(true)} className="driver">
                                 <div className="top-side">
                                     <div className="driver-image">
                                         <img src={`https://api.buyukyol.uz/${DriversList[0].driver.image}`} alt=""/>
@@ -1104,40 +1151,6 @@ const PostOrder = () => {
                             </div>
 
                         </div>}
-
-                        {activeDriversList.length >= 0 ?
-
-                            <>
-                                {activeDriversList.map((item,index) => {
-                                    return <Marker
-                                        key={index}
-                                        position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
-                                        icon={icon}
-                                        onClick={() => onMarkerClick(item)}
-                                    />
-                                })}
-
-                                {selectedLocation && (
-                                    <InfoWindow
-                                        position={{
-                                            lat: Number(selectedLocation.latitude),
-                                            lng: Number(selectedLocation.longitude)
-                                        }}
-                                        onCloseClick={onCloseClick}
-                                    >
-                                        <div className="info-box">
-                                            <div className="info-text">
-                                                <span>Moshina raqam:</span>
-                                                {selectedLocation.car_number} <br/>
-                                                <span>Tel raqam:</span>
-                                                {selectedLocation.phone_number}
-                                            </div>
-                                        </div>
-                                    </InfoWindow>)}
-                            </>
-
-                            : ""}
-
 
                     </GoogleMap>}
 
@@ -1174,9 +1187,9 @@ const PostOrder = () => {
                             </div>
                         }
 
-                       <div className="img-box">
-                           <img src="./images/xalqaro.png" alt=""/>
-                       </div>
+                        <div className="img-box">
+                            <img src="./images/xalqaro.png" alt=""/>
+                        </div>
 
                         <div>{t("direction1")}</div>
                     </div>
@@ -1301,7 +1314,7 @@ const PostOrder = () => {
                                     }}>
                                         <div className={`cars-card ${item.id === carsId && "cars-active"} `}>
 
-                                            {item.id === carsId &&  <div className="tick-icon">
+                                            {item.id === carsId && <div className="tick-icon">
                                                 <img src="./images/tick.png" alt=""/>
                                             </div>}
 
@@ -1605,8 +1618,38 @@ const PostOrder = () => {
 
 
             </div>
+        </div>
 
+        <div className="mobile">
+            <div className="title">
+                {t('alertText')}
+            </div>
 
+            <div className="button-box">
+                <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol"
+                   target="_blank">
+                    <button>
+                        <div className="icon">
+                            <img src="./images/androit.png" alt=""/>
+                        </div>
+                        <div className="text">
+                            <div className="text-top"> GET IN ON</div>
+                            <div className="text-bottom"> Google Play</div>
+                        </div>
+                    </button>
+                </a>
+                <a href="https://apps.apple.com/app/id6463604761" target="_blank">
+                    <button>
+                        <div className="icon">
+                            <img src="./images/ios.png" alt=""/>
+                        </div>
+                        <div className="text">
+                            <div className="text-top"> Download on the</div>
+                            <div className="text-bottom">App Store</div>
+                        </div>
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 };

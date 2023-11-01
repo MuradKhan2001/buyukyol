@@ -30,11 +30,6 @@ const MainHome = () => {
             console.log("open")
         };
 
-
-        // return () => {
-        //         //     websocket.close()
-        //         // }
-
         if (sessionStorage.getItem("style")) {
         } else sessionStorage.setItem("style", "51da2328145a4757");
 

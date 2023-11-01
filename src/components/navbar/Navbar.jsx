@@ -89,6 +89,11 @@ const Navbar = () => {
         </div>
 
         <div className={`nav-list ${!nav ? "hide" : ""}`}>
+
+            <div onClick={() => { }} className={`nav-item-hide`}>
+                <img onClick={() => setNav(false)} src="./images/close.png" alt=""/>
+            </div>
+
             {
                 menu.map((item, index) => {
                     return <div key={index} onClick={() => {
@@ -174,10 +179,7 @@ const Navbar = () => {
         }
 
         <div className="nav-show">
-            {
-                nav ? <img onClick={() => setNav(false)} src="./images/close.png" alt=""/> :
-                    <img onClick={() => setNav(true)} src="./images/menu.png" alt=""/>
-            }
+            <img onClick={() => setNav(true)} src="./images/menu.png" alt=""/>
         </div>
 
     </nav>

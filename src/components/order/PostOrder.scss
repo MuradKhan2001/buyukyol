@@ -420,6 +420,7 @@ $colorText: #333232;
             height: 130px;
             border-radius: 50%;
             overflow: hidden;
+
             img {
               object-fit: cover;
               width: 100%;
@@ -444,9 +445,11 @@ $colorText: #333232;
             .info-car {
               margin-top: 10px;
               font-size: 16px;
-              div{
+
+              div {
                 margin-top: 5px;
-                img{
+
+                img {
                   width: 35px;
                 }
               }
@@ -487,10 +490,12 @@ $colorText: #333232;
             background-color: #ffffff;
             color: #333232;
             font-weight: bold;
+
             &:hover {
               background-color: #dadada;
               box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
             }
+
             @extend %button-cancel;
           }
 
@@ -819,11 +824,13 @@ $colorText: #333232;
               display: flex;
               align-items: center;
               justify-content: center;
+
               .driver-image {
                 width: 70px;
                 height: 70px;
                 border-radius: 50%;
                 overflow: hidden;
+
                 img {
                   width: 100%;
                   height: 100%;
@@ -846,15 +853,18 @@ $colorText: #333232;
               align-items: center;
               justify-content: space-around;
               padding-top: 5px;
+
               .text {
                 text-align: center;
                 color: white;
                 font-size: 14px;
-                img{
+
+                img {
                   width: 30px;
                   margin-right: 5px;
                 }
-                .num{
+
+                .num {
                   width: 40px;
                   margin-right: 5px;
                 }
@@ -869,7 +879,8 @@ $colorText: #333232;
               transition: .3s;
               width: 40px;
               cursor: pointer;
-              &:hover{
+
+              &:hover {
                 transform: scale(1.1);
               }
             }
@@ -886,7 +897,11 @@ $colorText: #333232;
 
         }
 
-        .info-box {
+        .gm-ui-hover-effect {
+
+        }
+
+        .info-box-car {
           .info-text {
             span {
               font-size: 14px;
@@ -1084,18 +1099,18 @@ $colorText: #333232;
           transition: 0.3s;
           color: #333232;
 
-          .img-box{
+          .img-box {
             width: 100%;
             height: 70%;
             display: flex;
             justify-content: center;
             align-items: center;
+
             img {
               width: 86%;
               object-fit: cover;
             }
           }
-
 
 
           &:hover {
@@ -1162,17 +1177,17 @@ $colorText: #333232;
           transition: 0.3s;
           position: relative;
 
-          &:hover{
+          &:hover {
             box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
           }
 
           .tick-icon {
             position: absolute;
-            top: 12px;
-            right: 5px;
+            top: 2px;
+            right: 2px;
 
             img {
-              width: 26px;
+              width: 30px;
             }
           }
 
@@ -1625,6 +1640,10 @@ $colorText: #333232;
     }
 
   }
+
+  .mobile {
+    display: none;
+  }
 }
 
 .loader-admin {
@@ -1731,7 +1750,87 @@ $colorText: #333232;
 
 @media (max-width: 768px) {
   .order-wrapper {
+    background-size: cover;
 
+    .content-box {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+      width: 100%;
+      height: calc(100vh - 100px);
+      padding-right: 20px;
+      padding-left: 20px;
+
+      .title {
+        font-size: 16px;
+        text-align: center;
+        color: white;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      .button-box {
+        margin-top: 50px;
+        width: 100%;
+
+        a {
+          text-decoration: none;
+        }
+
+        button {
+          margin: 20px auto;
+          width: 60%;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          box-shadow: rgba(226, 226, 226, 0.16) 0px 3px 6px, rgba(226, 226, 226, 0.23) 0px 3px 6px;
+          border: none;
+          color: black;
+          transition: .3s;
+
+          .icon {
+            margin-right: 5px;
+            width: 35px;
+            height: 35px;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
+
+          }
+
+          .text {
+            height: 100%;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: center;
+
+            .text-top {
+              text-align: left;
+              line-height: 15px;
+              font-size: 12px;
+            }
+
+            .text-bottom {
+              line-height: 15px;
+              font-size: 16px;
+              font-weight: bold;
+              letter-spacing: 1px;
+            }
+          }
+
+          &:hover {
+            box-shadow: rgba(232, 232, 252, 0.91) 0px 0px 14px -2px, rgba(214, 214, 214, 0.87) 0px 3px 14px -3px;
+          }
+        }
+      }
+    }
   }
 }
 
