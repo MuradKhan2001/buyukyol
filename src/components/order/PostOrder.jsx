@@ -10,17 +10,18 @@ import ReactStars from 'react-stars'
 import usePlacesAutocomplete, {
     getGeocode, getLatLng,
 } from "use-places-autocomplete";
+
 import {
     Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption,
 } from "@reach/combobox";
+
 import "@reach/combobox/styles.css";
 import {CSSTransition} from "react-transition-group";
 import LoaderAdmin from "./LoaderAdmin";
-import message from "../admin/Site Admin/massages/Message";
 import Slider from "react-slick";
 import {useNavigate} from "react-router-dom";
 
-const API_KEY = "AIzaSyCC6N2vc_sH_7oTAcvr-kyv5iKt2ng7bsk";
+const API_KEY = `AIzaSyCC6N2vc_sH_7oTAcvr-kyv5iKt2ng7bsk`;
 const libraries = ['places'];
 
 let city, country;
@@ -33,8 +34,8 @@ navigator.geolocation.getCurrentPosition(position => {
             "Accept-Language": "en"
         }
     }).then((res) => {
-        city = res.data.address.city;
-        country = res.data.address.country
+        city = res.data.address.city.replace("'","");
+        country = res.data.address.country.replace("'","")
     });
 
 });
@@ -105,7 +106,6 @@ const PostOrder = () => {
     const [DriversList, setDriversList] = useState([])
     const [DriversListRaid, setDriversListRaid] = useState([])
     const [raidCount, setRaidCount] = useState(0)
-
     const settingsForStills = {
         dots: false,
         infinite: false,
@@ -141,6 +141,8 @@ const PostOrder = () => {
             }
         ]
     };
+
+    const icon = {url: './images/truck-icon2.png', scaledSize: {width: 50, height: 50} };
 
     const getInputs = (e) => {
 
@@ -309,6 +311,14 @@ const PostOrder = () => {
 
                 }
 
+                if (data.message.status === 'location'){
+                    const update = (prevState) => {
+                        let driver = prevState.filter(item => item.driver != data.message.driver[0].driver)
+                        return [...driver,data.message.driver[0]]
+                    }
+                    setActiveDriversList(update)
+                }
+
             }
 
             if (data.message.status === false) {
@@ -322,23 +332,6 @@ const PostOrder = () => {
 
             }
 
-            if (data.message.status === "location") {
-
-                var driver_id = data.message.driver[0].driver
-
-                localStorage.setItem(driver_id, data.message.driver[0])
-                console.log(data.message.driver)
-
-                const update = (prevState) => {
-                    var drivers = prevState.filter((item) => driver_id !== item.driver)
-                    var newDrivers = [...drivers, data.message.driver[0]]
-                    const mark = marker.find((m) => m.id === driver_id)
-                    if (mark){
-
-                    }
-                }
-                setActiveDriversList(update)
-            }
 
         };
 
@@ -387,11 +380,10 @@ const PostOrder = () => {
 
     }, []);
 
-    const [marker, setMarker] = useState([])
-
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: API_KEY,
-        libraries: libraries
+        libraries: libraries,
+        language: 'uz'
     });
 
     const options = useMemo(() => ({
@@ -399,31 +391,6 @@ const PostOrder = () => {
     }), []);
 
     if (!isLoaded) return <LoaderAdmin/>;
-
-    const icon = {url: './images/truckDriver.png', scaledSize: {width: 40, height: 60}, rotation: 0};
-
-    function calculateBearingAngle(lat1, lon1, lat2, lon2) {
-        const dLon = lon2 - lon1;
-        const y = Math.sin(dLon) * Math.cos(lat2);
-        const x =
-            Math.cos(lat1) * Math.sin(lat2) -
-            Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-        let angle = Math.atan2(y, x);
-        angle = (angle * 180) / Math.PI; // Convert to degrees
-
-        // Normalize the angle to a range of 0-360 degrees
-        if (angle < 0) {
-            angle += 360;
-        }
-
-        return angle;
-    }
-    const updateCarRotation = (marker, angle) => {
-        marker.setIcon({
-            url: "path/to/car-icon.png", // Replace with the path to your car icon image
-            rotation: angle, // Set the rotation angle (in degrees)
-        });
-    };
 
     const GetMyLocation = () => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -488,7 +455,11 @@ const PostOrder = () => {
 
         const {
             ready, value, setValue, suggestions: {status, data}, clearSuggestions,
-        } = usePlacesAutocomplete();
+        } = usePlacesAutocomplete({
+            requestOptions: {
+                language: 'en',
+            },
+        });
 
         const handleSelect = async (address) => {
             setValue(address, false);
@@ -550,6 +521,7 @@ const PostOrder = () => {
 
                 cargo.latitude_to = Number(selected.lat.toString().slice(0, 9))
                 cargo.longitude_to = Number(selected.lng.toString().slice(0, 9))
+
             } else {
                 let id = Date.now()
                 let newAlerts = {
@@ -567,8 +539,8 @@ const PostOrder = () => {
                 longitude_from: cargo.longitude_from,
                 latitude_to: cargo.latitude_to,
                 longitude_to: cargo.longitude_to
-
             }
+            console.log(distance)
             websocket.send(JSON.stringify(distance));
         }
 
@@ -1146,18 +1118,17 @@ const PostOrder = () => {
                             zoom={5}
                             center={centerMain}
                             options={options}
-                            mapContainerClassName="map-container">
+                            mapContainerClassName="map-container-main">
 
                             {activeDriversList.length >= 0 ?
 
                                 <>
-                                    {activeDriversList.map((item, index) => {
+                                    {activeDriversList.map((item) => {
                                         return <Marker
                                             key={item.driver}
                                             position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
                                             icon={icon}
                                             onClick={() => onMarkerClick(item)}
-                                            onLoad={(marker) => setMarker(prevState => [...prevState, marker])}
                                         />
                                     })}
 
@@ -1178,6 +1149,7 @@ const PostOrder = () => {
                                                 </div>
                                             </div>
                                         </InfoWindow>)}
+
                                 </>
 
                                 : ""}
@@ -1700,7 +1672,6 @@ const PostOrder = () => {
 
                 </div>
             </div>
-
             <div className="mobile">
                 <div className="title">
                     {t('alertText')}

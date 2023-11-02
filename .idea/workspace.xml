@@ -5,149 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/buyuk-yol-app.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/Truck.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/about.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/active- order.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/add-package.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/add1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/agreement.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/block.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/block1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/close2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/contact-us.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/credit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/customer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/dark.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/delete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/discount.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/download.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/driver.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/driver1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/edit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/edit2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/exchange.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/filter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/flexibility.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/font.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/handshake.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/location1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/location2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/lock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/message.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/mode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/money.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/news.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/next.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/notification.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/payment.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/photo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/prev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/price-tag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/rating.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/received.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/shopping.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/taxes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/tick.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/ticket.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/truck-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/truck-icon2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/truck.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/verified.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/verified1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/view.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/admin/wallet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/androit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/bag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/clients.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/clip.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/download.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/facebook.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/footer1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/gps.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/instagram.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/ios.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/logo1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/logo4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/logout.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/menu.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/partner1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/phone-call.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/service.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/telegram.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/users.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/video.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/work-pagination-next.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/images/work-pagination-prev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/369.66107f37.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/369.66107f37.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/704.c7321508.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/704.c7321508.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.d7d34756.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.d7d34756.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/369.ce901dbf.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/369.ce901dbf.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/369.ce901dbf.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/704.81aa02ae.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/704.81aa02ae.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.9bb9fb0a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.9bb9fb0a.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.9bb9fb0a.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/1366X768.943e2dc4c847568f5411.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/1440x900.aed2ea0c3b37b94f9700.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/bg4.ba23b9b86ddb72355248.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/footer1.692e509b6b56bbe1f9a7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/slick.2630a3e3eab21c607e21.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/slick.295183786cd8a1389865.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/slick.a4e97f5a2a64f0ab1323.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/slick.c94f7671dcc99dce43e2.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/download.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/download.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/tick.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/about-app/AboutApp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about-app/AboutApp.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/about-app/about-app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about-app/about-app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/about-app/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/about-app/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/Admin/images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/Admin/images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/agreement/Agreement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/Agreement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/agreement/agreement.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/agreement.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/agreement/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/contact/Contact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/Contact.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/contact/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/contact/contact.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/contact.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/footer/bg-image/footer2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/footer/bg-image/news2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/footer/footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/footer/footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/bg-images/1366X768.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/bg-images/1366X768.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/bg-images/1440x900.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/bg-images/1440x900.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/loader/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login-client/LoginClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/LoginClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login-client/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login-client/loginClient.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/loginClient.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/my-profile/MyProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/my-profile/MyProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/my-profile/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/my-profile/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notFound/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notFound/bg-images/bg4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/Admin/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/Admin/Admin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/admin home/MainHome.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/admin home/MainHome.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/order/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/bg-images/bg4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/register-client/RegisterClient.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register-client/RegisterClient.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/register-client/bg-images/bg4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register-client/bg-images/bg4.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -308,7 +170,9 @@
       <workItem from="1698430434981" duration="4614000" />
       <workItem from="1698469724408" duration="6337000" />
       <workItem from="1698646211041" duration="67299000" />
-      <workItem from="1698817410493" duration="29988000" />
+      <workItem from="1698817410493" duration="30226000" />
+      <workItem from="1698861233913" duration="4347000" />
+      <workItem from="1698897610506" duration="19915000" />
     </task>
     <servers />
   </component>

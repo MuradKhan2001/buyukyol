@@ -5,10 +5,10 @@ import LoaderAdmin from "./LoaderAdmin";
 
 const API_KEY = "AIzaSyAT1gB8sob8_piFwfeu3AaTL15yHyjuc30";
 
+const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
 
 const MainHome = () => {
 
-    const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
 
     const [locationsList, setLocationsList] = useState([]);
 
@@ -99,7 +99,10 @@ const MainHome = () => {
 
                     {selectedLocation && (
                         <InfoWindow
-                            position={{lat: Number(selectedLocation.latitude), lng: Number(selectedLocation.longitude)}}
+                            position={{
+                                lat: Number(selectedLocation.latitude),
+                                lng: Number(selectedLocation.longitude)
+                            }}
                             onCloseClick={onCloseClick}
                         >
                             <div className="info-box">

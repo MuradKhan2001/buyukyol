@@ -307,10 +307,12 @@ const Admin = () => {
                         </div>
                     </div>
                     <div onClick={() => {
+                        localStorage.removeItem("admin")
                         localStorage.removeItem('token');
-                        window.location.pathname = "/";
                         localStorage.setItem("lng", "uz")
                         sessionStorage.removeItem("menu")
+
+                        window.location.pathname = "/";
                     }} className="exit"><img src="./images/logout.png" alt=""/></div>
                 </div>
             </div>
