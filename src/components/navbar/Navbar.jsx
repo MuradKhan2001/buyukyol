@@ -146,7 +146,7 @@ const Navbar = () => {
         </div>
 
         {
-            localStorage.getItem("userId") ? <div className="user-profile">
+            localStorage.getItem("userId") && localStorage.getItem("token")  ? <div className="user-profile">
                 <Dropdown>
                     <Dropdown.Toggle variant="none" id="dropdown-basic">
                         <img className="security-icon" src="./images/profile.png" alt=""/>

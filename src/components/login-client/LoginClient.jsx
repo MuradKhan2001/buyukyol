@@ -1,4 +1,4 @@
-import {useContext, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import "./loginClient.scss";
 import axios from "axios";
 import {MyContext} from "../app/App";
@@ -16,13 +16,17 @@ const LoginClient = () => {
     const [phone, setPhone] = useState("");
     const [code, setCode] = useState("");
     const [loading, setLoading] = useState("");
-    const [nextPage, setNextPage] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
     const [statusError, setStatusError] = useState("");
     const [check, setCheck] = useState(0);
     const nodeRef = useRef(null);
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        if (sessionStorage.getItem("next")) {}
+        else sessionStorage.getItem("next",false)
+    },[])
 
     const HandleLogin = () => {
         if (phone.trim().length > 4) {
@@ -35,7 +39,8 @@ const LoginClient = () => {
                 if (response.data.user) {
                     localStorage.setItem("userId", response.data.user);
                     setLoading("Loading...");
-                    setNextPage(true)
+                    // setNextPage(true)
+                    sessionStorage.setItem("next", true)
                 } else {
                     setStatusError("1");
                     setAlertCancel(true);
@@ -66,6 +71,10 @@ const LoginClient = () => {
         }
     };
 
+    const prevpage = ()=>{
+        sessionStorage.setItem("next", false)
+        window.location.reload()
+    }
     const handleOnChange = (res) => {
         setCode(res);
     };
@@ -112,7 +121,7 @@ const LoginClient = () => {
         setCode("")
     };
 
-    useOnKeyPress(nextPage ? CheckCode : HandleLogin, 'Enter');
+    useOnKeyPress(sessionStorage.getItem("next") === "true" ? CheckCode : HandleLogin, 'Enter');
     useOnKeyPress(Clear, 'Delete');
 
     return <div className="login-container">
@@ -143,7 +152,13 @@ const LoginClient = () => {
         </CSSTransition>
 
         {
-            nextPage ? <div className="login-card">
+            sessionStorage.getItem("next") === "true" ? <div className="login-card">
+
+                    <div onClick={prevpage} className="prev-btn">
+                        <img src="./images/prev.png" alt=""/>
+                        {t("changeNumber")}
+                    </div>
+
                     <div className="logo">
                         <img onClick={() => {
                             navigate('/')
@@ -158,21 +173,21 @@ const LoginClient = () => {
                         <AuthCode allowedCharacters='numeric' length="5" onChange={handleOnChange}/>
                     </div>
 
-                {
-                    check < 3 && <div onClick={() => {
-                        if (check < 3) {
-                            HandleLogin();
-                            setAlertCancel(true);
-                            setStatusError("3");
-                            setCheck(check + 1);
-                            setTimeout(() => {
-                                setAlertCancel(false);
-                            }, 5000)
-                        }
-                    }} className="recode">
-                        {t("title2")}
-                    </div>
-                }
+                    {
+                        check < 3 && <div onClick={() => {
+                            if (check < 3) {
+                                HandleLogin();
+                                setAlertCancel(true);
+                                setStatusError("3");
+                                setCheck(check + 1);
+                                setTimeout(() => {
+                                    setAlertCancel(false);
+                                }, 5000)
+                            }
+                        }} className="recode">
+                            {t("title2")}
+                        </div>
+                    }
 
                     <div onClick={CheckCode} onKeyUp={() => console.log("enter")} className="login-btn">
                         {t("button2")}

@@ -86,7 +86,7 @@
   "button2": "Confirmation",
   "button3": "Cancel",
   "button4": "Exit",
-  "button5": "Enter",
+  "button5": "Login",
   "button6": "Registration",
   "title1": "Enter the confirmation code",
   "title2": "Send the code again",
@@ -118,5 +118,8 @@
   "alert 9": "Your cargo is loaded!",
   "alert 10": "Your order is completed!",
   "raid Driver": "Rate the driver",
-  "raidDriverText": "Rated!"
+  "raidDriverText": "Rated!",
+  "geoLocation": "Geolocaiton is turned off!",
+  "changeNumber": "Reenter number",
+  "changeNumber2": "Reenter information"
 }

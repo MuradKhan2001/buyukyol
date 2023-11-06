@@ -24,23 +24,19 @@ import {useNavigate} from "react-router-dom";
 const API_KEY = `AIzaSyCC6N2vc_sH_7oTAcvr-kyv5iKt2ng7bsk`;
 const libraries = ['places'];
 
-let city, country;
+
+let websocket = null
+let location
+
+
 navigator.geolocation.getCurrentPosition(position => {
     const {latitude, longitude} = position.coords;
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&lan=en`;
+    location = `${latitude}/${longitude}`
+    websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem('token')}`);
 
-    axios.get(`${url}`, {
-        headers: {
-            "Accept-Language": "en"
-        }
-    }).then((res) => {
-        city = res.data.address.city.replace("'","");
-        country = res.data.address.country.replace("'","")
-    });
-
+}, (error) => {
+    alert("Geolocaiton is turned off!")
 });
-
-const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${city}/${country}/?token=${localStorage.getItem('token')}`);
 
 const PostOrder = () => {
     let value = useContext(MyContext);
@@ -91,7 +87,7 @@ const PostOrder = () => {
     const [distance, setDistance] = useState("");
     const [cargoId, setCargoId] = useState("")
 
-    const [locationName, setLocationName] = useState("true")
+    const [locationName, setLocationName] = useState("")
     const [location1, setLocation1] = useState(false)
     const [location2, setLocation2] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -100,6 +96,7 @@ const PostOrder = () => {
     const [centerMain, setCenterMain] = useState(null);
     const [locationName1, setLocationName1] = useState("")
     const [locationName2, setLocationName2] = useState("")
+    const [loaderMap, setLoadermap] = useState(true)
 
     const [driverList, setDriverList] = useState(false)
     const [activeDriversList, setActiveDriversList] = useState([]);
@@ -114,35 +111,22 @@ const PostOrder = () => {
         slidesToShow: 3,
         slidesToScroll: 3,
         initialSlide: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    initialSlide: 1
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
+        responsive: [{
+            breakpoint: 1024, settings: {
+                slidesToShow: 3, slidesToScroll: 3, infinite: true, dots: true
             }
-        ]
+        }, {
+            breakpoint: 600, settings: {
+                slidesToShow: 3, slidesToScroll: 3, initialSlide: 1
+            }
+        }, {
+            breakpoint: 480, settings: {
+                slidesToShow: 3, slidesToScroll: 3
+            }
+        }]
     };
 
-    const icon = {url: './images/truck-icon2.png', scaledSize: {width: 50, height: 50} };
+    const icon = {url: './images/truck-icon2.png', scaledSize: {width: 50, height: 50}};
 
     const getInputs = (e) => {
 
@@ -188,202 +172,210 @@ const PostOrder = () => {
         setDriversList(filter_driver)
     }
 
+
     useEffect(() => {
 
-        websocket.onclose = () => {
-            window.location.reload()
-        }
 
-        websocket.onmessage = (event) => {
+        if (websocket) {
 
-            const data = JSON.parse(event.data);
-
-            if (!('status' in data.message)) {
-
-                let driver = data.message.filter((item) => (item.status !== "Delivered"))
-                setDriversList(driver)
-
-                let raidDriver = data.message.filter((item) => (item.status === "Delivered"))
-                setDriversListRaid(raidDriver)
-
+            websocket.onclose = () => {
+                window.location.reload()
             }
+            websocket.onmessage = (event) => {
 
-            if (data.message.status) {
+                const data = JSON.parse(event.data);
 
-                if (data.message.status === "canceled") {
+                if (!('status' in data.message)) {
 
-                    let id = Date.now()
-                    let newAlerts = {
-                        id, text: t("alert2"), color: "#932626", img: "./images/caution.png"
+                    let driver = data.message.filter((item) => (item.status !== "Delivered"))
+                    setDriversList(driver)
+
+                    let raidDriver = data.message.filter((item) => (item.status === "Delivered"))
+                    setDriversListRaid(raidDriver)
+
+                }
+
+                if (data.message.status) {
+
+                    if (data.message.status === "canceled") {
+
+                        let id = Date.now()
+                        let newAlerts = {
+                            id, text: t("alert2"), color: "#932626", img: "./images/caution.png"
+                        }
+                        setAlerts(prevState => [...prevState, newAlerts])
+                        alertRemove(3000, id)
+                        setInfoCargo(false)
+
+                        setCancelOrder(false)
+
+                        setDriversList(prevState => prevState.filter(item => item.order_id !== data.message.order_id))
                     }
-                    setAlerts(prevState => [...prevState, newAlerts])
-                    alertRemove(3000, id)
-                    setInfoCargo(false)
 
-                    setCancelOrder(false)
+                    if (data.message.status === "confirmed" || data.message.status === "Added") {
+                        let id = Date.now()
+                        let newAlerts = {
+                            id, text: t("alert1"), color: "#218823", img: "./images/check-mark.png"
+                        }
+                        setAlerts(prevState => [...prevState, newAlerts])
+                        alertRemove(3000, id)
 
-                    setDriversList(prevState => prevState.filter(item => item.order_id !== data.message.order_id))
-                }
+                        setInfoCargo(false)
+                        orderCount();
+                        setFormBox(false)
+                        setDirection("")
+                        setCategoryId("")
+                        setCarId("")
+                        setLocationName1("")
+                        setLocationName2("")
 
-                if (data.message.status === "confirmed" || data.message.status === "Added") {
-                    let id = Date.now()
-                    let newAlerts = {
-                        id, text: t("alert1"), color: "#218823", img: "./images/check-mark.png"
+                        let cargoBox = {
+                            command: "new_order",
+                            price: "",
+                            client: "",
+                            car_category: "",
+                            car_body_type: "",
+                            type: "",
+                            address_from: "",
+                            latitude_from: "",
+                            longitude_from: "",
+                            address_to: "",
+                            latitude_to: "",
+                            longitude_to: "",
+                            cargo: "",
+                            capacity: "",
+                            unit: t("infoWaits1"),
+                            currency: "UZS",
+                            avans: null,
+                            payment_type: "",
+                            wait_cost: null,
+                            wait_type: t("waitCount1"),
+                            load_time: null,
+                            start_time: null,
+                            number_cars: 1
+                        }
+                        setCargo(cargoBox)
                     }
-                    setAlerts(prevState => [...prevState, newAlerts])
-                    alertRemove(3000, id)
 
-                    setInfoCargo(false)
-                    orderCount();
-                    setFormBox(false)
-                    setDirection("")
-                    setCategoryId("")
-                    setCarId("")
-                    setLocationName1("")
-                    setLocationName2("")
-
-                    let cargoBox = {
-                        command: "new_order",
-                        price: "",
-                        client: "",
-                        car_category: "",
-                        car_body_type: "",
-                        type: "",
-                        address_from: "",
-                        latitude_from: "",
-                        longitude_from: "",
-                        address_to: "",
-                        latitude_to: "",
-                        longitude_to: "",
-                        cargo: "",
-                        capacity: "",
-                        unit: t("infoWaits1"),
-                        currency: "UZS",
-                        avans: null,
-                        payment_type: "",
-                        wait_cost: null,
-                        wait_type: t("waitCount1"),
-                        load_time: null,
-                        start_time: null,
-                        number_cars: 1
+                    if (data.message.status === "distance") {
+                        setDistance(data.message.distance)
                     }
-                    setCargo(cargoBox)
-                }
 
-                if (data.message.status === "distance") {
-                    setDistance(data.message.distance)
-                }
-
-                if (data.message.status === "Price") {
-                    setCargoInfo(data.message)
-                }
-
-                if (data.message.status === "Accepted") {
-                    let id = Date.now()
-                    let newAlerts = {
-                        id, text: t("alert8"), color: "#218823", img: "./images/check-mark.png"
+                    if (data.message.status === "Price") {
+                        setCargoInfo(data.message)
                     }
-                    setAlerts(prevState => [...prevState, newAlerts])
-                    alertRemove(30000, id)
 
-                    let driver = data.message
-                    setDriversList(prevDriversList => [...prevDriversList, driver])
-                }
+                    if (data.message.status === "Accepted") {
+                        let id = Date.now()
+                        let newAlerts = {
+                            id, text: t("alert8"), color: "#218823", img: "./images/check-mark.png"
+                        }
+                        setAlerts(prevState => [...prevState, newAlerts])
+                        alertRemove(30000, id)
 
-                if (data.message.status === "delivering") {
-                    let id = Date.now()
-                    let newAlerts = {
-                        id, text: t("alert9"), color: "#218823", img: "./images/check-mark.png"
+                        let driver = data.message
+                        setDriversList(prevDriversList => [...prevDriversList, driver])
                     }
-                    setAlerts(prevState => [...prevState, newAlerts])
-                    alertRemove(30000, id)
-                }
 
-                if (data.message.status === "delivered") {
-                    let id = Date.now()
-                    let newAlerts = {
-                        id, text: t("alert10"), color: "#218823", img: "./images/check-mark.png"
+                    if (data.message.status === "delivering") {
+                        let id = Date.now()
+                        let newAlerts = {
+                            id, text: t("alert9"), color: "#218823", img: "./images/check-mark.png"
+                        }
+                        setAlerts(prevState => [...prevState, newAlerts])
+                        alertRemove(30000, id)
                     }
-                    setAlerts(prevState => [...prevState, newAlerts])
-                    alertRemove(30000, id)
 
-                    updateDriversList(data.message.id)
+                    if (data.message.status === "delivered") {
+                        let id = Date.now()
+                        let newAlerts = {
+                            id, text: t("alert10"), color: "#218823", img: "./images/check-mark.png"
+                        }
+                        setAlerts(prevState => [...prevState, newAlerts])
+                        alertRemove(30000, id)
 
-                }
+                        updateDriversList(data.message.id)
 
-                if (data.message.status === 'location'){
-                    const update = (prevState) => {
-                        let driver = prevState.filter(item => item.driver != data.message.driver[0].driver)
-                        return [...driver,data.message.driver[0]]
                     }
-                    setActiveDriversList(update)
+
+                    if (data.message.status === 'location') {
+                        const update = (prevState) => {
+                            let driver = prevState.filter(item => item.driver != data.message.driver[0].driver)
+                            return [...driver, data.message.driver[0]]
+                        }
+                        setActiveDriversList(update)
+                    }
+
                 }
 
-            }
+                if (data.message.status === false) {
 
-            if (data.message.status === false) {
+                    if (data.message === "invalid token") {
+                        window.location.pathname = "/login-client";
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("user_name");
+                    }
 
-                if (data.message === "invalid token") {
+                }
+
+
+            };
+
+            axios.get(`${value.url}api/car-category/`, {
+                headers: {
+                    "Accept-Language": i18next.language ? i18next.language : "uz"
+                }
+            }).then((response) => {
+                let re = response.data.reverse();
+                setCategoryType(re);
+            }).catch((error) => {
+                if (error.response.statusText == "Unauthorized") {
                     window.location.pathname = "/login-client";
                     localStorage.removeItem("token");
                     localStorage.removeItem("userId");
                     localStorage.removeItem("user_name");
                 }
+            });
 
-            }
+            orderCount()
 
+            navigator.geolocation.getCurrentPosition(position => {
+                const {latitude, longitude} = position.coords;
+                let locMy = {lat: latitude, lng: longitude}
+                setCenter(locMy)
+                setCenterMain(locMy)
+            });
+        }
 
-        };
-
-        axios.get(`${value.url}api/car-category/`, {
-            headers: {
-                "Accept-Language": i18next.language ? i18next.language : "uz"
-            }
-        }).then((response) => {
-            let re = response.data.reverse();
-            setCategoryType(re);
-        }).catch((error) => {
-            if (error.response.statusText == "Unauthorized") {
-                window.location.pathname = "/login-client";
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
-                localStorage.removeItem("user_name");
-            }
-        });
-
-        orderCount()
-
-        navigator.geolocation.getCurrentPosition(position => {
-            const {latitude, longitude} = position.coords;
-            let locMy = {lat: latitude, lng: longitude}
-            setCenter(locMy)
-            setCenterMain(locMy)
-        });
+        setTimeout(() => {
+            setLoadermap(false);
+        }, 2000);
 
     }, []);
 
     useEffect(() => {
-        const web = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${city}/${country}/?token=${localStorage.getItem('token')}`)
+        if (websocket) {
+            const web = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem('token')}`)
 
-        web.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (!('status' in data.message)) {
+            web.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (!('status' in data.message)) {
 
-                let driver = data.message.filter((item) => (item.status !== "Delivered"))
-                setDriversList(driver)
+                    let driver = data.message.filter((item) => (item.status !== "Delivered"))
+                    setDriversList(driver)
 
-                let raidDriver = data.message.filter((item) => (item.status === "Delivered"))
-                setDriversListRaid(raidDriver)
+                    let raidDriver = data.message.filter((item) => (item.status === "Delivered"))
+                    setDriversListRaid(raidDriver)
 
+                }
             }
         }
 
     }, []);
 
     const {isLoaded} = useLoadScript({
-        googleMapsApiKey: API_KEY,
-        libraries: libraries,
-        language: 'uz'
+        googleMapsApiKey: API_KEY, libraries: libraries, language: i18next.language
     });
 
     const options = useMemo(() => ({
@@ -540,7 +532,6 @@ const PostOrder = () => {
                 latitude_to: cargo.latitude_to,
                 longitude_to: cargo.longitude_to
             }
-            console.log(distance)
             websocket.send(JSON.stringify(distance));
         }
 
@@ -556,7 +547,6 @@ const PostOrder = () => {
         if (command === "new_order") {
             cargo.client = Number(localStorage.getItem("userId"))
             websocket.send(JSON.stringify(cargo));
-            console.log(cargo)
         } else if (command === "cancel_order") {
             let order = {
                 command: command, id: cargoInfo.id
@@ -573,10 +563,7 @@ const PostOrder = () => {
     const cancelOrders = () => {
 
         let order = {
-            command: "cancel_order",
-            id: cargoId,
-            reason,
-            many: false
+            command: "cancel_order", id: cargoId, reason, many: false
         };
         websocket.send(JSON.stringify(order));
 
@@ -584,9 +571,7 @@ const PostOrder = () => {
     const sendRaid = (id, did) => {
 
         let raidList = {
-            driver: id,
-            delivery: did,
-            mark: raidCount
+            driver: id, delivery: did, mark: raidCount
         }
 
         axios.post(`${value.url}api/comment/`, raidList, {
@@ -616,8 +601,7 @@ const PostOrder = () => {
     const cancelRaid = (id) => {
 
         let cancelRaid = {
-            command: "unrate",
-            id: id
+            command: "unrate", id: id
         }
 
         websocket.send(JSON.stringify(cancelRaid));
@@ -740,7 +724,8 @@ const PostOrder = () => {
                                 <div></div>
                                 <div>  {t("driver")}</div>
                                 <div>
-                                    <img onClick={() => setDriverList(false)} src="./images/close-driver-list.png" alt=""/>
+                                    <img onClick={() => setDriverList(false)} src="./images/close-driver-list.png"
+                                         alt=""/>
                                 </div>
                             </div>
                             {DriversList.map((item, index) => {
@@ -910,15 +895,13 @@ const PostOrder = () => {
                                     {t("info6")}
                                 </div>
                                 <div className="text-order">
-                                    {
-                                        cars.map((item, index) => {
-                                            if (item.id === cargo.car_body_type) {
-                                                return <div key={index}>
-                                                    {item.name}
-                                                </div>
-                                            }
-                                        })
-                                    }
+                                    {cars.map((item, index) => {
+                                        if (item.id === cargo.car_body_type) {
+                                            return <div key={index}>
+                                                {item.name}
+                                            </div>
+                                        }
+                                    })}
 
                                 </div>
                             </div>
@@ -937,9 +920,7 @@ const PostOrder = () => {
                                     {t("info9")}
                                 </div>
                                 <div className="text-order">
-                                    {
-                                        cargo.avans ? <> {cargo.avans} {cargo.currency} </> : "--"
-                                    }
+                                    {cargo.avans ? <> {cargo.avans} {cargo.currency} </> : "--"}
                                 </div>
                             </div>
 
@@ -999,70 +980,69 @@ const PostOrder = () => {
 
                 </CSSTransition>
 
-                {DriversListRaid.length > 0 &&
-                    <div className="raid-driver">
-                        <div className="driver">
+                {DriversListRaid.length > 0 && <div className="raid-driver">
+                    <div className="driver">
 
-                            <div className="header">
-                                <div></div>
-                                <div className="title">{t("raidDriver")}</div>
-                                <img onClick={() => cancelRaid(DriversListRaid[0].id)} src="./images/close-driver-list.png"
-                                     alt=""/>
+                        <div className="header">
+                            <div></div>
+                            <div className="title">{t("raidDriver")}</div>
+                            <img onClick={() => cancelRaid(DriversListRaid[0].id)}
+                                 src="./images/close-driver-list.png"
+                                 alt=""/>
+                        </div>
+
+                        <div className="section-one">
+                            <div className="driver-image">
+                                <img src={`https://api.buyukyol.uz/${DriversListRaid[0].driver.image}`} alt=""/>
                             </div>
 
-                            <div className="section-one">
-                                <div className="driver-image">
-                                    <img src={`https://api.buyukyol.uz/${DriversListRaid[0].driver.image}`} alt=""/>
+                            <div className="text">
+                                <div className="names">
+                                    {DriversListRaid[0].driver.first_name}
+                                    &nbsp;
+                                    {DriversListRaid[0].driver.last_name}
                                 </div>
 
-                                <div className="text">
-                                    <div className="names">
-                                        {DriversListRaid[0].driver.first_name}
-                                        &nbsp;
-                                        {DriversListRaid[0].driver.last_name}
+                                <div className="info-car">
+                                    <div>
+                                        <img src="./images/truck2.png" alt=""/>
+                                        {DriversListRaid[0].driver.documentation ? DriversListRaid[0].driver.documentation.name : ""}
                                     </div>
-
-                                    <div className="info-car">
-                                        <div>
-                                            <img src="./images/truck2.png" alt=""/>
-                                            {DriversListRaid[0].driver.documentation ? DriversListRaid[0].driver.documentation.name : ""}
-                                        </div>
-                                        <div>
-                                            <img src="./images/carnumber2.png" alt=""/>
-                                            {DriversListRaid[0].driver.documentation ? DriversListRaid[0].driver.documentation.car_number : ""}
-                                        </div>
+                                    <div>
+                                        <img src="./images/carnumber2.png" alt=""/>
+                                        {DriversListRaid[0].driver.documentation ? DriversListRaid[0].driver.documentation.car_number : ""}
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="section-two">
+                        <div className="section-two">
 
-                                <a href={`tel:${DriversListRaid[0].driver.phone}`} className="phone">
-                                    <img src="./images/phone2.png" alt=""/>
-                                    {DriversListRaid[0].driver.phone}
-                                </a>
+                            <a href={`tel:${DriversListRaid[0].driver.phone}`} className="phone">
+                                <img src="./images/phone2.png" alt=""/>
+                                {DriversListRaid[0].driver.phone}
+                            </a>
 
-                                <ReactStars
-                                    count={5}
-                                    onChange={(e) => {
-                                        setRaidCount(e)
-                                    }} size={32}
-                                    color2={'#dcdb35'}
-                                    half={false}/>
-
-                            </div>
-
-                            <div className="footer">
-                                <div onClick={() => sendRaid(DriversListRaid[0].driver.id, DriversListRaid[0].id)}
-                                     className="send-btn">
-                                    {t("sentButton")}
-                                    <img src="./images/send.png" alt=""/>
-                                </div>
-                            </div>
+                            <ReactStars
+                                count={5}
+                                onChange={(e) => {
+                                    setRaidCount(e)
+                                }} size={32}
+                                color2={'#dcdb35'}
+                                half={false}/>
 
                         </div>
+
+                        <div className="footer">
+                            <div onClick={() => sendRaid(DriversListRaid[0].driver.id, DriversListRaid[0].id)}
+                                 className="send-btn">
+                                {t("sentButton")}
+                                <img src="./images/send.png" alt=""/>
+                            </div>
+                        </div>
+
                     </div>
-                }
+                </div>}
 
                 <div className="left-side">
 
@@ -1100,109 +1080,118 @@ const PostOrder = () => {
                                 </div>
                             </div>
                             <div className="map-box">
-                                <GoogleMap
-                                    zoom={10}
-                                    center={center}
-                                    options={options}
-                                    onClick={ClicklLocation}
-                                    mapContainerClassName="map-container">
+                                {
+                                    loaderMap ? <LoaderAdmin/> :  <GoogleMap
+                                        zoom={10}
+                                        center={center}
+                                        options={options}
+                                        onClick={ClicklLocation}
+                                        mapContainerClassName="map-container">
 
-                                    {selected && <Marker position={selected}/>}
+                                        {selected && <Marker position={selected}/>}
 
-                                </GoogleMap>
+                                    </GoogleMap>
+                                }
+
                             </div>
 
                         </div>
 
-                        : <GoogleMap
-                            zoom={5}
-                            center={centerMain}
-                            options={options}
-                            mapContainerClassName="map-container-main">
+                        : <>
+                            {
+                                loaderMap ? <LoaderAdmin/> : <GoogleMap
+                                    zoom={5}
+                                    center={centerMain}
+                                    options={options}
+                                    mapContainerClassName="map-container-main">
 
-                            {activeDriversList.length >= 0 ?
+                                    {activeDriversList.length >= 0 ?
 
-                                <>
-                                    {activeDriversList.map((item) => {
-                                        return <Marker
-                                            key={item.driver}
-                                            position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
-                                            icon={icon}
-                                            onClick={() => onMarkerClick(item)}
-                                        />
-                                    })}
+                                        <>
+                                            {activeDriversList.map((item) => {
+                                                return <Marker
+                                                    key={item.driver}
+                                                    position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
+                                                    icon={icon}
+                                                    onClick={() => onMarkerClick(item)}
+                                                />
+                                            })}
 
-                                    {selectedLocation && (
-                                        <InfoWindow
-                                            position={{
-                                                lat: Number(selectedLocation.latitude),
-                                                lng: Number(selectedLocation.longitude)
-                                            }}
-                                            onCloseClick={onCloseClick}
-                                        >
-                                            <div className="info-box-car">
-                                                <div className="info-text">
-                                                    <span>Moshina raqam:</span>
-                                                    {selectedLocation.car_number} <br/>
-                                                    <span>Tel raqam:</span>
-                                                    {selectedLocation.phone_number}
+                                            {selectedLocation && (<InfoWindow
+                                                position={{
+                                                    lat: Number(selectedLocation.latitude),
+                                                    lng: Number(selectedLocation.longitude)
+                                                }}
+                                                onCloseClick={onCloseClick}
+                                            >
+                                                <div className="info-box-car">
+                                                    <div className="info-text">
+                                                        <span>Moshina raqam:</span>
+                                                        {selectedLocation.car_number} <br/>
+                                                        <span>Tel raqam:</span>
+                                                        {selectedLocation.phone_number}
+                                                    </div>
+                                                </div>
+                                            </InfoWindow>)}
+
+                                        </>
+
+                                        : ""}
+
+                                    {CountOrders > 0 &&
+                                        <div onClick={() => navigate("/my-profile")} className="orders-count">
+                                            <div className="loader-box">
+                                                <div className="loader"></div>
+                                            </div>
+                                            <div className="text1">
+                                                {t("bagsCount")}:
+                                                <div className="num">
+                                                    <img src="./images/Cardboard_Box2.png" alt=""/>
+                                                    {CountOrders}
                                                 </div>
                                             </div>
-                                        </InfoWindow>)}
+                                            <div className="text2">
+                                                {t("wait")}
+                                            </div>
+                                        </div>}
 
-                                </>
+                                    {DriversList[0] && <div className="drivers-count">
 
-                                : ""}
+                                        <div onClick={() => setDriverList(true)} className="driver">
+                                            <div className="top-side">
+                                                <div className="driver-image">
+                                                    <img src={`https://api.buyukyol.uz/${DriversList[0].driver.image}`}
+                                                         alt=""/>
+                                                </div>
 
-                            {CountOrders > 0 && <div onClick={()=> navigate("/my-profile")} className="orders-count">
-                                <div className="loader-box">
-                                    <div className="loader"></div>
-                                </div>
-                                <div className="text1">
-                                    {t("bagsCount")}:
-                                    <div className="num">
-                                        <img src="./images/Cardboard_Box2.png" alt=""/>
-                                        {CountOrders}
-                                    </div>
-                                </div>
-                                <div className="text2">
-                                    {t("wait")}
-                                </div>
-                            </div>}
+                                                <div className="name">
+                                                    {DriversList[0].driver.first_name}  &nbsp;
+                                                    {DriversList[0].driver.last_name}
+                                                </div>
+                                            </div>
 
-                            {DriversList[0] && <div className="drivers-count">
-
-                                <div onClick={() => setDriverList(true)} className="driver">
-                                    <div className="top-side">
-                                        <div className="driver-image">
-                                            <img src={`https://api.buyukyol.uz/${DriversList[0].driver.image}`} alt=""/>
+                                            <div className="body-side">
+                                                <div className="text">
+                                                    <img src="./images/truck.png" alt=""/>
+                                                    {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.name : ""}
+                                                </div>
+                                                <div className="text">
+                                                    <img className="num" src="./images/carnumber.png" alt=""/>
+                                                    {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.car_number : ""}
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div className="name">
-                                            {DriversList[0].driver.first_name}  &nbsp;
-                                            {DriversList[0].driver.last_name}
+                                        <div onClick={() => setDriverList(true)} className="all-drivers">
+                                            <img src="./images/more.png" alt=""/>
                                         </div>
-                                    </div>
 
-                                    <div className="body-side">
-                                        <div className="text">
-                                            <img src="./images/truck.png" alt=""/>
-                                            {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.name : ""}
-                                        </div>
-                                        <div className="text">
-                                            <img className="num" src="./images/carnumber.png" alt=""/>
-                                            {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.car_number : ""}
-                                        </div>
-                                    </div>
-                                </div>
+                                    </div>}
 
-                                <div onClick={() => setDriverList(true)} className="all-drivers">
-                                    <img src="./images/more.png" alt=""/>
-                                </div>
+                                </GoogleMap>
+                            }
 
-                            </div>}
-
-                        </GoogleMap>}
+                        </>}
 
 
                 </div>
@@ -1231,11 +1220,9 @@ const PostOrder = () => {
                             }
                         }}
                              className={`direction-card ${direction === "Abroad" ? "active-direction" : ""}`}>
-                            {
-                                direction === "Abroad" && <div className="tick-icon">
-                                    <img src="./images/tick.png" alt=""/>
-                                </div>
-                            }
+                            {direction === "Abroad" && <div className="tick-icon">
+                                <img src="./images/tick.png" alt=""/>
+                            </div>}
 
                             <div className="img-box">
                                 <img src="./images/xalqaro.png" alt=""/>
@@ -1253,11 +1240,9 @@ const PostOrder = () => {
                                 setFormBox(false)
                             }
                         }} className={`direction-card ${direction === "OUT" ? "active-direction" : ""}`}>
-                            {
-                                direction === "OUT" && <div className="tick-icon">
-                                    <img src="./images/tick.png" alt=""/>
-                                </div>
-                            }
+                            {direction === "OUT" && <div className="tick-icon">
+                                <img src="./images/tick.png" alt=""/>
+                            </div>}
 
                             <div className="img-box">
                                 <img src="./images/shahararo.png" alt=""/>
@@ -1275,11 +1260,9 @@ const PostOrder = () => {
                                 setFormBox(false)
                             }
                         }} className={`direction-card ${direction === "IN" ? "active-direction" : ""}`}>
-                            {
-                                direction === "IN" && <div className="tick-icon">
-                                    <img src="./images/tick.png" alt=""/>
-                                </div>
-                            }
+                            {direction === "IN" && <div className="tick-icon">
+                                <img src="./images/tick.png" alt=""/>
+                            </div>}
                             <div className="img-box">
                                 <img src="./images/shaharichi.png" alt=""/>
                             </div>
@@ -1304,44 +1287,42 @@ const PostOrder = () => {
                                 <div className="tariff-container">
 
                                     <Slider {...settingsForStills} >
-                                        {
-                                            categoryType.map((item, index) => {
-                                                return <div key={index} className="click-slide-box" onClick={() => {
-                                                    setCategoryId((item.id))
-                                                    cargo.car_category = item.id
-                                                    axios.get(`${value.url}api/car-category/${item.id}`, {
-                                                    }).then((response) => {
-                                                        let re = response.data.reverse();
-                                                        setCars(re);
-                                                    })
-                                                }}>
-                                                    <div className={`tariff-card ${categoryId === item.id && "tariff-active"} `}>
+                                        {categoryType.map((item, index) => {
+                                            return <div key={index} className="click-slide-box" onClick={() => {
+                                                setCategoryId((item.id))
+                                                cargo.car_category = item.id
+                                                axios.get(`${value.url}api/car-category/${item.id}`, {}).then((response) => {
+                                                    let re = response.data.reverse();
+                                                    setCars(re);
+                                                })
+                                            }}>
+                                                <div
+                                                    className={`tariff-card ${categoryId === item.id && "tariff-active"} `}>
 
-                                                        {categoryId === item.id && <div className="tick-icon">
-                                                            <img src="./images/tick.png" alt=""/>
-                                                        </div>}
+                                                    {categoryId === item.id && <div className="tick-icon">
+                                                        <img src="./images/tick.png" alt=""/>
+                                                    </div>}
 
-                                                        <img src={item.image} alt=""/>
+                                                    <img src={item.image} alt=""/>
 
-                                                        <div className="info-category">
-                                                            <div className="name">
-                                                                {item.name === "Мини" && t("tariff1")}
-                                                                {item.name === "Енгил" && t("tariff2")}
-                                                                {item.name === "Ўрта" && t("tariff3")}
-                                                                {item.name === "Оғир" && t("tariff4")}
-                                                                {item.name === "Ўта оғир" && t("tariff5")}
-                                                                {item.name === "Авто Ташувчи" && t("tariff6")}
-                                                            </div>
-                                                            <div className="info-weight">
-                                                                {item.id !== 9 && <>
-                                                                    {item.min_weight} - {item.max_weight} tonna
-                                                                </>}
-                                                            </div>
+                                                    <div className="info-category">
+                                                        <div className="name">
+                                                            {item.name === "Мини" && t("tariff1")}
+                                                            {item.name === "Енгил" && t("tariff2")}
+                                                            {item.name === "Ўрта" && t("tariff3")}
+                                                            {item.name === "Оғир" && t("tariff4")}
+                                                            {item.name === "Ўта оғир" && t("tariff5")}
+                                                            {item.name === "Авто Ташувчи" && t("tariff6")}
+                                                        </div>
+                                                        <div className="info-weight">
+                                                            {item.id !== 9 && <>
+                                                                {item.min_weight} - {item.max_weight} tonna
+                                                            </>}
                                                         </div>
                                                     </div>
                                                 </div>
-                                            })
-                                        }
+                                            </div>
+                                        })}
                                     </Slider>
 
                                 </div>
@@ -1353,65 +1334,64 @@ const PostOrder = () => {
                                 </div>
 
 
-
                                 <div className="cars-containers">
                                     <Slider {...settingsForStills} >
-                                        {
-                                            cars.map((item, index) => {
-                                                return <div key={index} className="click-slide-box" onClick={() => {
-                                                    cargo.car_body_type = item.id
-                                                    setCarImage(item.car_image)
-                                                    setCarId(item.id)
-                                                }}>
-                                                    <div className={`cars-card ${item.id === carsId && "cars-active"} `}>
+                                        {cars.map((item, index) => {
+                                            return <div key={index} className="click-slide-box" onClick={() => {
+                                                cargo.car_body_type = item.id
+                                                setCarImage(item.car_image)
+                                                setCarId(item.id)
+                                            }}>
+                                                <div
+                                                    className={`cars-card ${item.id === carsId && "cars-active"} `}>
 
-                                                        {item.id === carsId && <div className="tick-icon">
-                                                            <img src="./images/tick.png" alt=""/>
-                                                        </div>}
+                                                    {item.id === carsId && <div className="tick-icon">
+                                                        <img src="./images/tick.png" alt=""/>
+                                                    </div>}
 
-                                                        <div className="cars-info">
-                                                            <div className="text">
-                                                                <div className="name">
-                                                                    {t("infoTruck1")}:
-                                                                </div>
-                                                                <div className="num">{item.widht}</div>
+                                                    <div className="cars-info">
+                                                        <div className="text">
+                                                            <div className="name">
+                                                                {t("infoTruck1")}:
                                                             </div>
-
-                                                            <div className="text">
-                                                                <div className="name">
-                                                                    {t("infoTruck2")}:
-                                                                </div>
-                                                                <div className="num">{item.breadth}</div>
-                                                            </div>
-
-                                                            <div className="text">
-                                                                <div className="name">
-                                                                    {t("infoTruck3")}:
-                                                                </div>
-                                                                <div className="num">{item.height}</div>
-                                                            </div>
-
-                                                            <div className="text">
-                                                                <div className="name">
-                                                                    {t("infoTruck4")}:
-                                                                </div>
-                                                                <div className="num">
-                                                                    {categoryId !== 9 ? item.cargo_weight / 1000 : item.cargo_weight}
-                                                                </div>
-                                                            </div>
-
+                                                            <div className="num">{item.widht}</div>
                                                         </div>
 
-                                                        <div className="car-image">
-                                                            <img src={`https://api.buyukyol.uz/${item.car_image}`} alt=""/>
+                                                        <div className="text">
+                                                            <div className="name">
+                                                                {t("infoTruck2")}:
+                                                            </div>
+                                                            <div className="num">{item.breadth}</div>
                                                         </div>
-                                                        <div className="car-name">
-                                                            {item.name}
+
+                                                        <div className="text">
+                                                            <div className="name">
+                                                                {t("infoTruck3")}:
+                                                            </div>
+                                                            <div className="num">{item.height}</div>
                                                         </div>
+
+                                                        <div className="text">
+                                                            <div className="name">
+                                                                {t("infoTruck4")}:
+                                                            </div>
+                                                            <div className="num">
+                                                                {categoryId !== 9 ? item.cargo_weight / 1000 : item.cargo_weight}
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div className="car-image">
+                                                        <img src={`https://api.buyukyol.uz/${item.car_image}`}
+                                                             alt=""/>
+                                                    </div>
+                                                    <div className="car-name">
+                                                        {item.name}
                                                     </div>
                                                 </div>
-                                            })
-                                        }
+                                            </div>
+                                        })}
                                     </Slider>
                                 </div>
                             </>}
@@ -1467,6 +1447,10 @@ const PostOrder = () => {
                                     <div onClick={() => {
                                         setLocation1(true)
                                         setLocation2(false)
+                                        setLoadermap(true)
+                                        setTimeout(() => {
+                                            setLoadermap(false);
+                                        }, 1000);
                                     }} className="input-box">
                                         <div className="icon-input">
                                             <img src="./images/location-pin.png" alt=""/>
@@ -1479,6 +1463,10 @@ const PostOrder = () => {
                                     <div onClick={() => {
                                         setLocation2(true)
                                         setLocation1(false)
+                                        setLoadermap(true)
+                                        setTimeout(() => {
+                                            setLoadermap(false);
+                                        }, 1000);
                                     }} className="input-box">
                                         <div className="icon-input">
                                             <img src="./images/location-pin.png" alt=""/>

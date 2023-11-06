@@ -5,30 +5,29 @@ import LoaderAdmin from "./LoaderAdmin";
 
 const API_KEY = "AIzaSyAT1gB8sob8_piFwfeu3AaTL15yHyjuc30";
 
-const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
 
+let websocket = null
+let location
+navigator.geolocation.getCurrentPosition(position => {
+    const {latitude, longitude} = position.coords;
+    location = `${latitude}/${longitude}`
+    websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem('token')}`);
+});
 const MainHome = () => {
 
 
     const [locationsList, setLocationsList] = useState([]);
 
     useEffect(() => {
-        // const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/`, [], {
-        //     headers: {
-        //         "Authorization": `Token ${localStorage.getItem("token")}`
-        //     }
-        // });
 
-        websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.message.drivers) {
-                setLocationsList(data.message.drivers)
-            }
-        };
-
-        websocket.onopen = () => {
-            console.log("open")
-        };
+        if (websocket) {
+            websocket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.message.drivers) {
+                    setLocationsList(data.message.drivers)
+                }
+            };
+        }
 
         if (sessionStorage.getItem("style")) {
         } else sessionStorage.setItem("style", "51da2328145a4757");

@@ -1,4 +1,4 @@
-import {useContext, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import "./RegisterClient.scss";
 import axios from "axios";
 import {MyContext} from "../app/App";
@@ -18,13 +18,17 @@ const RegisterClient = () => {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [loading, setLoading] = useState("");
-    const [nextPage, setNextPage] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
     const [statusError, setStatusError] = useState("");
     const [check, setCheck] = useState(0);
     const nodeRef = useRef(null);
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        if (sessionStorage.getItem("nextRegister")) {}
+        else sessionStorage.getItem("nextRegister",false)
+    },[])
 
     const HandleLogin = () => {
         if (firstname.trim().length > 0 && lastname.trim().length > 0 && phone.trim().length > 0) {
@@ -40,7 +44,7 @@ const RegisterClient = () => {
                 if (response.data.user) {
                     localStorage.setItem("userId", response.data.user);
                     setLoading("Loading...");
-                    setNextPage(true)
+                    sessionStorage.setItem("nextRegister", true)
                 } else {
 
                     setStatusError("1");
@@ -107,8 +111,12 @@ const RegisterClient = () => {
         setLastname("");
         setPhone("")
     };
+    const prevpage = ()=>{
+        sessionStorage.setItem("nextRegister", false)
+        window.location.reload()
+    }
 
-    useOnKeyPress(nextPage ? CheckCode : HandleLogin, 'Enter');
+    useOnKeyPress(sessionStorage.getItem("nextRegister") === "true" ? CheckCode : HandleLogin, 'Enter');
     useOnKeyPress(Clear, 'Delete');
 
     return <div className="register-container">
@@ -139,7 +147,13 @@ const RegisterClient = () => {
         </CSSTransition>
 
         {
-            nextPage ? <div className="login-card">
+            sessionStorage.getItem("nextRegister") === "true" ? <div className="login-card">
+
+                <div onClick={prevpage} className="prev-btn">
+                    <img src="./images/prev.png" alt=""/>
+                    {t("changeNumber2")}
+                </div>
+
                 <div className="logo">
                     <img onClick={() => {
                         navigate('/')

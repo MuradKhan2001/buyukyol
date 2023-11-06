@@ -100,6 +100,20 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    .prev-btn{
+      margin-bottom: 15px;
+      color: white;
+      cursor: pointer;
+      img{
+        margin-right: 5px;
+        width: 20px;
+      }
+      font-size: 14px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
     .logo{
       margin: 10px auto;
@@ -240,6 +254,7 @@
       text-decoration: underline;
       cursor: pointer;
     }
+
     .title-register{
       cursor: pointer;
       margin-top: 30px;

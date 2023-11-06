@@ -7,26 +7,13 @@ import i18next from "i18next";
 import {MyContext} from "../app/App";
 import {CSSTransition} from "react-transition-group";
 
-
-let city, country;
-
+let websocket = null
+let location
 navigator.geolocation.getCurrentPosition(position => {
     const {latitude, longitude} = position.coords;
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&lan=en`;
-
-    axios.get(`${url}`, {
-        headers: {
-            "Accept-Language": "en"
-        }
-    }).then((res) => {
-        city = res.data.address.city;
-        country = res.data.address.country
-    });
-
+    location = `${latitude}/${longitude}`
+    websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem('token')}`);
 });
-
-const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${city}/${country}/?token=${localStorage.getItem('token')}`);
-
 const MyProfile = () => {
     let value = useContext(MyContext);
     const nodeRef = useRef(null);
@@ -46,38 +33,37 @@ const MyProfile = () => {
 
     useEffect(() => {
 
-        websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+        if (websocket) {
+            websocket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.message.status) {
 
-            console.log(data);
+                    if (data.message.status === "canceled") {
+                        setAlertCancel(true);
+                        setTimeout(() => {
+                            setAlertCancel(false);
+                        }, 3000);
+                        setCancelOrder(false);
+                        setCancelOrder2(false);
 
-            if (data.message.status) {
+                        axios.get(`${value.url}api/my-orders/`, {
+                            headers: {
+                                "Authorization": `Token ${localStorage.getItem("token")}`
+                            }
+                        }).then((response) => {
+                            setOrdersList(response.data);
+                        }).catch((error) => {
+                            if (error.response.statusText == "Unauthorized") {
+                                window.location.pathname = "/";
+                                localStorage.removeItem("token");
+                                localStorage.removeItem("userId")
+                            }
+                        });
+                    }
 
-                if (data.message.status === "canceled") {
-                    setAlertCancel(true);
-                    setTimeout(() => {
-                        setAlertCancel(false);
-                    }, 3000);
-                    setCancelOrder(false);
-                    setCancelOrder2(false);
-
-                    axios.get(`${value.url}api/my-orders/`, {
-                        headers: {
-                            "Authorization": `Token ${localStorage.getItem("token")}`
-                        }
-                    }).then((response) => {
-                        setOrdersList(response.data);
-                    }).catch((error) => {
-                        if (error.response.statusText == "Unauthorized") {
-                            window.location.pathname = "/";
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("userId")
-                        }
-                    });
-                }
-
-            } else console.log(data.message)
-        };
+                } else console.log(data.message)
+            };
+        }
 
 
         axios.get(`${value.url}api/client/`, {
@@ -123,6 +109,7 @@ const MyProfile = () => {
                 localStorage.removeItem("token");
             }
         });
+
     }, []);
 
     const PosOrder = () => {

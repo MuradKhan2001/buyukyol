@@ -142,6 +142,9 @@
   "alert9": "Yukingiz yuklandi!",
   "alert10": "Buyurtmangiz yakunlandi!",
   "raidDriver": "Haydovchini baholang",
-  "raidDriverText": "Baholandi!"
+  "raidDriverText": "Baholandi!",
+  "geoLocation": "Goolakatsiyani yoqing!",
+  "changeNumber": "Nomerni qayta kiritish",
+  "changeNumber2": "Ma'lumotlarni qayta kiritish"
 }
 
