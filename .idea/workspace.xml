@@ -6,18 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/admin home/MainHome.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/admin home/MainHome.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/lng/en/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lng/en/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/lng/ru/ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lng/ru/ru.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/lng/uz/uz.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lng/uz/uz.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login-client/LoginClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/LoginClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login-client/loginClient.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login-client/loginClient.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/my-profile/MyProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/my-profile/MyProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navbar/Navbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/register-client/RegisterClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register-client/RegisterClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/register-client/RegisterClient.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register-client/RegisterClient.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,22 +38,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "F:/Projects/buyuk-yol-app/src/components/check-code-register",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Projects/buyuk-yol-app/src/components/check-code-register&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Projects\buyuk-yol-app\src\components\check-code-register" />
@@ -181,7 +171,8 @@
       <workItem from="1698817410493" duration="30226000" />
       <workItem from="1698861233913" duration="4347000" />
       <workItem from="1698897610506" duration="23216000" />
-      <workItem from="1699252973568" duration="13671000" />
+      <workItem from="1699252973568" duration="13957000" />
+      <workItem from="1699333684632" duration="5175000" />
     </task>
     <servers />
   </component>

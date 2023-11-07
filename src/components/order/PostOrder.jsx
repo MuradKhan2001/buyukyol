@@ -126,7 +126,7 @@ const PostOrder = () => {
         }]
     };
 
-    const icon = {url: './images/truck-icon2.png', scaledSize: {width: 50, height: 50}};
+    const icon = {url: './images/cargobox.png', scaledSize: {width: 60, height: 60}};
 
     const getInputs = (e) => {
 
@@ -786,178 +786,187 @@ const PostOrder = () => {
 
                     <div className="all-information-cargo">
                         <div ref={nodeRef} className="info-cargo">
-                            <div className="car-image">
-                                <img src={`https://api.buyukyol.uz/${carsImage}`} alt=""/>
+
+                            <div className="information-box">
+
+                                <div className="img-box">
+                                    <div className="car-image">
+                                        <img src={`https://api.buyukyol.uz/${carsImage}`} alt=""/>
+                                    </div>
+                                </div>
+
+                               <div className="left-box">
+                                   <div className="location-box">
+                                       <div className="name">
+                                           {t("loc1")}:
+                                       </div>
+
+                                       <div className="location">
+                                           <img src="./images/location-pin.png" alt=""/>
+                                           {cargo.address_from}
+                                       </div>
+                                   </div>
+
+                                   <div className="location-box">
+                                       <div className="name">
+                                           {t("loc3")}:
+                                       </div>
+                                       <div className="location">
+                                           <img src="./images/location-pin.png" alt=""/>
+                                           {cargo.address_to}
+                                       </div>
+                                   </div>
+
+                                   <div className="line"></div>
+
+                                   <div className="info-order">
+                                       <div className="label-order">
+                                           {t("info1")}
+                                       </div>
+                                       <div className="text-order">
+                                           {cargo.type === "OUT" ? t("direction2") : ""}
+                                           {cargo.type === "IN" ? t("direction3") : ""}
+                                           {cargo.type === "Abroad" ? t("direction1") : ""}
+                                       </div>
+                                   </div>
+                                   <div className="info-order">
+                                       <div className="label-order">
+                                           {t("info2")}
+                                       </div>
+                                       <div className="text-order">
+                                           {cargo.cargo}
+                                       </div>
+                                   </div>
+                                   <div className="info-order">
+                                       <div className="label-order">
+                                           {t("info7")}
+                                       </div>
+                                       <div className="text-order">
+                                           {cargo.type !== "Abroad" ? cargoInfo.distance : distance} km
+                                       </div>
+                                   </div>
+
+                                   <div className="info-order">
+                                       <div className="label-order">
+                                           {t("info8")}
+                                       </div>
+                                       <div className="text-order">
+                                           {cargo.price ? cargo.price : cargoInfo.price} {cargo.currency}
+                                       </div>
+                                   </div>
+                               </div>
+
+                                <div className="right-box">
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info10")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.payment_type}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info3")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.number_cars}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info5")}
+                                        </div>
+                                        <div className="text-order">
+                                            {categoryType.map((item, index) => {
+                                                if (item.id === cargo.car_category) {
+                                                    return <div key={index}>
+                                                        {item.min_weight} - {item.max_weight} {t("infoWaits4")},
+                                                        {item.name === "Мини" && t("tariff1")}
+                                                        {item.name === "Енгил" && t("tariff2")}
+                                                        {item.name === "Ўрта" && t("tariff3")}
+                                                        {item.name === "Оғир" && t("tariff4")}
+                                                        {item.name === "Ўта оғир" && t("tariff5")}
+                                                        {item.name === "Авто Ташувчи" && t("tariff6")}
+                                                    </div>
+                                                }
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info6")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cars.map((item, index) => {
+                                                if (item.id === cargo.car_body_type) {
+                                                    return <div key={index}>
+                                                        {item.name}
+                                                    </div>
+                                                }
+                                            })}
+
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info4")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.capacity} {cargo.unit}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info9")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.avans ? <> {cargo.avans} {cargo.currency} </> : "--"}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info11")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.wait_cost ? <> {cargo.wait_cost} {cargo.currency}</> : "--"}
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info12")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.load_time ? <>
+                                                {cargo.load_time.slice(0, 10)},
+                                                {cargo.load_time.slice(11, 16)}
+                                            </> : "--"}
+
+                                        </div>
+                                    </div>
+
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info13")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.start_time ? <>
+                                                {cargo.start_time.slice(0, 10)},
+                                                {cargo.start_time.slice(11, 16)}
+                                            </> : "--"}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div className="location-box">
-                                <div className="name">
-                                    {t("loc1")}:
-                                </div>
-
-                                <div className="location">
-                                    <img src="./images/location-pin.png" alt=""/>
-                                    {cargo.address_from}
-                                </div>
-                            </div>
-
-                            <div className="location-box">
-                                <div className="name">
-                                    {t("loc3")}:
-                                </div>
-                                <div className="location">
-                                    <img src="./images/location-pin.png" alt=""/>
-                                    {cargo.address_to}
-                                </div>
-                            </div>
-
-                            <div className="line"></div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info1")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.type === "OUT" ? t("direction2") : ""}
-                                    {cargo.type === "IN" ? t("direction3") : ""}
-                                    {cargo.type === "Abroad" ? t("direction1") : ""}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info2")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.cargo}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info7")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.type !== "Abroad" ? cargoInfo.distance : distance} km
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info8")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.price ? cargo.price : cargoInfo.price} {cargo.currency}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info10")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.payment_type}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info3")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.number_cars}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info5")}
-                                </div>
-                                <div className="text-order">
-                                    {categoryType.map((item, index) => {
-                                        if (item.id === cargo.car_category) {
-                                            return <div key={index}>
-                                                {item.min_weight} - {item.max_weight} {t("infoWaits4")},
-                                                {item.name === "Мини" && t("tariff1")}
-                                                {item.name === "Енгил" && t("tariff2")}
-                                                {item.name === "Ўрта" && t("tariff3")}
-                                                {item.name === "Оғир" && t("tariff4")}
-                                                {item.name === "Ўта оғир" && t("tariff5")}
-                                                {item.name === "Авто Ташувчи" && t("tariff6")}
-                                            </div>
-                                        }
-                                    })}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info6")}
-                                </div>
-                                <div className="text-order">
-                                    {cars.map((item, index) => {
-                                        if (item.id === cargo.car_body_type) {
-                                            return <div key={index}>
-                                                {item.name}
-                                            </div>
-                                        }
-                                    })}
-
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info4")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.capacity} {cargo.unit}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info9")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.avans ? <> {cargo.avans} {cargo.currency} </> : "--"}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info11")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.wait_cost ? <> {cargo.wait_cost} {cargo.currency}</> : "--"}
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info12")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.load_time ? <>
-                                        {cargo.load_time.slice(0, 10)},
-                                        {cargo.load_time.slice(11, 16)}
-                                    </> : "--"}
-
-                                </div>
-                            </div>
-
-                            <div className="info-order">
-                                <div className="label-order">
-                                    {t("info13")}
-                                </div>
-                                <div className="text-order">
-                                    {cargo.start_time ? <>
-                                        {cargo.start_time.slice(0, 10)},
-                                        {cargo.start_time.slice(11, 16)}
-                                    </> : "--"}
-                                </div>
-                            </div>
-
+                            <img className="clib-icon" src="./images/clip.png" alt=""/>
                             <div className="buttons">
 
                                 <div onClick={() => {
