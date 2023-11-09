@@ -53,7 +53,9 @@ const Agreement = () => {
                                 <div onClick={() => getDownloadFile(item.contract)}>
                                     <img src="./images/download.png" alt=""/>
                                 </div>
-                                <p>Yuklash</p>
+                                <p>
+                                    {t("download")}
+                                </p>
                             </div>
                         </div>
                         <div className="body-side">

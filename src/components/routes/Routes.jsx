@@ -37,7 +37,7 @@ import PostOrder from "../order/PostOrder";
 import LoginClient from "../login-client/LoginClient";
 import RegisterClient from "../register-client/RegisterClient";
 import MyProfile from "../my-profile/MyProfile";
-import Loader from "../loader/Loader";
+import LoaderAdmin from "../order/LoaderAdmin";
 
 export const publicRoutes = [
     {

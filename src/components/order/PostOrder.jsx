@@ -1,34 +1,28 @@
+import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import "./PostOrder.scss"
 import Navbar from "../navbar/Navbar";
 import {useTranslation} from "react-i18next";
-import {useContext, useEffect, useMemo, useRef, useState} from "react";
-import axios, {get} from "axios";
+import axios from "axios";
 import i18next from "i18next";
 import {MyContext} from "../app/App";
-import {GoogleMap, InfoWindow, Marker, useLoadScript} from "@react-google-maps/api";
+import {GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
+import {GOOGLE_MAPS_API_KEY} from './googleMapsApi';
 import ReactStars from 'react-stars'
 import usePlacesAutocomplete, {
     getGeocode, getLatLng,
 } from "use-places-autocomplete";
-
 import {
     Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption,
 } from "@reach/combobox";
-
 import "@reach/combobox/styles.css";
 import {CSSTransition} from "react-transition-group";
 import LoaderAdmin from "./LoaderAdmin";
 import Slider from "react-slick";
 import {useNavigate} from "react-router-dom";
 
-const API_KEY = `AIzaSyCC6N2vc_sH_7oTAcvr-kyv5iKt2ng7bsk`;
+
 const libraries = ['places'];
-
-
-let websocket = null
-let location
-
-
+let websocket = null, location;
 navigator.geolocation.getCurrentPosition(position => {
     const {latitude, longitude} = position.coords;
     location = `${latitude}/${longitude}`
@@ -43,6 +37,8 @@ const PostOrder = () => {
     const navigate = useNavigate();
     const {t} = useTranslation();
     const nodeRef = useRef(null);
+    const ref = useRef(null);
+    const ref2 = useRef(null);
     const [alerts, setAlerts] = useState([])
     const [cancelOrder, setCancelOrder] = useState(false);
     const [formBox, setFormBox] = useState(false);
@@ -92,11 +88,10 @@ const PostOrder = () => {
     const [location2, setLocation2] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [selected, setSelected] = useState(null);
+    const [selectedMy, setSelectedMy] = useState(null)
     const [center, setCenter] = useState(null);
-    const [centerMain, setCenterMain] = useState(null);
     const [locationName1, setLocationName1] = useState("")
     const [locationName2, setLocationName2] = useState("")
-    const [loaderMap, setLoadermap] = useState(true)
 
     const [driverList, setDriverList] = useState(false)
     const [activeDriversList, setActiveDriversList] = useState([]);
@@ -126,61 +121,16 @@ const PostOrder = () => {
         }]
     };
 
-    const icon = {url: './images/cargobox.png', scaledSize: {width: 60, height: 60}};
-
-    const getInputs = (e) => {
-
-        if (e.target.name === "capacity" || e.target.name === "price") {
-            cargo[e.target.name] = Number(e.target.value);
-        } else cargo[e.target.name] = e.target.value;
-
-    };
-    const orderCount = () => {
-
-        axios.get(`${value.url}api/my-orders/`, {
-            headers: {
-                "Authorization": `Token ${localStorage.getItem("token")}`
-            }
-        }).then((response) => {
-
-            let count = response.data.filter((item) => item.status === "Active")
-            setCountOrders(count.length);
-
-        }).catch((error) => {
-            if (error.response.statusText == "Unauthorized") {
-                window.location.pathname = "/login-client";
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId")
-                localStorage.removeItem("user_name")
-            }
-        });
-    }
-    const alertRemove = (time, id) => {
-
-        setTimeout(() => {
-            setAlerts(prevAlerts => prevAlerts.filter(item => item.id !== id))
-        }, time);
-
-    }
-    const updateDriversList = (id) => {
-        const filter_driver = (prevState) => {
-            let driver = prevState.filter(item => item.id === id)
-            setDriversListRaid(driver)
-            return prevState.filter(item => item.id !== id)
-        }
-
-        setDriversList(filter_driver)
-    }
-
+    const icon = {url: './images/truck-icon3.png', scaledSize: {width: 50, height: 47}};
+    const icon2 = {url: './images/myicon.png', scaledSize: {width: 65, height: 60}};
+    const icon3 = {url: './images/selectLoc.png', scaledSize: {width: 45, height: 45}};
 
     useEffect(() => {
-
-
         if (websocket) {
-
             websocket.onclose = () => {
                 window.location.reload()
             }
+
             websocket.onmessage = (event) => {
 
                 const data = JSON.parse(event.data);
@@ -210,6 +160,7 @@ const PostOrder = () => {
                         setCancelOrder(false)
 
                         setDriversList(prevState => prevState.filter(item => item.order_id !== data.message.order_id))
+                        setActiveDriversList(prevState => prevState.filter(item => item.order_id !== data.message.order_id))
                     }
 
                     if (data.message.status === "confirmed" || data.message.status === "Added") {
@@ -321,37 +272,21 @@ const PostOrder = () => {
 
 
             };
-
-            axios.get(`${value.url}api/car-category/`, {
-                headers: {
-                    "Accept-Language": i18next.language ? i18next.language : "uz"
-                }
-            }).then((response) => {
-                let re = response.data.reverse();
-                setCategoryType(re);
-            }).catch((error) => {
-                if (error.response.statusText == "Unauthorized") {
-                    window.location.pathname = "/login-client";
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("userId");
-                    localStorage.removeItem("user_name");
-                }
-            });
-
-            orderCount()
-
-            navigator.geolocation.getCurrentPosition(position => {
-                const {latitude, longitude} = position.coords;
-                let locMy = {lat: latitude, lng: longitude}
-                setCenter(locMy)
-                setCenterMain(locMy)
-            });
         }
 
-        setTimeout(() => {
-            setLoadermap(false);
-        }, 2000);
+        axios.get(`${value.url}api/car-category/`).then((response) => {
+            let re = response.data.reverse();
+            setCategoryType(re);
+        }).catch((error) => {
+            if (error.response.statusText == "Unauthorized") {
+                window.location.pathname = "/login-client";
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("user_name");
+            }
+        });
 
+        orderCount()
     }, []);
 
     useEffect(() => {
@@ -371,19 +306,58 @@ const PostOrder = () => {
                 }
             }
         }
-
     }, []);
+    const getInputs = (e) => {
 
-    const {isLoaded} = useLoadScript({
-        googleMapsApiKey: API_KEY, libraries: libraries, language: i18next.language
-    });
+        if (e.target.name === "capacity" || e.target.name === "price") {
+            cargo[e.target.name] = Number(e.target.value);
+        } else cargo[e.target.name] = e.target.value;
 
-    const options = useMemo(() => ({
-        disableDefaultUI: false, clickableIcons: false
-    }), []);
+    };
+    const orderCount = () => {
 
-    if (!isLoaded) return <LoaderAdmin/>;
+        axios.get(`${value.url}api/my-orders/`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        }).then((response) => {
 
+            let count = response.data.filter((item) => item.status === "Active")
+            setCountOrders(count.length);
+
+        }).catch((error) => {
+            if (error.response.statusText == "Unauthorized") {
+                window.location.pathname = "/login-client";
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId")
+                localStorage.removeItem("user_name")
+            }
+        });
+    }
+    const alertRemove = (time, id) => {
+
+        setTimeout(() => {
+            setAlerts(prevAlerts => prevAlerts.filter(item => item.id !== id))
+        }, time);
+
+    }
+    const updateDriversList = (id) => {
+        const filter_driver = (prevState) => {
+            let driver = prevState.filter(item => item.id === id)
+            setDriversListRaid(driver)
+            return prevState.filter(item => item.id !== id)
+        }
+
+        setDriversList(filter_driver)
+    }
+    const onloadMap = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const {latitude, longitude} = position.coords;
+            let locMy = {lat: latitude, lng: longitude}
+            setCenter(locMy)
+            setSelectedMy(locMy)
+        });
+    }
     const GetMyLocation = () => {
         navigator.geolocation.getCurrentPosition(position => {
             const {latitude, longitude} = position.coords;
@@ -396,7 +370,7 @@ const PostOrder = () => {
 
             axios.get(`${url}`, {
                 headers: {
-                    "Accept-Language": "en"
+                    "Accept-Language": i18next.language
                 }
             }).then((res) => {
 
@@ -426,10 +400,9 @@ const PostOrder = () => {
 
         axios.get(`${url}`, {
             headers: {
-                "Accept-Language": "en"
+                "Accept-Language": i18next.language
             }
         }).then((res) => {
-
             let city = res.data.address.city;
             let country = res.data.address.country;
             let suburb = res.data.address.suburb;
@@ -440,6 +413,8 @@ const PostOrder = () => {
             let fullAddress = `${country ? country + "," : ""} ${city ? city + "," : ""} ${suburb ? suburb + "," : ""} 
             ${neighbourhood ? neighbourhood + "," : ""} ${county ? county + "," : ""} ${road ? road : ""}`
             setLocationName(fullAddress)
+        }).catch((error) => {
+
         });
 
     }
@@ -449,7 +424,7 @@ const PostOrder = () => {
             ready, value, setValue, suggestions: {status, data}, clearSuggestions,
         } = usePlacesAutocomplete({
             requestOptions: {
-                language: 'en',
+                language: i18next.language,
             },
         });
 
@@ -481,7 +456,6 @@ const PostOrder = () => {
         </Combobox>);
     };
     const getAddressLocation = () => {
-
         if (location1) {
             if (locationName && selected) {
 
@@ -492,7 +466,7 @@ const PostOrder = () => {
 
                 cargo.latitude_from = Number(selected.lat.toString().slice(0, 9))
                 cargo.longitude_from = Number(selected.lng.toString().slice(0, 9))
-
+                onloadMap()
             } else {
                 let id = Date.now()
                 let newAlerts = {
@@ -513,7 +487,7 @@ const PostOrder = () => {
 
                 cargo.latitude_to = Number(selected.lat.toString().slice(0, 9))
                 cargo.longitude_to = Number(selected.lng.toString().slice(0, 9))
-
+                onloadMap()
             } else {
                 let id = Date.now()
                 let newAlerts = {
@@ -534,7 +508,6 @@ const PostOrder = () => {
             }
             websocket.send(JSON.stringify(distance));
         }
-
     }
     const onMarkerClick = (location) => {
         setSelectedLocation(location);
@@ -607,6 +580,14 @@ const PostOrder = () => {
         websocket.send(JSON.stringify(cancelRaid));
         setDriversListRaid(prevAlerts => prevAlerts.filter((item, index) => index > 0))
     }
+
+    const {isLoaded} = useLoadScript({
+        googleMapsApiKey: GOOGLE_MAPS_API_KEY, libraries: libraries, language: i18next.language
+    });
+    const options = useMemo(() => ({
+        disableDefaultUI: false, clickableIcons: false
+    }), []);
+    if (!isLoaded) return <LoaderAdmin/>;
 
     return <div className="order-wrapper">
         <div className="mirror-sloy">
@@ -795,66 +776,66 @@ const PostOrder = () => {
                                     </div>
                                 </div>
 
-                               <div className="left-box">
-                                   <div className="location-box">
-                                       <div className="name">
-                                           {t("loc1")}:
-                                       </div>
+                                <div className="left-box">
+                                    <div className="location-box">
+                                        <div className="name">
+                                            {t("loc1")}:
+                                        </div>
 
-                                       <div className="location">
-                                           <img src="./images/location-pin.png" alt=""/>
-                                           {cargo.address_from}
-                                       </div>
-                                   </div>
+                                        <div className="location">
+                                            <img src="./images/location-pin.png" alt=""/>
+                                            {cargo.address_from}
+                                        </div>
+                                    </div>
 
-                                   <div className="location-box">
-                                       <div className="name">
-                                           {t("loc3")}:
-                                       </div>
-                                       <div className="location">
-                                           <img src="./images/location-pin.png" alt=""/>
-                                           {cargo.address_to}
-                                       </div>
-                                   </div>
+                                    <div className="location-box">
+                                        <div className="name">
+                                            {t("loc3")}:
+                                        </div>
+                                        <div className="location">
+                                            <img src="./images/location-pin.png" alt=""/>
+                                            {cargo.address_to}
+                                        </div>
+                                    </div>
 
-                                   <div className="line"></div>
+                                    <div className="line"></div>
 
-                                   <div className="info-order">
-                                       <div className="label-order">
-                                           {t("info1")}
-                                       </div>
-                                       <div className="text-order">
-                                           {cargo.type === "OUT" ? t("direction2") : ""}
-                                           {cargo.type === "IN" ? t("direction3") : ""}
-                                           {cargo.type === "Abroad" ? t("direction1") : ""}
-                                       </div>
-                                   </div>
-                                   <div className="info-order">
-                                       <div className="label-order">
-                                           {t("info2")}
-                                       </div>
-                                       <div className="text-order">
-                                           {cargo.cargo}
-                                       </div>
-                                   </div>
-                                   <div className="info-order">
-                                       <div className="label-order">
-                                           {t("info7")}
-                                       </div>
-                                       <div className="text-order">
-                                           {cargo.type !== "Abroad" ? cargoInfo.distance : distance} km
-                                       </div>
-                                   </div>
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info1")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.type === "OUT" ? t("direction2") : ""}
+                                            {cargo.type === "IN" ? t("direction3") : ""}
+                                            {cargo.type === "Abroad" ? t("direction1") : ""}
+                                        </div>
+                                    </div>
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info2")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.cargo}
+                                        </div>
+                                    </div>
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info7")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.type !== "Abroad" ? cargoInfo.distance : distance} km
+                                        </div>
+                                    </div>
 
-                                   <div className="info-order">
-                                       <div className="label-order">
-                                           {t("info8")}
-                                       </div>
-                                       <div className="text-order">
-                                           {cargo.price ? cargo.price : cargoInfo.price} {cargo.currency}
-                                       </div>
-                                   </div>
-                               </div>
+                                    <div className="info-order">
+                                        <div className="label-order">
+                                            {t("info8")}
+                                        </div>
+                                        <div className="text-order">
+                                            {cargo.price ? cargo.price : cargoInfo.price} {cargo.currency}
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div className="right-box">
 
@@ -1054,155 +1035,136 @@ const PostOrder = () => {
                 </div>}
 
                 <div className="left-side">
+                    <div className="get-location-container">
+                        <div className={`header ${location1 || location2 ? "header-show" : ""}`}>
+                            <div className="text">
 
-                    {location1 || location2 ? <div className="get-location-container">
-
-                            <div className="header">
-                                <div className="text">
-
-                                    {location1 ? <>
-                                        <img src="./images/placeholder.png" alt=""/>
-                                        {t("loc2")}
-                                    </> : <>
-                                        <img src="./images/placeholder2.png" alt=""/>
-                                        {t("loc4")}
-                                    </>}
-
-                                </div>
-
-                                <div className="forms">
-
-                                    <div className="places-container">
-                                        <PlacesAutocomplete setSelected={setSelected}/>
-                                        <img src="./images/magnifier.png" alt=""/>
-                                    </div>
-
-                                    <div onClick={GetMyLocation} className="my-location">
-                                        <img src="./images/myLocation.png" alt=""/>
-                                        Joriy joylashuv
-                                    </div>
-
-                                    <div onClick={getAddressLocation} className="get-location">
-                                        {t("location")}
-                                        <img src="./images/verified.png" alt=""/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="map-box">
-                                {
-                                    loaderMap ? <LoaderAdmin/> :  <GoogleMap
-                                        zoom={10}
-                                        center={center}
-                                        options={options}
-                                        onClick={ClicklLocation}
-                                        mapContainerClassName="map-container">
-
-                                        {selected && <Marker position={selected}/>}
-
-                                    </GoogleMap>
-                                }
+                                {location1 ? <>
+                                    <img src="./images/placeholder.png" alt=""/>
+                                    {t("loc2")}
+                                </> : <>
+                                    <img src="./images/placeholder2.png" alt=""/>
+                                    {t("loc4")}
+                                </>}
 
                             </div>
 
+                            <div className="forms">
+
+                                <div className="places-container">
+                                    <PlacesAutocomplete setSelected={setSelected}/>
+                                    <img src="./images/magnifier.png" alt=""/>
+                                </div>
+
+                                <div onClick={GetMyLocation} className="my-location">
+                                    <img src="./images/myLocation.png" alt=""/>
+                                    Joriy joylashuv
+                                </div>
+
+                                <div onClick={getAddressLocation} className="get-location">
+                                    {t("location")}
+                                    <img src="./images/verified.png" alt=""/>
+                                </div>
+                            </div>
                         </div>
 
-                        : <>
-                            {
-                                loaderMap ? <LoaderAdmin/> : <GoogleMap
-                                    zoom={5}
-                                    center={centerMain}
-                                    options={options}
-                                    mapContainerClassName="map-container-main">
+                        <GoogleMap
+                            zoom={10}
+                            onLoad={onloadMap}
+                            center={center}
+                            options={options}
+                            onClick={location1 || location2 ? ClicklLocation : {}}
+                            mapContainerClassName={`map-box ${location1 || location2 ? "map-hide" : ""}`}>
 
-                                    {activeDriversList.length >= 0 ?
+                            {selectedMy && <Marker icon={icon2} position={selectedMy}/>}
 
-                                        <>
-                                            {activeDriversList.map((item) => {
-                                                return <Marker
-                                                    key={item.driver}
-                                                    position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
-                                                    icon={icon}
-                                                    onClick={() => onMarkerClick(item)}
-                                                />
-                                            })}
+                            {selected && <Marker icon={icon3} position={selected}/>}
 
-                                            {selectedLocation && (<InfoWindow
-                                                position={{
-                                                    lat: Number(selectedLocation.latitude),
-                                                    lng: Number(selectedLocation.longitude)
-                                                }}
-                                                onCloseClick={onCloseClick}
-                                            >
-                                                <div className="info-box-car">
-                                                    <div className="info-text">
-                                                        <span>Moshina raqam:</span>
-                                                        {selectedLocation.car_number} <br/>
-                                                        <span>Tel raqam:</span>
-                                                        {selectedLocation.phone_number}
-                                                    </div>
-                                                </div>
-                                            </InfoWindow>)}
+                            {activeDriversList.length >= 0 && !location1 && !location2 ?
 
-                                        </>
+                                <>
+                                    {activeDriversList.map((item) => {
+                                        return <Marker
+                                            key={item.driver}
+                                            position={{lat: Number(item.latitude), lng: Number(item.longitude)}}
+                                            icon={icon}
+                                            onClick={() => onMarkerClick(item)}
+                                        />
+                                    })}
 
-                                        : ""}
-
-                                    {CountOrders > 0 &&
-                                        <div onClick={() => navigate("/my-profile")} className="orders-count">
-                                            <div className="loader-box">
-                                                <div className="loader"></div>
-                                            </div>
-                                            <div className="text1">
-                                                {t("bagsCount")}:
-                                                <div className="num">
-                                                    <img src="./images/Cardboard_Box2.png" alt=""/>
-                                                    {CountOrders}
-                                                </div>
-                                            </div>
-                                            <div className="text2">
-                                                {t("wait")}
-                                            </div>
-                                        </div>}
-
-                                    {DriversList[0] && <div className="drivers-count">
-
-                                        <div onClick={() => setDriverList(true)} className="driver">
-                                            <div className="top-side">
-                                                <div className="driver-image">
-                                                    <img src={`https://api.buyukyol.uz/${DriversList[0].driver.image}`}
-                                                         alt=""/>
-                                                </div>
-
-                                                <div className="name">
-                                                    {DriversList[0].driver.first_name}  &nbsp;
-                                                    {DriversList[0].driver.last_name}
-                                                </div>
-                                            </div>
-
-                                            <div className="body-side">
-                                                <div className="text">
-                                                    <img src="./images/truck.png" alt=""/>
-                                                    {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.name : ""}
-                                                </div>
-                                                <div className="text">
-                                                    <img className="num" src="./images/carnumber.png" alt=""/>
-                                                    {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.car_number : ""}
-                                                </div>
+                                    {selectedLocation && (<InfoWindow
+                                        position={{
+                                            lat: Number(selectedLocation.latitude),
+                                            lng: Number(selectedLocation.longitude)
+                                        }}
+                                        onCloseClick={onCloseClick}
+                                    >
+                                        <div className="info-box-car">
+                                            <div className="info-text">
+                                                <span>Moshina raqam:</span>
+                                                {selectedLocation.car_number} <br/>
+                                                <span>Tel raqam:</span>
+                                                {selectedLocation.phone_number}
                                             </div>
                                         </div>
+                                    </InfoWindow>)}
 
-                                        <div onClick={() => setDriverList(true)} className="all-drivers">
-                                            <img src="./images/more.png" alt=""/>
+                                </>
+
+                                : ""}
+
+                            {CountOrders > 0 && !location1 && !location2 &&
+                                <div onClick={() => navigate("/my-profile")} className="orders-count">
+                                    <div className="loader-box">
+                                        <div className="loader"></div>
+                                    </div>
+                                    <div className="text1">
+                                        {t("bagsCount")}:
+                                        <div className="num">
+                                            <img src="./images/Cardboard_Box2.png" alt=""/>
+                                            {CountOrders}
+                                        </div>
+                                    </div>
+                                    <div className="text2">
+                                        {t("wait")}
+                                    </div>
+                                </div>}
+
+                            {DriversList[0] && !location1 && !location2 && <div className="drivers-count">
+
+                                <div onClick={() => setDriverList(true)} className="driver">
+                                    <div className="top-side">
+                                        <div className="driver-image">
+                                            <img src={`https://api.buyukyol.uz/${DriversList[0].driver.image}`}
+                                                 alt=""/>
                                         </div>
 
-                                    </div>}
+                                        <div className="name">
+                                            {DriversList[0].driver.first_name}  &nbsp;
+                                            {DriversList[0].driver.last_name}
+                                        </div>
+                                    </div>
 
-                                </GoogleMap>
-                            }
+                                    <div className="body-side">
+                                        <div className="text">
+                                            <img src="./images/truck.png" alt=""/>
+                                            {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.name : ""}
+                                        </div>
+                                        <div className="text">
+                                            <img className="num" src="./images/carnumber.png" alt=""/>
+                                            {DriversList[0].driver.documentation ? DriversList[0].driver.documentation.car_number : ""}
+                                        </div>
+                                    </div>
+                                </div>
 
-                        </>}
+                                <div onClick={() => setDriverList(true)} className="all-drivers">
+                                    <img src="./images/more.png" alt=""/>
+                                </div>
 
+                            </div>}
 
+                        </GoogleMap>
+                    </div>
                 </div>
 
                 <div className="right-side">
@@ -1218,26 +1180,22 @@ const PostOrder = () => {
 
                     <div className="directions-container">
 
-
                         <div onClick={() => {
-                            cargo.type = "Abroad";
-                            setDirection("Abroad")
+                            cargo.type = "IN";
+                            setDirection("IN")
                             setFormBox(true)
-                            if (direction === "Abroad") {
+                            if (direction === "IN") {
                                 setDirection("")
                                 setFormBox(false)
                             }
-                        }}
-                             className={`direction-card ${direction === "Abroad" ? "active-direction" : ""}`}>
-                            {direction === "Abroad" && <div className="tick-icon">
+                        }} className={`direction-card ${direction === "IN" ? "active-direction" : ""}`}>
+                            {direction === "IN" && <div className="tick-icon">
                                 <img src="./images/tick.png" alt=""/>
                             </div>}
-
                             <div className="img-box">
-                                <img src="./images/xalqaro.png" alt=""/>
+                                <img src="./images/shaharichi.png" alt=""/>
                             </div>
-
-                            <div>{t("direction1")}</div>
+                            <div>{t("direction3")}</div>
                         </div>
 
                         <div onClick={() => {
@@ -1260,22 +1218,36 @@ const PostOrder = () => {
                             <div>{t("direction2")}</div>
                         </div>
 
+
                         <div onClick={() => {
-                            cargo.type = "IN";
-                            setDirection("IN")
+                            cargo.type = "Abroad";
+                            setDirection("Abroad")
                             setFormBox(true)
-                            if (direction === "IN") {
+                            if (direction === "Abroad") {
                                 setDirection("")
                                 setFormBox(false)
                             }
-                        }} className={`direction-card ${direction === "IN" ? "active-direction" : ""}`}>
-                            {direction === "IN" && <div className="tick-icon">
+                            if (cargo.address_from && cargo.address_to) {
+                                let distance = {
+                                    command: "getdistance",
+                                    latitude_from: cargo.latitude_from,
+                                    longitude_from: cargo.longitude_from,
+                                    latitude_to: cargo.latitude_to,
+                                    longitude_to: cargo.longitude_to
+                                }
+                                websocket.send(JSON.stringify(distance));
+                            }
+                        }}
+                             className={`direction-card ${direction === "Abroad" ? "active-direction" : ""}`}>
+                            {direction === "Abroad" && <div className="tick-icon">
                                 <img src="./images/tick.png" alt=""/>
                             </div>}
+
                             <div className="img-box">
-                                <img src="./images/shaharichi.png" alt=""/>
+                                <img src="./images/xalqaro.png" alt=""/>
                             </div>
-                            <div>{t("direction3")}</div>
+
+                            <div>{t("direction1")}</div>
                         </div>
 
                     </div>
@@ -1300,6 +1272,11 @@ const PostOrder = () => {
                                             return <div key={index} className="click-slide-box" onClick={() => {
                                                 setCategoryId((item.id))
                                                 cargo.car_category = item.id
+
+                                                setTimeout(() => {
+                                                    ref.current?.scrollIntoView({behavior: 'smooth'});
+                                                }, 500);
+
                                                 axios.get(`${value.url}api/car-category/${item.id}`, {}).then((response) => {
                                                     let re = response.data.reverse();
                                                     setCars(re);
@@ -1338,10 +1315,9 @@ const PostOrder = () => {
                             </>}
 
                             {categoryId && <>
-                                <div className="title-forms">
+                                <div ref={ref} className="title-forms">
                                     {t("trucks")}
                                 </div>
-
 
                                 <div className="cars-containers">
                                     <Slider {...settingsForStills} >
@@ -1350,6 +1326,9 @@ const PostOrder = () => {
                                                 cargo.car_body_type = item.id
                                                 setCarImage(item.car_image)
                                                 setCarId(item.id)
+                                                setTimeout(() => {
+                                                    ref2.current?.scrollIntoView({behavior: 'smooth'});
+                                                }, 300);
                                             }}>
                                                 <div
                                                     className={`cars-card ${item.id === carsId && "cars-active"} `}>
@@ -1406,17 +1385,17 @@ const PostOrder = () => {
                             </>}
 
                             {carsId && <>
-                                <div className="title-forms">
+                                <div ref={ref2} className="title-forms">
                                     {t("plusInformation")}
                                 </div>
 
                                 <div className="form-informations">
 
-                                    <div className="input-box">
+                                    <div  className="input-box">
                                         <div className="icon-input">
                                             <img src="./images/tracking.png" alt=""/>
                                         </div>
-                                        <input onChange={getInputs} name="cargo" placeholder={t("info2")} type="text"/>
+                                        <input  onChange={getInputs} name="cargo" placeholder={t("info2")} type="text"/>
                                     </div>
 
                                     <div className="input-box">
@@ -1456,32 +1435,27 @@ const PostOrder = () => {
                                     <div onClick={() => {
                                         setLocation1(true)
                                         setLocation2(false)
-                                        setLoadermap(true)
-                                        setTimeout(() => {
-                                            setLoadermap(false);
-                                        }, 1000);
                                     }} className="input-box">
                                         <div className="icon-input">
                                             <img src="./images/location-pin.png" alt=""/>
                                         </div>
                                         <div className="loc1">
-                                            {locationName1 ? locationName1 : t("loc1")}
+
+                                            {locationName1 ? locationName1 :
+                                                <span>{t("loc1")}</span>}
+
                                         </div>
                                     </div>
 
                                     <div onClick={() => {
                                         setLocation2(true)
                                         setLocation1(false)
-                                        setLoadermap(true)
-                                        setTimeout(() => {
-                                            setLoadermap(false);
-                                        }, 1000);
                                     }} className="input-box">
                                         <div className="icon-input">
                                             <img src="./images/location-pin.png" alt=""/>
                                         </div>
                                         <div className="loc1">
-                                            {locationName2 ? locationName2 : t("loc3")}
+                                            {locationName2 ? locationName2 : <span>{t("loc3")}</span>}
                                         </div>
                                     </div>
 
@@ -1662,6 +1636,7 @@ const PostOrder = () => {
                                     <img src="./images/arrowr.png" alt=""/>
                                 </div>
                             </>}
+
                         </div>
 
                     </CSSTransition>

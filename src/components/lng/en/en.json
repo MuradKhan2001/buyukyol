@@ -55,7 +55,7 @@
   "direction": "Direction",
   "direction1": "International",
   "direction2": "Between provinces",
-  "direction3": "Inside the province",
+  "direction3": "Across the city.",
   "tariff": "Types of definitions",
   "tariff1": "Mini",
   "tariff2": "Easy",
@@ -121,5 +121,7 @@
   "raidDriverText": "Rated!",
   "geoLocation": "Geolocaiton is turned off!",
   "changeNumber": "Reenter number",
-  "changeNumber2": "Reenter information"
+  "changeNumber2": "Reenter information",
+  "download": "Download",
+  "map": "Map is loading..."
 }

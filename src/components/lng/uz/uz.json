@@ -78,8 +78,8 @@
   "wait": "Kuting...",
   "direction": "Yo'nalishlar",
   "direction1": "Xalqaro",
-  "direction2": "Viloyatlar aro",
-  "direction3": "Viloyat ichi",
+  "direction2": "Shaharlar aro",
+  "direction3": "Shahar ichi",
   "tariff": "Ta'rif turlari",
   "tariff1": "Mini",
   "tariff2": "Yengil",
@@ -145,6 +145,8 @@
   "raidDriverText": "Baholandi!",
   "geoLocation": "Goolakatsiyani yoqing!",
   "changeNumber": "Nomerni qayta kiritish",
-  "changeNumber2": "Ma'lumotlarni qayta kiritish"
+  "changeNumber2": "Ma'lumotlarni qayta kiritish",
+  "download": "Yuklash",
+  "map": "Xarita yuklanmoqda..."
 }
 
