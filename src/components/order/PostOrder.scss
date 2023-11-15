@@ -228,7 +228,7 @@ $colorText: #333232;
       align-items: center;
 
       .info-cargo {
-        width: 900px;
+        width: 980px;
         height: 60%;
         border-radius: 10px;
         background-color: rgba(255, 255, 255, 0.85);
@@ -236,10 +236,10 @@ $colorText: #333232;
         backdrop-filter: blur(7px);
         box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
         padding: 30px;
+
         position: relative;
 
         .information-box {
-          margin-bottom: 10px;
           height: 100%;
           display: flex;
           align-items: center;
@@ -262,12 +262,15 @@ $colorText: #333232;
             }
           }
 
-
-
           .left-box {
             width: 50%;
+            height: 100%;
             padding-left: 20px;
             padding-right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
             .location-box {
               margin-top: 25px;
               width: 100%;
@@ -318,8 +321,12 @@ $colorText: #333232;
           }
 
           .right-box {
-            padding: 20px;
             width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
             .info-order {
               margin-top: 12px;
               width: 100%;
@@ -736,11 +743,38 @@ $colorText: #333232;
           align-items: center;
           flex-direction: column;
 
+          .alert-enter {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+
+          .alert-enter-active {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 300ms, transform 300ms;
+          }
+
+          .alert-exit {
+            opacity: 1;
+          }
+
+          .alert-exit-active {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 300ms, transform 300ms;
+          }
+
           .header {
-            transition: 0.3s;
+            z-index: 100;
+            transition: 0.45s;
             top: -100%;
             position: absolute;
-            width: 98%;
+            width: 93%;
+            background-color: rgba(162, 158, 158, 0.5);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 
             .text {
               padding-top: 3px;
@@ -749,9 +783,8 @@ $colorText: #333232;
               justify-content: center;
               align-items: center;
               width: 100%;
-              background-color: rgb(255, 255, 255, 0.7);
               text-align: center;
-              color: $colorText;
+              color: black;
               border-radius: 5px;
               font-weight: bold;
 
@@ -845,14 +878,7 @@ $colorText: #333232;
           }
 
           .header-show{
-            top: 10px;
-          }
-
-          .map-hide{
-            width: 97% !important;
-            position: absolute!important;
-            bottom: 10px!important;
-            height: 70% !important;
+            top: 20px;
           }
 
           .map-box{

@@ -5,21 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/order/googleMapsApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/order/loaderMap.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/cargobox.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/agreement/Agreement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/agreement/Agreement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/contact/Contact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/contact/Contact.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/home.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/home.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/lng/en/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lng/en/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/lng/ru/ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lng/ru/ru.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/lng/uz/uz.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/lng/uz/uz.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/order/LoaderAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/LoaderAdmin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/order/PostOrder.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/order/PostOrder.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/routes/Routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/routes/Routes.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,25 +41,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "F:/Projects/buyuk-yol-app/src/components/check-code-register",
-    "list.type.of.created.stylesheet": "SCSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Projects/buyuk-yol-app/src/components/check-code-register&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Projects\buyuk-yol-app\src\components\check-code-register" />
@@ -190,7 +181,13 @@
       <workItem from="1699333684632" duration="11238000" />
       <workItem from="1699375103974" duration="11363000" />
       <workItem from="1699510458855" duration="7441000" />
-      <workItem from="1699543789236" duration="12479000" />
+      <workItem from="1699543789236" duration="13609000" />
+      <workItem from="1699684232099" duration="5644000" />
+      <workItem from="1699802737522" duration="72000" />
+      <workItem from="1699810608588" duration="359000" />
+      <workItem from="1699967328855" duration="1257000" />
+      <workItem from="1699969395417" duration="822000" />
+      <workItem from="1700047854116" duration="1236000" />
     </task>
     <servers />
   </component>

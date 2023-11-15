@@ -29,7 +29,7 @@ navigator.geolocation.getCurrentPosition(position => {
     websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem('token')}`);
 
 }, (error) => {
-    alert("Geolocaiton is turned off!")
+   if (window.innerWidth > 768) alert("Geolocaiton is turned off!")
 });
 
 const PostOrder = () => {
@@ -307,6 +307,7 @@ const PostOrder = () => {
             }
         }
     }, []);
+
     const getInputs = (e) => {
 
         if (e.target.name === "capacity" || e.target.name === "price") {
@@ -1036,6 +1037,7 @@ const PostOrder = () => {
 
                 <div className="left-side">
                     <div className="get-location-container">
+
                         <div className={`header ${location1 || location2 ? "header-show" : ""}`}>
                             <div className="text">
 
@@ -1050,7 +1052,6 @@ const PostOrder = () => {
                             </div>
 
                             <div className="forms">
-
                                 <div className="places-container">
                                     <PlacesAutocomplete setSelected={setSelected}/>
                                     <img src="./images/magnifier.png" alt=""/>
@@ -1074,7 +1075,7 @@ const PostOrder = () => {
                             center={center}
                             options={options}
                             onClick={location1 || location2 ? ClicklLocation : {}}
-                            mapContainerClassName={`map-box ${location1 || location2 ? "map-hide" : ""}`}>
+                            mapContainerClassName="map-box">
 
                             {selectedMy && <Marker icon={icon2} position={selectedMy}/>}
 
