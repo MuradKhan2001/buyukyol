@@ -123,5 +123,12 @@
   "changeNumber": "Reenter number",
   "changeNumber2": "Reenter information",
   "download": "Download",
-  "map": "Map is loading..."
+  "map": "Map is loading...",
+
+  "homeText": "With, find trucks and trucks quickly and easily!",
+  "homeTex3": "Uzbekistan,Tashkent- 2024",
+  "homeTex4": "IT Logistics Platform",
+  "service1": "Trucks and trucks within the city",
+  "service2": "Intercity trucks and trucks",
+  "service3": "Freight and cargo vehicles on international routes"
 }

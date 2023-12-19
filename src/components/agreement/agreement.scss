@@ -1,20 +1,15 @@
+$mainColor: #047766;
 .agreement-wrapper {
   width: 100%;
-  background-image: url("./bg-images/bg4.jpg");
-  background-size: 100%;
+
 
   .mirror-sloy {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
 
     .title {
       font-size: 36px;
       text-align: center;
       font-weight: bold;
-      color: white;
+      color: $mainColor;
 
     }
 
@@ -30,14 +25,14 @@
         padding-left: 40px;
         padding-right: 40px;
         width: 100%;
-        height: 50px;
-        background-color: rgba(255, 255, 255, 0.5);
+        height: 60px;
+        background-color: rgba(0, 0, 0, 0.2);
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         .paper-clip {
-          margin-top: -47px;
+          margin-top: -55px;
           width: 50px;
           height: 50px;
 
@@ -74,7 +69,7 @@
       }
 
       .body-side {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(0, 0, 0, 0.05);
         padding: 40px;
         width: 100%;
         height: 800px;
@@ -88,7 +83,7 @@
           text-align: justify;
           margin-top: 20px;
           font-size: 18px;
-          color: white;
+          color: #132026;
 
         }
       }
@@ -99,8 +94,7 @@
 
 @media (max-width: 768px) {
   .agreement-wrapper {
-    background: none;
-    background-color: #333232;
+
     .mirror-sloy {
       .title {
         font-size: 28px;
@@ -117,7 +111,7 @@
           padding-right: 30px;
 
           .paper-clip {
-            margin-top: -47px;
+            margin-top: -55px;
             width: 50px;
             height: 50px;
 

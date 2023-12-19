@@ -204,53 +204,68 @@ const Home = () => {
 
 
     return <div className="home-wrapper">
-        <div onClick={() => {
-            localStorage.getItem("userId") ? navigate("/post-order"):
-                navigate("/login-client")
-        }} className="post-order-box">
-           <div className="sloy">
-               <div className="text">
-                   {t("post-order")}
-               </div>
-               <img src="./images/Cardboard_Box2.png" alt=""/>
-           </div>
-        </div>
 
         <div className="home-page">
             <Navbar/>
-            <div className={`home-content ${window.screen.width < 768 ? "" : "container"} `}>
-                <div className="left-side"></div>
-                <div className="ride-side">
-                    <div className="text-box">
-                        BUYUK YO'L IT LOGISTIC
-                        <div><b>  {t('homeText2')} </b></div>
+            <div className={`home-content`}>
+                <div className="home-section-one">
+                     <span>Buyuk Yo’l</span> {t("homeText")}
+                    <p>{t("homeText2")}</p>
+                </div>
+
+                <div className="home-section-two">
+                    <img src="./images/home-image.jpg" alt=""/>
+                </div>
+                <div className="home-section-three">
+                    <div className="left-side">
+                        <div className="button-box">
+                            <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol"
+                               target="_blank">
+                                <button>
+                                    <div className="icon">
+                                        <img src="./images/androit.png" alt=""/>
+                                    </div>
+                                    <div className="text">
+                                        <div className="text-top"> GET IN ON</div>
+                                        <div className="text-bottom"> Google Play</div>
+                                    </div>
+                                </button>
+                            </a>
+                            <a href="https://apps.apple.com/app/id6463604761" target="_blank">
+                                <button>
+                                    <div className="icon">
+                                        <img src="./images/ios.png" alt=""/>
+                                    </div>
+                                    <div className="text">
+                                        <div className="text-top"> Download on the</div>
+                                        <div className="text-bottom">App Store</div>
+                                    </div>
+                                </button>
+                            </a>
+
+                        </div>
                     </div>
+                    <div className="right-side">
+                        <div className="stills">
+                            <div className="content-box">
+                                <Slider {...settingsForStills} >
+                                    {
+                                        galary.map((item, index) => {
+                                            return <div key={index} className="click-slide-box">
+                                                <div className="photo">
+                                                    <a href={item.image} className="highslide" onClick={() => (item.image)}>
+                                                        <img
+                                                            src={item.image}
+                                                            alt=""/>
+                                                    </a>
 
-                    <div className="button-box">
-                        <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol"
-                           target="_blank">
-                            <button>
-                                <div className="icon">
-                                    <img src="./images/androit.png" alt=""/>
-                                </div>
-                                <div className="text">
-                                    <div className="text-top"> GET IN ON</div>
-                                    <div className="text-bottom"> Google Play</div>
-                                </div>
-                            </button>
-                        </a>
-                        <a href="https://apps.apple.com/app/id6463604761" target="_blank">
-                            <button>
-                                <div className="icon">
-                                    <img src="./images/ios.png" alt=""/>
-                                </div>
-                                <div className="text">
-                                    <div className="text-top"> Download on the</div>
-                                    <div className="text-bottom">App Store</div>
-                                </div>
-                            </button>
-                        </a>
-
+                                                </div>
+                                            </div>
+                                        })
+                                    }
+                                </Slider>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,8 +284,14 @@ const Home = () => {
                             </div>
                             <div className="right-side">
                                 <div className="content-box">
+                                    <div className="title-top">
+                                        {t("homeTex3")}
+                                    </div>
                                     <div className="title">
-                                        {t('about')}
+                                       <span>
+                                            "Buyuk yo'l"
+                                       </span>
+                                        {t("homeTex4")}
                                     </div>
                                     <div className="description">
                                         {item.description}
@@ -282,27 +303,6 @@ const Home = () => {
                 }
             </div>
 
-            <div className="stills">
-                <div className="content-box">
-                    <Slider {...settingsForStills} >
-                        {
-                            galary.map((item, index) => {
-                                return <div key={index} className="click-slide-box">
-                                    <div className="photo">
-                                        <a href={item.image} className="highslide" onClick={() => (item.image)}>
-                                            <img
-                                                src={item.image}
-                                                alt=""/>
-                                        </a>
-
-                                    </div>
-                                </div>
-                            })
-                        }
-                    </Slider>
-                </div>
-            </div>
-
             <div className="service-wrapper">
                 <div className="content-box container">
                     <div className="title">
@@ -310,17 +310,24 @@ const Home = () => {
                     </div>
 
                     <div className="bottom-side">
-                        {
-                            MainListService.map((item, index) => {
-                                return <div key={index} className="service-card" data-aos="flip-right">
-                                    <div className="photo"><img src={item.image} alt=""/></div>
-                                    <div className="title">{item.title}</div>
-                                    <div className="text">
-                                        {item.description}
-                                    </div>
-                                </div>
-                            })
-                        }
+                        <div className="service-one">
+                            <div className="num">01</div>
+                            <div className="text">
+                                {t("service1")}
+                            </div>
+                        </div>
+                        <div className="service-two">
+                            <div className="num">02</div>
+                            <div className="text">
+                                {t("service2")}
+                            </div>
+                        </div>
+                        <div className="service-three">
+                            <div className="num">03</div>
+                            <div className="text">
+                                {t("service3")}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -375,42 +382,31 @@ const Home = () => {
                         </Slider>
                     </div>
                 </div>
+            </div>
 
-                <div className="statistics">
-                    <div className="title">
-                        {t('statistics')}
+            <div className="statistics">
+                <div className="title">
+                    {t('statistics')}
+                </div>
+
+                <div className="box" data-aos="flip-left">
+                    <div className="bottom-side">
+                        <div className="count">{statistics ? statistics.client : ""}+</div>
+                        <div className="name">{t('userCount')}</div>
                     </div>
+                </div>
 
-                    <div className="box-wrapper">
-                        <div className="box" data-aos="flip-left">
-                            <div className="top-side">
-                                <img src="./images/clients.png" alt=""/>
-                            </div>
-                            <div className="bottom-side">
-                                <div className="count">{statistics ? statistics.client : ""}</div>
-                                <div className="name">{t('userCount')}</div>
-                            </div>
-                        </div>
+                <div className="box" data-aos="flip-left" data-aos-duration="1000">
+                    <div className="bottom-side">
+                        <div className="count">{statistics ? statistics.order : ""}+</div>
+                        <div className="name">{t('bagsCount')}</div>
+                    </div>
+                </div>
 
-                        <div className="box" data-aos="flip-left" data-aos-duration="1000">
-                            <div className="top-side">
-                                <img src="./images/bag.png" alt=""/>
-                            </div>
-                            <div className="bottom-side">
-                                <div className="count">{statistics ? statistics.order : ""}</div>
-                                <div className="name">{t('bagsCount')}</div>
-                            </div>
-                        </div>
-
-                        <div className="box" data-aos="flip-left" data-aos-duration="1500">
-                            <div className="top-side">
-                                <img src="./images/admin/driver.png" alt=""/>
-                            </div>
-                            <div className="bottom-side">
-                                <div className="count">{statistics ? statistics.driver : ""}</div>
-                                <div className="name">{t('Users')}</div>
-                            </div>
-                        </div>
+                <div className="box" data-aos="flip-left" data-aos-duration="1500">
+                    <div className="bottom-side">
+                        <div className="count">{statistics ? statistics.driver : ""}+</div>
+                        <div className="name">{t('Users')}</div>
                     </div>
                 </div>
             </div>
@@ -430,7 +426,6 @@ const Home = () => {
                             </svg>
                         </div> : <span>
                             {t('sentButton')}
-                            <img src="./images/send2.png" alt=""/>
                         </span>
                     }
                 </div>

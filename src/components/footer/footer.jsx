@@ -30,10 +30,6 @@ const Footer = () => {
             link: "/about-app"
         },
         {
-            name: t('post-order'),
-            link: "/post-order"
-        },
-        {
             id: 5,
             name: t('contact'),
             link: "/contact"

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {Dropdown} from "react-bootstrap";
@@ -25,10 +25,6 @@ const Navbar = () => {
         {
             name: t('about-app'),
             link: "/about-app"
-        },
-        {
-            name: t('post-order'),
-            link: "/post-order"
         },
         {
             name: t('contact'),
@@ -96,19 +92,7 @@ const Navbar = () => {
 
             {
                 menu.map((item, index) => {
-                    return <div key={index} onClick={() => {
-
-                        if (item.link === "/post-order") {
-
-                            if (localStorage.getItem("userId")) {
-                                navigate(item.link)
-                            } else {
-                                navigate("/login-client")
-                            }
-
-                        } else navigate(item.link);
-
-                    }} className={`nav-item`}>{item.name}</div>
+                    return <div key={index} onClick={() => navigate(item.link)} className={`nav-item`}>{item.name}</div>
                 })
             }
         </div>
@@ -145,38 +129,9 @@ const Navbar = () => {
             </Dropdown>
         </div>
 
-        {
-            localStorage.getItem("userId") && localStorage.getItem("token")  ? <div className="user-profile">
-                <Dropdown>
-                    <Dropdown.Toggle variant="none" id="dropdown-basic">
-                        <img className="security-icon" src="./images/profile.png" alt=""/>
-                        <div className="Name">
-                            {localStorage.getItem("user_name")}
-                        </div>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => {
-                            navigate('/my-profile')
-                        }}>
-                            {t("prfile")}
-                        </Dropdown.Item>
-
-                        <Dropdown.Item onClick={() => {
-                            window.location.pathname = "/";
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("userId");
-                            localStorage.removeItem("user_name");
-                        }}>
-                            {t("button4")}
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div> :
-                <div onClick={() => navigate('/login-client')} className="login-btn">
-                {t("button5")}
-            </div>
-        }
+        <a  href="https://client.buyukyol.uz/" target="_blank" className="login-btn">
+            {t("post-order")}
+        </a>
 
         <div className="nav-show">
             <img onClick={() => setNav(true)} src="./images/menu.png" alt=""/>

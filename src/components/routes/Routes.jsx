@@ -33,11 +33,8 @@ import ActiveOrders from "../admin/active-orders/ActiveOrders";
 import React from "react";
 import Sendsms from "../admin/send-sms/Sendsms";
 import FilterDriver from "../admin/filter-driver/FilterDriver";
-import PostOrder from "../order/PostOrder";
-import LoginClient from "../login-client/LoginClient";
-import RegisterClient from "../register-client/RegisterClient";
-import MyProfile from "../my-profile/MyProfile";
-import LoaderAdmin from "../order/LoaderAdmin";
+
+
 
 export const publicRoutes = [
     {
@@ -57,25 +54,9 @@ export const publicRoutes = [
         element: <AboutApp/>
     },
     {
-        path: "/post-order",
-        element: <PostOrder/>
-    },
-    {
         path: "/login-admin-buyukyol",
         element: <Login/>
     },
-    {
-        path: "/login-client",
-        element: <LoginClient/>
-    },
-    {
-        path: "/register-client",
-        element: <RegisterClient/>
-    },
-    {
-        path: "/my-profile",
-        element: <MyProfile/>
-    }
 ];
 
 export const adminRoutes = [

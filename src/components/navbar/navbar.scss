@@ -1,4 +1,4 @@
-$mainColor: #00453C;
+$mainColor: #047766;
 $mainColor2: #F5F5F5;
 $mainColor3: #181D31;
 .navbar-container {
@@ -9,6 +9,7 @@ $mainColor3: #181D31;
   justify-content: space-around;
   align-items: center;
   font-family: "Calibri";
+  background-color: #17241F;
 
   .logo {
     width: 60px;
@@ -26,12 +27,13 @@ $mainColor3: #181D31;
   }
 
   .nav-list {
-    width: 55%;
+    width: 43%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .nav-item-hide{
+
+    .nav-item-hide {
       display: none;
     }
 
@@ -93,10 +95,14 @@ $mainColor3: #181D31;
     }
   }
 
+  a {
+    text-decoration: none;
+  }
+
   .login-btn {
-    padding: 6px 25px 6px 25px;
-    color: black;
-    background-color: white;
+    padding: 6px 20px 6px 20px;
+    color: white;
+    background-color: $mainColor;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -107,38 +113,7 @@ $mainColor3: #181D31;
     transition: .3s;
 
     &:hover {
-      box-shadow: rgba(232, 232, 252, 0.91) 0px 0px 14px -2px, rgba(214, 214, 214, 0.87) 0px 3px 14px -3px;
-    }
-  }
-
-  .user-profile {
-    .dropdown {
-      display: flex;
-
-      .dropdown-toggle {
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        outline: none !important;
-        color: white;
-        font-size: 16px;
-
-        &:focus {
-          outline: none;
-        }
-
-        .Name {
-          font-size: 12px;
-          margin-left: 5px;
-          color: white;
-          font-weight: bold;
-        }
-
-        img {
-          width: 30px;
-        }
-      }
+      background-color: #025749;
     }
   }
 }
@@ -148,8 +123,8 @@ $mainColor3: #181D31;
   .navbar-container {
     width: 100%;
     justify-content: space-between;
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
 
     .nav-list {
       position: fixed;
@@ -162,23 +137,24 @@ $mainColor3: #181D31;
       border-radius: 5px;
       box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
       z-index: 310;
-      //background-color: #0a58ca;
-      background-color: rgba(0, 0, 0, 0.6);
-      -webkit-backdrop-filter: blur(7px);
-      backdrop-filter: blur(7px);
-      .nav-item-hide{
+      background-color: #17241F;
+
+      .nav-item-hide {
         margin-top: 30px;
         padding-right: 30px;
         display: flex;
         justify-content: flex-end;
-        img{
+
+        img {
           width: 30px;
         }
       }
+
       .nav-item {
         text-align: center;
         margin-top: 25px;
         font-size: 24px;
+
         &::before {
           content: '';
           position: absolute;
@@ -210,8 +186,8 @@ $mainColor3: #181D31;
     }
 
     .login-btn {
-      font-size: 16px;
-      padding: 5px 22px 5px 22px;
+      font-size: 14px;
+      padding: 10px 15px 10px 15px;
     }
 
   }

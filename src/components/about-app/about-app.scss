@@ -1,13 +1,9 @@
+$mainColor: #047766;
 .about-app-wrapper{
   width: 100%;
-  background-image: url("./bg-images/bg4.jpg");
-  background-size: 100%;
 
   .mirror-sloy{
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
     .header-side{
       width: 80%;
       margin: 40px auto;
@@ -24,6 +20,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: $mainColor;
         .image{
           margin-right: 5px;
           img{
@@ -42,8 +39,7 @@
     }
 
     .header-active{
-      background-color: rgba(255,255,255,0.15);
-      box-shadow: rgb(215, 215, 215) 0px 6px 24px 0px, rgb(255, 255, 255) 0px 0px 0px 1px;
+      background-color: #03493f !important;
     }
 
     .video-box{
@@ -64,8 +60,6 @@
 
 @media (max-width: 768px) {
   .about-app-wrapper{
-    background-image: none;
-    background-color: #333232;
     .mirror-sloy{
       width: 100%;
       .header-side{

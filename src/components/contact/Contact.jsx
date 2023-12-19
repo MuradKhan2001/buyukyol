@@ -117,7 +117,6 @@ const Contact = () => {
                                    </svg>
                                </div> : <span >
                                    {t('sentButton')}
-                                   <img src="./images/send2.png" alt=""/>
                                </span>
                            }
                        </div>
@@ -129,21 +128,21 @@ const Contact = () => {
                            return <div key={index} className="right-side">
                                <div className="items">
                                    <div className="icon">
-                                       <img src="./images/phone-call.png" alt=""/>
+                                       <img src="./images/phone-call2.png" alt=""/>
                                    </div>
                                    <a href={`tel:${item.phone1}`} className="name">{item.phone1}</a>
                                </div>
 
                                <div className="items">
                                    <div className="icon">
-                                       <img src="./images/phone-call.png" alt=""/>
+                                       <img src="./images/phone-call2.png" alt=""/>
                                    </div>
                                    <a href={`tel:${item.phone2}`} className="name">{item.phone2}</a>
                                </div>
 
                                <div className="items">
                                    <div className="icon">
-                                       <img src="./images/telegram.png" alt=""/>
+                                       <img src="./images/telegram2.png" alt=""/>
                                    </div>
                                    <a href={item.telegram} target="_blank" className="name">
                                        buyukyol_uz
@@ -152,7 +151,7 @@ const Contact = () => {
 
                                <div className="items">
                                    <div className="icon">
-                                       <img src="./images/instagram.png" alt=""/>
+                                       <img src="./images/instagram2.png" alt=""/>
                                    </div>
                                    <a href={item.instagram} target="_blank" className="name">
                                        buyukyol_uz
@@ -161,7 +160,7 @@ const Contact = () => {
 
                                <div className="items">
                                    <div className="icon">
-                                       <img src="./images/facebook.png" alt=""/>
+                                       <img src="./images/facebook2.png" alt=""/>
                                    </div>
                                    <a href={item.facebook} target="_blank" className="name">
                                        buyukyol_uz
@@ -170,7 +169,7 @@ const Contact = () => {
 
                                <div className="items">
                                    <div className="icon">
-                                       <img src="./images/gps.png" alt=""/>
+                                       <img src="./images/placeholder4.png" alt=""/>
                                    </div>
                                    <div className="name">{item.address}</div>
                                </div>

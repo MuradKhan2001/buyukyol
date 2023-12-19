@@ -1,6 +1,6 @@
 {
   "home": "Bosh sahifa",
-  "service": "Xizmatlar",
+  "service": "Bizning yo'nalishlar",
   "agreement": "Oferta shartlari",
   "about": "Biz haqimizda",
   "about-app": "Ilovadan foydalanish",
@@ -147,6 +147,13 @@
   "changeNumber": "Nomerni qayta kiritish",
   "changeNumber2": "Ma'lumotlarni qayta kiritish",
   "download": "Yuklash",
-  "map": "Xarita yuklanmoqda..."
+  "map": "Xarita yuklanmoqda...",
+
+  "homeText": "bilan, yuk va yuk mashinalari tez va osoon toping!",
+  "homeTex3": "O'zbekiston,Toshkent- 2024",
+  "homeTex4": "IT Logistik platformasi",
+  "service1": "Shahar ichida yuk va yuk avtomobillari",
+  "service2": "Shaharlar aro yuk va yuk avtomobillari",
+  "service3": "Xalqaro yo'nalishda yuk va yuk avtomobillari"
 }
 

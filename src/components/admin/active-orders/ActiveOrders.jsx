@@ -3,17 +3,34 @@ import {useEffect, useState} from "react";
 
 
 const ActiveOrders = () => {
-
+    let websocket= null
     const [MainList, setMainList] = useState([]);
-    const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/Tashkent/uzbekistan/?token=${localStorage.getItem('token')}`);
 
     useEffect(() => {
-        websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.message.orders) {
-                setMainList(data.message.orders);
+        if (!localStorage.getItem("token")) return () => {}
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            const {latitude, longitude} = position.coords;
+            const location = `${latitude}/${longitude}`;
+            websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem("token")}`);
+
+            websocket.onclose = () => {
+                window.location.reload()
             }
-        };
+            websocket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.message.orders) {
+                    setMainList(data.message.orders);
+                }
+            };
+            websocket.onopen = ()=>{
+                console.log("opn")
+            }
+
+        },(error) => {
+            alert("Geolakatsiyani yoqing!")
+        });
+
     }, []);
 
     const RejectOrder = (id) => {
