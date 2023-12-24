@@ -209,10 +209,9 @@ const Home = () => {
             <Navbar/>
             <div className={`home-content`}>
                 <div className="home-section-one">
-                     <span>Buyuk Yo’l</span> {t("homeText")}
-                    <p>{t("homeText2")}</p>
+                    <p>"Buyuk yo'l"-{t("homeText2")}</p>
+                    <span>"Buyuk yo’l"</span> {t("homeText")}
                 </div>
-
                 <div className="home-section-two">
                     <img src="./images/home-image.jpg" alt=""/>
                 </div>
@@ -253,7 +252,8 @@ const Home = () => {
                                         galary.map((item, index) => {
                                             return <div key={index} className="click-slide-box">
                                                 <div className="photo">
-                                                    <a href={item.image} className="highslide" onClick={() => (item.image)}>
+                                                    <a href={item.image} className="highslide"
+                                                       onClick={() => (item.image)}>
                                                         <img
                                                             src={item.image}
                                                             alt=""/>
@@ -431,7 +431,6 @@ const Home = () => {
                 </div>
             </div>
         </div>
-
         <Footer/>
     </div>
 };

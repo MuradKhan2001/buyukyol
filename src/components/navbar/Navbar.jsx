@@ -19,12 +19,12 @@ const Navbar = () => {
             link: "/"
         },
         {
-            name: t('agreement'),
-            link: "/agreement"
-        },
-        {
             name: t('about-app'),
             link: "/about-app"
+        },
+        {
+            name: t('agreement'),
+            link: "/agreement"
         },
         {
             name: t('contact'),
