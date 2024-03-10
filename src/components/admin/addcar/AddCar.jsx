@@ -14,6 +14,7 @@ const AddCar = () => {
     const [Car, setCar] = useState({
         name: "",
         name_ru: "",
+        name_en: "",
         image: null,
         min_weight: "",
         max_weight: ""
@@ -47,7 +48,10 @@ const AddCar = () => {
     }, []);
 
     const AddCars = () => {
-        if (Car.name.trim().length > 0 && Car.name_ru.trim().length > 0 && Car.min_weight.trim().length > 0 && Car.max_weight.trim().length > 0
+        if (Car.name.trim().length > 0 && Car.name_ru.trim().length > 0 && 
+        Car.min_weight.trim().length > 0 && Car.max_weight.trim().length > 0
+        &&  Car.name_en.trim().length > 0
+
             && Car.image) {
 
             let Post = new FormData();
@@ -65,6 +69,7 @@ const AddCar = () => {
                 let newList = {
                     name: "",
                     name_ru: "",
+                    name_en: "",
                     image: null,
                     min_weight: "",
                     max_weight: ""
@@ -72,6 +77,7 @@ const AddCar = () => {
                 setCar(newList);
 
                 document.getElementById('name').value = "";
+                document.getElementById('name_en').value = "";
                 document.getElementById('name_ru').value = "";
                 document.getElementById('image').value = "";
                 document.getElementById('min_weight').value = "";
@@ -90,6 +96,7 @@ const AddCar = () => {
 
         let newList = {
             name: MainList[ind].name,
+            name_en: MainList[ind].name_en,
             name_ru: MainList[ind].name_ru,
             min_weight: MainList[ind].min_weight,
             max_weight: MainList[ind].max_weight
@@ -97,6 +104,7 @@ const AddCar = () => {
         setCar(newList);
 
         document.getElementById('name').value = MainList[ind].name;
+        document.getElementById('name_en').value = MainList[ind].name_en;
         document.getElementById('name_ru').value = MainList[ind].name_ru;
         document.getElementById('min_weight').value = MainList[ind].min_weight;
         document.getElementById('max_weight').value = MainList[ind].max_weight
@@ -119,6 +127,7 @@ const AddCar = () => {
             let newList = {
                 name: "",
                 name_ru: "",
+                name_en: "",
                 image: null,
                 min_weight: "",
                 max_weight: ""
@@ -126,6 +135,7 @@ const AddCar = () => {
             setCar(newList);
 
             document.getElementById('name').value = "";
+            document.getElementById('name_en').value = "";
             document.getElementById('name_ru').value = "";
             document.getElementById('image').value = "";
             document.getElementById('min_weight').value = "";
@@ -140,6 +150,7 @@ const AddCar = () => {
 
         let newList = {
             name: "",
+            name_en: "",
             name_ru: "",
             image: null,
             min_weight: "",
@@ -148,6 +159,7 @@ const AddCar = () => {
         setCar(newList);
 
         document.getElementById('name').value = "";
+        document.getElementById('name_en').value = "";
         document.getElementById('name_ru').value = "";
         document.getElementById('image').value = "";
         document.getElementById('min_weight').value = "";
@@ -172,6 +184,7 @@ const AddCar = () => {
                 <div className="inputs">
                     <input onChange={getInputs} name="name" id="name" placeholder="Tarif nomi" type="text"/>
                     <input onChange={getInputs} name="name_ru" id="name_ru" placeholder="Название тарифа" type="text"/>
+                    <input onChange={getInputs} name="name_en" id="name_en" placeholder="Name tariff" type="text"/>
 
                     <div className="get-image">
                         <label htmlFor="image">Moshina rasmi:</label>

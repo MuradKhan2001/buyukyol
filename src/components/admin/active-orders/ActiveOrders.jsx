@@ -3,44 +3,65 @@ import {useEffect, useState} from "react";
 
 
 const ActiveOrders = () => {
-    let websocket= null
+
+    const [sockedContext, setSockedContext] = useState(null);
     const [MainList, setMainList] = useState([]);
 
     useEffect(() => {
         if (!localStorage.getItem("token")) return () => {}
 
-        navigator.geolocation.getCurrentPosition((position) => {
-            const {latitude, longitude} = position.coords;
-            const location = `${latitude}/${longitude}`;
-            websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem("token")}`);
+        const websocket  = new WebSocket(`wss://api.buyukyol.uz/ws/orders/?token=${localStorage.getItem("token")}`);
 
-            websocket.onclose = () => {
-                window.location.reload()
-            }
+        setSockedContext(websocket);
+
+        websocket.onclose = () => {
+            window.location.reload()
+        }
+
+    }, []);
+
+    useEffect(() => {
+        setSockedContext(websocket => {
+            if (!websocket) return null
+
             websocket.onmessage = (event) => {
+
                 const data = JSON.parse(event.data);
+
+                if (data.message.status) {
+                    if (data.message.status === "canceled") {
+                        
+                    }
+                }
+
                 if (data.message.orders) {
                     setMainList(data.message.orders);
                 }
             };
-            websocket.onopen = ()=>{
-                console.log("opn")
-            }
 
-        },(error) => {
-            alert("Geolakatsiyani yoqing!")
-        });
+            return websocket
+        })
 
-    }, []);
+    }, [sockedContext])
+
+   
+    
 
     const RejectOrder = (id) => {
-        websocket.send(JSON.stringify({command: "reject_order", order_id: id}))
-        websocket.onmessage = (event) => {
+        
+        const result = window.confirm(" Buyurtmani o'chirmoqchimisiz? ");
+
+    if (result) {
+        sockedContext.send(JSON.stringify({command: "reject_order", order_id: id}))
+
+        sockedContext.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.message.orders) {
                 setMainList(data.message.orders);
             }
         };
+    }   
+        
     };
 
     return <div className="orders-container">
@@ -113,9 +134,9 @@ const ActiveOrders = () => {
                         <div className="order-footer">
                             <div> {item.ordered_time.substring(0, 10)},  {item.ordered_time.substring(11, 16)} </div>
 
-                            <div className="btn-order">
+                            <div onClick={() => RejectOrder(item.id)} className="btn-order">
                                 Bekor qilish
-                                <img onClick={() => RejectOrder(item.id)} src="./images/admin/close.png" alt=""/>
+                                <img  src="./images/admin/close.png" alt=""/>
                             </div>
                         </div>
                     </div>

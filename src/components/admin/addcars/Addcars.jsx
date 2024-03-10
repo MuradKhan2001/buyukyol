@@ -14,6 +14,7 @@ const AddCars = () => {
     const [Car, setCar] = useState({
         category: "",
         name: "",
+        name_en: "",
         name_ru: "",
         height: "",
         widht: "",
@@ -62,7 +63,9 @@ const AddCars = () => {
 
     const AddCars = () => {
         if (Car.category.trim().length > 0 && Car.name.trim().length && Car.name_ru.trim().length && Car.height.trim().length && Car.widht.trim().length
-            && Car.breadth.trim().length && Car.cargo_volume.trim().length && Car.cargo_weight.trim().length && Car.car_image) {
+            && Car.breadth.trim().length && Car.cargo_volume.trim().length 
+            && Car.cargo_weight.trim().length && Car.car_image && Car.name_en.trim().length > 0 )  {
+
             let Post = new FormData();
 
             for (let key in Car) {
@@ -78,6 +81,7 @@ const AddCars = () => {
                 let newList = {
                     category: "",
                     name: "",
+                    name_en: "",
                     name_ru: "",
                     height: "",
                     widht: "",
@@ -90,6 +94,7 @@ const AddCars = () => {
 
                 document.getElementById('category').value = "";
                 document.getElementById('name').value = "";
+                document.getElementById('name_en').value = "";
                 document.getElementById('name_ru').value = "";
                 document.getElementById('height').value = "";
                 document.getElementById('widht').value = "";
@@ -112,6 +117,7 @@ const AddCars = () => {
         let newList = {
             category: MainList[ind].category,
             name: MainList[ind].name,
+            name_en: MainList[ind].name_en,
             name_ru: MainList[ind].name_ru,
             height: MainList[ind].height,
             widht: MainList[ind].widht,
@@ -123,6 +129,7 @@ const AddCars = () => {
 
         document.getElementById('category').value = MainList[ind].category;
         document.getElementById('name').value = MainList[ind].name;
+        document.getElementById('name_en').value = MainList[ind].name_en;
         document.getElementById('name_ru').value = MainList[ind].name_ru;
         document.getElementById('height').value = MainList[ind].height;
         document.getElementById('widht').value = MainList[ind].widht;
@@ -149,6 +156,7 @@ const AddCars = () => {
             let newList = {
                 category: "",
                 name: "",
+                name_en: "",
                 name_ru: "",
                 height: "",
                 widht: "",
@@ -161,6 +169,7 @@ const AddCars = () => {
 
             document.getElementById('category').value = "";
             document.getElementById('name').value = "";
+            document.getElementById('name_en').value = "";
             document.getElementById('name_ru').value = "";
             document.getElementById('height').value = "";
             document.getElementById('widht').value = "";
@@ -180,6 +189,7 @@ const AddCars = () => {
         let newList = {
             category: "",
             name: "",
+            name_en: "",
             name_ru: "",
             height: "",
             widht: "",
@@ -192,6 +202,7 @@ const AddCars = () => {
 
         document.getElementById('category').value = "";
         document.getElementById('name').value = "";
+        document.getElementById('name_en').value = "";
         document.getElementById('name_ru').value = "";
         document.getElementById('height').value = "";
         document.getElementById('widht').value = "";
@@ -232,6 +243,7 @@ const AddCars = () => {
 
                     <input onChange={getInputs} name="name" id="name" placeholder="Moshina nomi" type="text"/>
                     <input onChange={getInputs} name="name_ru" id="name_ru" placeholder="Название автомобиля" type="text"/>
+                    <input onChange={getInputs} name="name_en" id="name_en" placeholder="Name car" type="text"/>
                     <input onChange={getInputs} name="height" id="height" placeholder="Balandligi" type="text"/>
                     <input onChange={getInputs} name="widht" id="widht" placeholder="Uzunligi" type="text"/>
                     <input onChange={getInputs} name="breadth" id="breadth" placeholder="Kengligi" type="text"/>

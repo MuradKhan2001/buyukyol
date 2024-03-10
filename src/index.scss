@@ -3,21 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif Calibri !important;
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    border-radius: 20px;
-  }
 
-  &::-webkit-scrollbar-track {
-    border-radius: 20px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 20px;
-    background-color: #047766;
-  }
 
   table {
     tbody {

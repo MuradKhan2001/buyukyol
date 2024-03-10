@@ -6,30 +6,23 @@ import LoaderAdmin from "./LoaderAdmin";
 const API_KEY = "AIzaSyAT1gB8sob8_piFwfeu3AaTL15yHyjuc30";
 
 const MainHome = () => {
-
     const [locationsList, setLocationsList] = useState([]);
-
+    
     useEffect(() => {
         if (!localStorage.getItem("token")) return () => {}
 
-        navigator.geolocation.getCurrentPosition((position) => {
-            const {latitude, longitude} = position.coords;
-            const location = `${latitude}/${longitude}`;
-            const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/${location}/?token=${localStorage.getItem("token")}`);
+        const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/?token=${localStorage.getItem("token")}`);
 
-            websocket.onclose = () => {
-                window.location.reload()
+        websocket.onclose = () => {
+            window.location.reload()
+        }
+        
+        websocket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.message.drivers) {
+                setLocationsList(data.message.drivers)
             }
-            websocket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (data.message.drivers) {
-                    setLocationsList(data.message.drivers)
-                }
-            };
-
-        },(error) => {
-           alert("Geolakatsiyani yoqing!")
-        });
+        };
 
         if (sessionStorage.getItem("style")) {
         } else sessionStorage.setItem("style", "51da2328145a4757");

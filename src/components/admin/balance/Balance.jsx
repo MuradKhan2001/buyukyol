@@ -45,7 +45,6 @@ const Balance = () =>{
     };
 
 
-
     return <div className="balance-container">
         <div className="header-side">
             <div className="filter-box">
