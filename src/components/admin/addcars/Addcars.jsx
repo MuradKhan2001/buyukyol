@@ -233,8 +233,8 @@ const AddCars = () => {
                         {
                             category.map((item, index) => {
                                 return <option value={item.id} key={index}>
-                                    {localStorage.getItem("lng") === "uz" ? item.name : item.name_ru} &nbsp; &nbsp;
-                                    {item.min_weight} &nbsp; - &nbsp;
+                                    {localStorage.getItem("lng") === "uz" ? item.name : item.name_ru}  &nbsp;
+                                    {item.min_weight} - 
                                     {item.max_weight}
                                 </option>
                             })
@@ -346,7 +346,7 @@ const AddCars = () => {
                     <img onClick={() => setViewDoc(false)} src="../images/admin/close.png" alt=""/>
                 </div>
                 <div className="for-img">
-                    <img src={docUrl} alt=""/>
+                    <img src={value.url+docUrl} alt=""/>
                 </div>
             </div>
         </div>
