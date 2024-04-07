@@ -33,6 +33,7 @@ import ActiveOrders from "../admin/active-orders/ActiveOrders";
 import React from "react";
 import Sendsms from "../admin/send-sms/Sendsms";
 import FilterDriver from "../admin/filter-driver/FilterDriver";
+import Privacy from "../Privacy/privacy";
 
 
 
@@ -56,6 +57,10 @@ export const publicRoutes = [
     {
         path: "/login-admin-buyukyol",
         element: <Login/>
+    },
+    {
+        path: "/privacy",
+        element: <Privacy/>
     },
 ];
 
