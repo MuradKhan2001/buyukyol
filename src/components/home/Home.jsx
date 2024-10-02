@@ -218,7 +218,7 @@ const Home = () => {
                 <div className="home-section-three">
                     <div className="left-side">
                         <div className="button-box">
-                            <a href="https://play.google.com/store/apps/details?id=com.khurshid28.client_buyuk_yol"
+                            <a href="https://play.google.com/store/apps/details?id=uz.buyukyol.client&hl=en&gl=US"
                                target="_blank">
                                 <button>
                                     <div className="icon">
@@ -230,7 +230,8 @@ const Home = () => {
                                     </div>
                                 </button>
                             </a>
-                            <a href="https://apps.apple.com/app/id6463604761" target="_blank">
+
+                            <a href="https://apps.apple.com/uz/app/buyuk-yol-mijoz/id6479218904" target="_blank">
                                 <button>
                                     <div className="icon">
                                         <img src="./images/ios.png" alt=""/>

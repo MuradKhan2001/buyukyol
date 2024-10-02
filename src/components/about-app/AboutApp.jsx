@@ -34,15 +34,17 @@ const AboutApp = () => {
 
             <div className="video-box">
                 {
-                    video ? <iframe width="560" height="315" src="https://www.youtube.com/embed/-Sxm1lKB2ds"
+                    video ? <iframe width="560" height="315"
+                                    src="https://www.youtube.com/embed/_pJkjIqJgqM?si=iotJDLx-dd5oU_9y"
                                     title="YouTube video player" frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowFullScreen></iframe>
+                                    referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
 
-                        : <iframe width="560" height="315" src="https://www.youtube.com/embed/WL2DGKXqe_4"
+                        : <iframe width="560" height="315"
+                                  src="https://www.youtube.com/embed/Z58HX9lHZlE?si=588dkvIZLNdXLvzp"
                                   title="YouTube video player" frameBorder="0"
                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                  allowFullScreen></iframe>
+                                  referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                 }
             </div>
 

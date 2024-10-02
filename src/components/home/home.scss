@@ -556,10 +556,10 @@ $mainColor3: #181D31;
 
     .contact-form {
       margin-top: 150px;
-      width: 100%;
+      width: max-content;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: flex-start;
       padding: 50px;
       background-color: #17241F;
       border-radius: 5px;
@@ -580,7 +580,7 @@ $mainColor3: #181D31;
       .button-send {
         cursor: pointer;
         color: white;
-        padding: 7px 15px 7px 15px;
+        padding: 10px 35px 10px 35px;
         background-color: $mainColor;
         display: flex;
         justify-content: center;
@@ -1046,8 +1046,9 @@ $mainColor3: #181D31;
         display: block;
 
         input {
-          width: 250px;
+          width: 100%;
           margin-top: 20px;
+          margin-right: 0;
         }
 
         .button-send {
