@@ -1,17 +1,16 @@
 import "./driver.scss";
-import Modal from 'react-bootstrap/Modal';
-import {useContext, useEffect, useState} from "react";
+import {CSSTransition} from "react-transition-group";
+import {useContext, useEffect, useState, useRef} from "react";
 import axios from "axios";
 import {MyContext} from "../../app/App";
 import {saveAs} from "file-saver";
 
 const Driver = () => {
     let value = useContext(MyContext);
+    const nodeRef = useRef(null);
+    const [modalShow, setModalShow] = useState({show: false, status: false});
+    const [carInformation, setCarInformation] = useState([])
     const [getSearchText, setGetSearchText] = useState("");
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [showEdit, setShowEdit] = useState(false);
     const [viewDoc, setViewDoc] = useState(false);
     const [docUrl, setDocUrl] = useState("");
     const [MainList, setMainList] = useState([]);
@@ -391,8 +390,8 @@ const Driver = () => {
         Driver[e.target.name] = e.target.files[0]
     }
 
-    const getList = (url = null) => {
-        const main = url ? url : `${value.url}dashboard/drivers/`;
+    const getList = (url = null, page = 1) => {
+        const main = url ? url : `${value.url}dashboard/drivers/?page=${page}`;
         axios.get(main, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
@@ -400,14 +399,39 @@ const Driver = () => {
         }).then((response) => {
             setMainList(response.data.results);
             setLinks(response.data.links);
-            setPages(response.data.links.pages)
+            setPages(response.data.links.pages);
+            setActiveItem(page);
         }).catch((error) => {
-            if (error.response.statusText == "Unauthorized") {
+            if (error.response && error.response.statusText === "Unauthorized") {
                 window.location.pathname = "/";
                 localStorage.removeItem("token");
             }
         });
     };
+
+
+    const visiblePages = [];
+    const totalPages = Pages.length;
+
+    if (totalPages <= 7) {
+        visiblePages.push(...Pages.map((_, index) => index + 1));
+    } else {
+        visiblePages.push(1);
+
+        if (activeItem > 3) {
+            visiblePages.push("...");
+        }
+
+        for (let i = Math.max(2, activeItem - 1); i <= Math.min(totalPages - 1, activeItem + 1); i++) {
+            visiblePages.push(i);
+        }
+
+        if (activeItem < totalPages - 2) {
+            visiblePages.push("...");
+        }
+
+        visiblePages.push(totalPages);
+    }
 
     useEffect(() => {
         getList();
@@ -473,7 +497,7 @@ const Driver = () => {
                     address2: null,
                 };
                 setDriver(newList);
-                handleClose();
+                setModalShow({show: false, status: false})
             }).catch((error) => {
                 if (error.response.status == 400) alert("Bunday raqam ro'yxatdan o'tilgan")
             });
@@ -482,7 +506,6 @@ const Driver = () => {
     };
 
     const editDriver = (item) => {
-
         let newList = {
             first_name: item.first_name,
             last_name: item.last_name,
@@ -503,24 +526,6 @@ const Driver = () => {
             address2: item.documentation.address2
         };
         setDriver(newList);
-
-        document.getElementById('first_name').value = item.first_name;
-        document.getElementById('last_name').value = item.last_name;
-        document.getElementById('phone').value = item.phone;
-        document.getElementById('category').value = item.documentation.category.id;
-        document.getElementById('car_number').value = item.documentation.car_number;
-        document.getElementById('name').value = item.documentation.name;
-        document.getElementById('widht').value = item.documentation.widht;
-        document.getElementById('breadth').value = item.documentation.breadth;
-        document.getElementById('height').value = item.documentation.height;
-        document.getElementById('cargo_volume').value = item.documentation.cargo_volume;
-        document.getElementById('cargo_weight').value = item.documentation.cargo_weight;
-        document.getElementById('car_body').value = item.documentation.car_body.id;
-
-        document.getElementById('category_type').value = item.documentation.category_type;
-        document.getElementById('country1').value = item.documentation.country1;
-        document.getElementById('address1').value = item.documentation.address1;
-        document.getElementById('address2').value = item.documentation.address2;
     };
 
     const editDriver2 = () => {
@@ -564,25 +569,7 @@ const Driver = () => {
                 address2: null,
             };
             setDriver(newList);
-            setShowEdit(false);
-
-            document.getElementById('first_name').value = "";
-            document.getElementById('last_name').value = "";
-            document.getElementById('phone').value = "";
-            document.getElementById('category').value = "";
-            document.getElementById('car_number').value = "";
-            document.getElementById('name').value = "";
-            document.getElementById('widht').value = "";
-            document.getElementById('breadth').value = "";
-            document.getElementById('height').value = "";
-            document.getElementById('cargo_volume').value = "";
-            document.getElementById('cargo_weight').value = "";
-            document.getElementById('car_body').value = "";
-
-            document.getElementById('category_type').value = "";
-            document.getElementById('country1').value = "";
-            document.getElementById('address1').value = "";
-            document.getElementById('address2').value = "";
+            setModalShow({show: false, status: false})
         }).catch(() => {
 
         });
@@ -600,6 +587,427 @@ const Driver = () => {
 
     return <div className="driver-container">
 
+        <CSSTransition
+            in={modalShow.show}
+            nodeRef={nodeRef}
+            timeout={300}
+            classNames="alert"
+            unmountOnExit
+        >
+            <div
+                className="modal-sloy">
+
+                <div ref={nodeRef} className="modal-card">
+
+                    {
+                        modalShow.status === "info-car" &&
+                        <div className="info-car">
+                            <div className="cancel-btn">
+                                <img
+                                    onClick={() => {
+                                        setModalShow({show: false, status: false})
+                                    }}
+                                    src="./images/Admin/cancel.webp"
+                                    alt="cancel"
+                                />
+
+                            </div>
+                            <div className="title">Avtomobil ma'lumotlari</div>
+                            <div className="info-box">
+                                <div className="info">
+                                    <div className="name">Yo'nalish</div>
+                                    <div
+                                        className="val">
+                                        {carInformation.category_type && <>
+                                            {carInformation.category_type === "Abroad" && "Xalqaro"}
+                                            {carInformation.category_type === "IN" && "Shahar ichi"}
+                                            {carInformation.category_type === "OUT" && "Shaharlar aro"}
+                                        </>}
+
+                                    </div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Manzil</div>
+                                    <div
+                                        className="val">{carInformation.address && carInformation.address !== "undefined" && carInformation.address}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Kategoriya</div>
+                                    <div className="val">{carInformation.category && carInformation.category.name}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Moshina raqami</div>
+                                    <div className="val">{carInformation.category && carInformation.car_number}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Moshina nomi</div>
+                                    <div className="val">{carInformation.name && carInformation.name}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Moshina uzunligi</div>
+                                    <div className="val">{carInformation.widht && carInformation.widht}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Moshina kengligi</div>
+                                    <div className="val">{carInformation.breadth && carInformation.breadth}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Moshina balandligi</div>
+                                    <div className="val">{carInformation.height && carInformation.height}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Kub</div>
+                                    <div
+                                        className="val">{carInformation.cargo_volume && carInformation.cargo_volume}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Yuk vazni</div>
+                                    <div
+                                        className="val">{carInformation.cargo_weight && carInformation.cargo_weight}</div>
+                                </div>
+                                <div className="info">
+                                    <div className="name">Kuzov turi</div>
+                                    <div className="val">{carInformation.car_body && carInformation.car_body.name}</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    {
+                        modalShow.status === "add-driver" &&
+                        <div className="add-driver">
+                            <div className="cancel-btn">
+                                <img
+                                    onClick={() => {
+                                        setModalShow({show: false, status: false})
+                                    }}
+                                    src="./images/Admin/cancel.webp"
+                                    alt="cancel"
+                                />
+
+                            </div>
+                            <div className="title">Haydovchi qo'shish</div>
+                            <div className="main-box">
+                                <div className="main-sides">
+                                    <input onChange={getInputs} name="first_name" placeholder="Ism" type="text"/>
+                                    <input onChange={getInputs} name="phone" placeholder="Telefon raqam" type="text"/>
+                                    <input onChange={getInputs} name="name" placeholder="Moshina nomi" type="text"/>
+                                    <input onChange={getInputs} name="breadth" placeholder="Moshina kengligi"
+                                           type="text"/>
+                                    <input onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
+
+                                    <label>Yo'nalish turi:</label>
+                                    <select onChange={getInputs} name="category_type">
+                                        <option></option>
+                                        {
+                                            direction.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>1-viloyat:</label>
+                                    <select disabled={regions1} onChange={getInputs} name="address1">
+                                        <option></option>
+                                        {
+                                            adress1.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>Kategoriya</label>
+                                    <select onChange={getInputs} name="category">
+                                        <option></option>
+                                        {
+                                            category.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name} &nbsp; &nbsp;
+                                                    {item.min_weight} &nbsp; - &nbsp;
+                                                    {item.max_weight}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>Haydovchi rasmi:</label>
+                                    <input onChange={getImage} name="image" type="file"/>
+
+                                    <label>Moshina rasmi</label>
+                                    <input onChange={getImage} name="car_image" type="file"/>
+
+                                </div>
+                                <div className="main-sides">
+                                    <input onChange={getInputs} name="last_name" placeholder="Familiya" type="text"/>
+                                    <input onChange={getInputs} name="car_number" placeholder="Moshina raqami"
+                                           type="text"/>
+                                    <input onChange={getInputs} name="widht" placeholder="Uzunligi" type="text"/>
+                                    <input onChange={getInputs} name="height" placeholder="Moshina balandligi"
+                                           type="text"/>
+                                    <input onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni"
+                                           type="text"/>
+
+                                    <label>Davlatlar:</label>
+                                    <select disabled={country1} onChange={getInputs} name="country1">
+                                        <option></option>
+                                        {
+                                            country.map((item, index) => {
+                                                return <option value={item.name} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>2- viloyat:</label>
+                                    <select disabled={regions2} onChange={getInputs} name="address2">
+                                        <option></option>
+                                        {
+                                            adress2.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>Kuzov turi:</label>
+                                    <select onChange={getInputs} name="car_body">
+                                        <option></option>
+                                        {carBodyList.map((item, index) => {
+                                            return <option value={item.id} key={index}>{item.name}</option>
+                                        })}
+
+                                    </select>
+
+                                    <label>Prava:</label>
+                                    <input onChange={getImage} name="drivers_license_image" type="file"/>
+
+                                    <label>Tex passport:</label>
+                                    <input onChange={getImage} name="car_tex_passport" type="file"/>
+                                </div>
+                            </div>
+                            <div className="button">
+                                <button onClick={addDriver}>
+                                    Qo'shish
+                                </button>
+                            </div>
+
+                        </div>
+                    }
+
+                    {
+                        modalShow.status === "edit-driver" &&
+                        <div className="edit-driver">
+                            <div className="title">Tahrirlash</div>
+                            <div className="main-box">
+                                <div className="main-sides">
+                                    <input id="first_name"
+                                           name="first_name"
+                                           placeholder="Ism"
+                                           value={Driver.first_name}
+                                           onChange={(e) => setDriver({...Driver, first_name: e.target.value})}
+                                           type="text"/>
+
+                                    <input id="phone"
+                                           name="phone"
+                                           placeholder="Telefon raqam"
+                                           value={Driver.phone}
+                                           onChange={(e) => setDriver({...Driver, phone: e.target.value})}
+                                           type="text"/>
+
+                                    <input id="name"
+                                           name="name"
+                                           placeholder="Moshina nomi"
+                                           value={Driver.name}
+                                           onChange={(e) => setDriver({...Driver, name: e.target.value})}
+                                           type="text"/>
+
+                                    <input id="breadth"
+                                           name="breadth"
+                                           placeholder="Moshina kengligi"
+                                           value={Driver.breadth}
+                                           onChange={(e) => setDriver({...Driver, breadth: e.target.value})}
+                                           type="text"/>
+
+                                    <input id="cargo_volume"
+                                           name="cargo_volume"
+                                           placeholder="Kub"
+                                           value={Driver.cargo_volume}
+                                           onChange={(e) => setDriver({...Driver, cargo_volume: e.target.value})}
+                                           type="text"/>
+
+                                    <label>Yo'nalish turi:</label>
+
+                                    <select
+                                        id="category_type"
+                                        name="category_type"
+                                        value={Driver.category_type}
+                                        onChange={(e) => setDriver({...Driver, category_type: e.target.value})}>
+                                        <option></option>
+                                        {
+                                            direction.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>1-viloyat:</label>
+                                    <select
+                                        id="address1"
+                                        value={Driver.address1}
+                                        onChange={(e) => setDriver({...Driver, address1: e.target.value})}
+                                        name="address1">
+                                        <option></option>
+                                        {
+                                            adress1.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>Kategoriya</label>
+                                    <select id="category"
+                                            value={Driver.category}
+                                            onChange={(e) => setDriver({...Driver, category: e.target.value})}
+                                            name="category">
+                                        <option></option>
+                                        {
+                                            category.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name} &nbsp; &nbsp;
+                                                    {item.min_weight} &nbsp; - &nbsp;
+                                                    {item.max_weight}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>Haydovchi rasmi:</label>
+                                    <input id="image" onChange={getImage} name="image" type="file"/>
+
+                                    <label>Moshina rasmi</label>
+                                    <input id="car_image" onChange={getImage} name="car_image" type="file"/>
+
+                                </div>
+                                <div className="main-sides">
+                                    <input id="last_name"
+                                           name="last_name"
+                                           placeholder="Familiya"
+                                           value={Driver.last_name}
+                                           onChange={(e) => setDriver({...Driver, last_name: e.target.value})}
+                                           type="text"/>
+
+                                    <input id="car_number"
+                                           name="car_number"
+                                           value={Driver.car_number}
+                                           onChange={(e) => setDriver({...Driver, car_number: e.target.value})}
+                                           placeholder="Moshina raqami"
+                                           type="text"/>
+
+                                    <input id="widht"
+                                           name="widht"
+                                           value={Driver.widht}
+                                           onChange={(e) => setDriver({...Driver, widht: e.target.value})}
+                                           placeholder="Uzunligi"
+                                           type="text"/>
+
+                                    <input id="height"
+                                           name="height"
+                                           value={Driver.height}
+                                           onChange={(e) => setDriver({...Driver, height: e.target.value})}
+                                           placeholder="Moshina balandligi" type="text"/>
+
+                                    <input id="cargo_weight"
+                                           name="cargo_weight"
+                                           value={Driver.cargo_weight}
+                                           onChange={(e) => setDriver({...Driver, cargo_weight: e.target.value})}
+                                           placeholder="Yuk vazni"
+                                           type="text"/>
+
+                                    <label>Davlatlar:</label>
+                                    <select id="country1"
+                                            value={Driver.country1}
+                                            onChange={(e) => setDriver({...Driver, country1: e.target.value})}
+                                            name="country1">
+                                        <option></option>
+                                        {
+                                            country.map((item, index) => {
+                                                return <option value={item.name} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>2- viloyat:</label>
+                                    <select id="address2"
+                                            value={Driver.address2}
+                                            onChange={(e) => setDriver({...Driver, address2: e.target.value})}
+                                            name="address2">
+                                        <option></option>
+                                        {
+                                            adress2.map((item, index) => {
+                                                return <option value={item.id} key={index}>
+                                                    {item.name}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+
+                                    <label>Kuzov turi:</label>
+                                    <select id="car_body"
+                                            value={Driver.car_body}
+                                            onChange={(e) => setDriver({...Driver, car_body: e.target.value})}
+                                            name="car_body">
+                                        <option></option>
+                                        {carBodyList.map((item, index) => {
+                                            return <option value={item.id} key={index}>{item.name}</option>
+                                        })}
+
+                                    </select>
+
+                                    <label>Prava:</label>
+                                    <input id="drivers_license_image" onChange={getImage} name="drivers_license_image"
+                                           type="file"/>
+
+                                    <label>Tex passport:</label>
+                                    <input id="car_tex_passport" onChange={getImage} name="car_tex_passport"
+                                           type="file"/>
+                                </div>
+                            </div>
+                            <div className="buttons">
+                                <div onClick={() => setModalShow({show: false, status: false})}
+                                     className="cancel-btn">Bekor qilish
+                                </div>
+                                <div onClick={editDriver2} className="edit-btn">Tahrirlash</div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </CSSTransition>
+        <div className={`view-docs ${!viewDoc ? "hide" : ""}`}>
+            <div className="for-image">
+                <div className="cancel-btn">
+                    <img onClick={getDownloadFile} src="./images/download.png" alt=""/>
+                    <img onClick={() => setViewDoc(false)} src="../images/admin/close.png" alt=""/>
+                </div>
+                <div className="for-img">
+                    <img src={docUrl} alt=""/>
+                </div>
+            </div>
+        </div>
         <div className="search-box">
             <div className="inputs">
                 <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..."
@@ -607,258 +1015,19 @@ const Driver = () => {
                 <div className="serach-btn"><img src="../images/admin/search.png" alt=""/></div>
             </div>
 
-            <div onClick={() => {
-                handleShow();
-            }} className="add-driver">
-                <img src="../images/admin/driver1.png" alt=""/>
+            <div onClick={() => setModalShow({show: true, status: "add-driver"})} className="add-driver">
+                Haydovchi qo'shish
                 <img src="../images/admin/add1.png" alt=""/>
             </div>
         </div>
-
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-            </Modal.Header>
-            <Modal.Body>
-                <div className="main-box">
-                    <div className="main-sides">
-                        <input onChange={getInputs} name="first_name" placeholder="Ism" type="text"/>
-                        <input onChange={getInputs} name="phone" placeholder="Telefon raqam" type="text"/>
-                        <input onChange={getInputs} name="name" placeholder="Moshina nomi" type="text"/>
-                        <input onChange={getInputs} name="breadth" placeholder="Moshina kengligi" type="text"/>
-                        <input onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
-
-                        <label >Yo'nalish turi:</label>
-                        <select onChange={getInputs} name="category_type">
-                            <option></option>
-                            {
-                                direction.map((item, index) => {
-                                    return <option value={item.id} key={index}>
-                                        {item.name}
-                                    </option>
-                                })
-                            }
-                        </select>
-
-                        <label>1-viloyat:</label>
-                        <select disabled={regions1} onChange={getInputs} name="address1">
-                            <option></option>
-                            {
-                                adress1.map((item, index) => {
-                                    return <option value={item.id} key={index}>
-                                        {item.name}
-                                    </option>
-                                })
-                            }
-                        </select>
-
-                        <label >Kategoriya</label>
-                        <select onChange={getInputs} name="category">
-                            <option></option>
-                            {
-                                category.map((item, index) => {
-                                    return <option value={item.id} key={index}>
-                                        {item.name} &nbsp; &nbsp;
-                                        {item.min_weight} &nbsp; - &nbsp;
-                                        {item.max_weight}
-                                    </option>
-                                })
-                            }
-                        </select>
-
-                        <label >Haydovchi rasmi:</label>
-                        <input onChange={getImage} name="image" type="file"/>
-
-                        <label >Moshina rasmi</label>
-                        <input onChange={getImage} name="car_image" type="file"/>
-
-                    </div>
-                    <div className="main-sides">
-                        <input onChange={getInputs} name="last_name" placeholder="Familiya" type="text"/>
-                        <input onChange={getInputs} name="car_number" placeholder="Moshina raqami" type="text"/>
-                        <input onChange={getInputs} name="widht" placeholder="Uzunligi" type="text"/>
-                        <input onChange={getInputs} name="height" placeholder="Moshina balandligi" type="text"/>
-                        <input onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni" type="text"/>
-
-                        <label >Davlatlar:</label>
-                        <select disabled={country1} onChange={getInputs} name="country1">
-                            <option></option>
-                            {
-                                country.map((item, index) => {
-                                    return <option value={item.name} key={index}>
-                                        {item.name}
-                                    </option>
-                                })
-                            }
-                        </select>
-
-                        <label >2- viloyat:</label>
-                        <select disabled={regions2} onChange={getInputs} name="address2">
-                            <option></option>
-                            {
-                                adress2.map((item, index) => {
-                                    return <option value={item.id} key={index}>
-                                        {item.name}
-                                    </option>
-                                })
-                            }
-                        </select>
-
-                        <label >Kuzov turi:</label>
-                        <select onChange={getInputs} name="car_body">
-                            <option></option>
-                            {carBodyList.map((item, index) => {
-                                return <option value={item.id} key={index}>{item.name}</option>
-                            })}
-
-                        </select>
-
-                        <label >Prava:</label>
-                        <input onChange={getImage} name="drivers_license_image" type="file"/>
-
-                        <label >Tex passport:</label>
-                        <input onChange={getImage} name="car_tex_passport" type="file"/>
-                    </div>
-                </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <button onClick={addDriver}>
-                    Qo'shish
-                </button>
-            </Modal.Footer>
-        </Modal>
-
-        <div className={`edit-box ${!showEdit ? "edit-box-hide" : ""}`}>
-            <div className="title">Tahrirlash</div>
-
-            <div className="main-box">
-                <div className="main-sides">
-                    <input id="first_name" onChange={getInputs} name="first_name" placeholder="Ism" type="text"/>
-                    <input id="phone" onChange={getInputs} name="phone" placeholder="Telefon raqam" type="text"/>
-                    <input id="name" onChange={getInputs} name="name" placeholder="Moshina nomi" type="text"/>
-                    <input id="breadth" onChange={getInputs} name="breadth" placeholder="Moshina kengligi" type="text"/>
-                    <input id="cargo_volume" onChange={getInputs} name="cargo_volume" placeholder="Kub" type="text"/>
-
-                    <label >Yo'nalish turi:</label>
-                    <select onChange={getInputs} id="category_type" name="category_type">
-                        <option></option>
-                        {
-                            direction.map((item, index) => {
-                                return <option value={item.id} key={index}>
-                                    {item.name}
-                                </option>
-                            })
-                        }
-                    </select>
-
-                    <label >1-viloyat:</label>
-                    <select disabled={regions1} onChange={getInputs} id="address1" name="address1">
-                        <option></option>
-                        {
-                            adress1.map((item, index) => {
-                                return <option value={item.id} key={index}>
-                                    {item.name}
-                                </option>
-                            })
-                        }
-                    </select>
-
-                    <label>Kategoriya</label>
-                    <select  id="category" onChange={getInputs} name="category">
-                        <option></option>
-                        {
-                            category.map((item, index) => {
-                                return <option value={item.id} key={index}>
-                                    {item.name} &nbsp; &nbsp;
-                                    {item.min_weight} &nbsp; - &nbsp;
-                                    {item.max_weight}
-                                </option>
-                            })
-                        }
-                    </select>
-
-                    <label >Haydovchi rasmi:</label>
-                    <input id="image" onChange={getImage} name="image" type="file"/>
-
-                    <label >Moshina rasmi</label>
-                    <input id="car_image" onChange={getImage} name="car_image" type="file"/>
-
-                </div>
-                <div className="main-sides">
-                    <input id="last_name" onChange={getInputs} name="last_name" placeholder="Familiya" type="text"/>
-                    <input id="car_number" onChange={getInputs} name="car_number" placeholder="Moshina raqami"
-                           type="text"/>
-                    <input id="widht" onChange={getInputs} name="widht" placeholder="Uzunligi" type="text"/>
-                    <input id="height" onChange={getInputs} name="height" placeholder="Moshina balandligi" type="text"/>
-                    <input id="cargo_weight" onChange={getInputs} name="cargo_weight" placeholder="Yuk vazni"
-                           type="text"/>
-
-                    <label >Davlatlar:</label>
-                    <select id="country1" disabled={country1} onChange={getInputs} name="country1">
-                        <option></option>
-                        {
-                            country.map((item, index) => {
-                                return <option value={item.name} key={index}>
-                                    {item.name}
-                                </option>
-                            })
-                        }
-                    </select>
-
-                    <label >2- viloyat:</label>
-                    <select id="address2" disabled={regions2} onChange={getInputs} name="address2">
-                        <option></option>
-                        {
-                            adress2.map((item, index) => {
-                                return <option value={item.id} key={index}>
-                                    {item.name}
-                                </option>
-                            })
-                        }
-                    </select>
-
-                    <label >Kuzov turi:</label>
-                    <select id="car_body" onChange={getInputs} name="car_body">
-                        <option></option>
-                        {carBodyList.map((item, index) => {
-                            return <option value={item.id} key={index}>{item.name}</option>
-                        })}
-
-                    </select>
-
-                    <label >Prava:</label>
-                    <input id="drivers_license_image" onChange={getImage} name="drivers_license_image" type="file"/>
-
-                    <label >Tex passport:</label>
-                    <input id="car_tex_passport" onChange={getImage} name="car_tex_passport" type="file"/>
-                </div>
-            </div>
-
-            <div className="buttons">
-                <div onClick={() => setShowEdit(false)} className="cancel-btn">Bekor qilish</div>
-                <div onClick={editDriver2} className="edit-btn">Tahrirlash</div>
-            </div>
-        </div>
-
         <div className="table-content">
-
             <table>
                 <thead>
                 <tr>
                     <th>№</th>
                     <th>F.I.SH</th>
-                    <th>Tel</th>
                     <th>Haydovchi rasmi</th>
-                    <th>Yo'nalish</th>
-                    <th>Manzil</th>
-                    <th>Kategoriya</th>
-                    <th>Moshina raqami</th>
-                    <th>Moshina Nomi</th>
-                    <th>Moshina uzunligi</th>
-                    <th>Moshina kengligi</th>
-                    <th>Moshina balandligi</th>
-                    <th>Kub</th>
-                    <th>Yuk vazni</th>
-                    <th>Kuzov turi</th>
+                    <th>Ma'lumotlar</th>
                     <th>Moshina rasmi</th>
                     <th>Tex passport</th>
                     <th>Haydovchilik guvohnomasi</th>
@@ -876,10 +1045,11 @@ const Driver = () => {
                     return <tr key={index}>
                         <td>{index + 1}</td>
                         <td>
-                            {item.first_name} <br/>
-                            {item.last_name}
+                            {item.first_name} &ensp;
+                            {item.last_name} <br/>
+
+                            <b>{item.phone}</b>
                         </td>
-                        <td>{item.phone}</td>
                         <td>
                             <div>
                                 {item.image ?
@@ -889,20 +1059,14 @@ const Driver = () => {
                                     }} src="../images/admin/view.png" alt=""/> : ""}
                             </div>
                         </td>
-
-                        <td>{item.documentation ? item.documentation.category_type : null}</td>
-                        <td>{item.documentation ? item.documentation.address : null}</td>
-
-                        <td>{item.documentation ? item.documentation.category.name : null}</td>
-                        <td>{item.documentation ? item.documentation.car_number : null}</td>
-                        <td>{item.documentation ? item.documentation.name : null}</td>
-                        <td>{item.documentation ? item.documentation.widht : null}</td>
-                        <td>{item.documentation ? item.documentation.breadth : null}</td>
-                        <td>{item.documentation ? item.documentation.height : null}</td>
-                        <td>{item.documentation ? item.documentation.cargo_volume : null}</td>
-                        <td>{item.documentation ? item.documentation.cargo_weight : null}</td>
-                        <td>{item.documentation ? item.documentation.car_body.name : null}</td>
-
+                        <td>
+                            <div>
+                                <img onClick={() => {
+                                    setCarInformation(item.documentation ? item.documentation : {})
+                                    setModalShow({show: true, status: "info-car"})
+                                }} src="./images/Admin/docs.png" alt="docs"/>
+                            </div>
+                        </td>
                         <td>
                             <div>
                                 {item.documentation ?
@@ -912,7 +1076,6 @@ const Driver = () => {
                                     }} src="../images/admin/photo.png" alt=""/> : ""}
                             </div>
                         </td>
-
                         <td>
                             <div>
                                 {item.car_tex_passport ?
@@ -922,7 +1085,6 @@ const Driver = () => {
                                     }} src="../images/admin/view.png" alt=""/> : ""}
                             </div>
                         </td>
-
                         <td>
                             <div>
                                 {item.drivers_license_image ?
@@ -993,7 +1155,7 @@ const Driver = () => {
                                 <img onClick={() => {
                                     editDriver(item);
                                     setUserId(item.id);
-                                    setShowEdit(true)
+                                    setModalShow({show: true, status: "edit-driver"})
                                 }
                                 } src={`../images/admin/edit.png`} alt=""/>
 
@@ -1009,44 +1171,33 @@ const Driver = () => {
             <div className="prev">
                 <img onClick={() => {
                     if (activeItem > 1) {
-                        getList(links.previous);
-                        setActiveItem(activeItem - 1)
+                        getList(links.previous, activeItem - 1);
                     }
-                }} src="./images/admin/prev.png" alt=""/>
+                }} src="./images/admin/prev.png" alt="Prev"/>
             </div>
 
-            {
-                Pages.map((item, index) => {
-                    return <div onClick={() => {
-                        getList(item[index + 1]);
-                        setActiveItem(index + 1)
-                    }} key={index} className={`items ${activeItem === index + 1 ? "active" : ""} `}>{index + 1}</div>
-                })
-            }
+            {visiblePages.map((item, index) => (
+                <div key={index}
+                     onClick={() => {
+                         if (item !== "...") {
+                             getList(null, item);
+                         }
+                     }}
+                     className={`items ${activeItem === item ? "active" : ""} `}
+                     style={{cursor: item === "..." ? "default" : "pointer"}}>
+                    {item}
+                </div>
+            ))}
 
-            <div onClick={() => {
-
-                if (activeItem < Pages.length) {
-                    getList(links.next)
-                    setActiveItem(activeItem + 1)
+            <div className="next" onClick={() => {
+                if (activeItem < totalPages) {
+                    getList(links.next, activeItem + 1);
                 }
-            }} className="next">
-                <img src="./images/admin/next.png" alt=""/>
-            </div>
-
-        </div>
-
-        <div className={`view-docs ${!viewDoc ? "hide" : ""}`}>
-            <div className="for-image">
-                <div className="cancel-btn">
-                    <img onClick={getDownloadFile} src="./images/download.png" alt=""/>
-                    <img onClick={() => setViewDoc(false)} src="../images/admin/close.png" alt=""/>
-                </div>
-                <div className="for-img">
-                    <img src={docUrl} alt=""/>
-                </div>
+            }}>
+                <img src="./images/admin/next.png" alt="Next"/>
             </div>
         </div>
+
     </div>
 };
 

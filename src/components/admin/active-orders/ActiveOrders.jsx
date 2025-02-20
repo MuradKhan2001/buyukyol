@@ -8,9 +8,10 @@ const ActiveOrders = () => {
     const [MainList, setMainList] = useState([]);
 
     useEffect(() => {
-        if (!localStorage.getItem("token")) return () => {}
+        if (!localStorage.getItem("token")) return () => {
+        }
 
-        const websocket  = new WebSocket(`wss://api.buyukyol.uz/ws/orders/?token=${localStorage.getItem("token")}`);
+        const websocket = new WebSocket(`wss://api.buyukyol.uz/ws/orders/?token=${localStorage.getItem("token")}`);
 
         setSockedContext(websocket);
 
@@ -30,7 +31,7 @@ const ActiveOrders = () => {
 
                 if (data.message.status) {
                     if (data.message.status === "canceled") {
-                        
+
                     }
                 }
 
@@ -44,107 +45,125 @@ const ActiveOrders = () => {
 
     }, [sockedContext])
 
-   
-    
-
     const RejectOrder = (id) => {
-        
+
         const result = window.confirm(" Buyurtmani o'chirmoqchimisiz? ");
 
-    if (result) {
-        sockedContext.send(JSON.stringify({command: "reject_order", order_id: id}))
+        if (result) {
+            sockedContext.send(JSON.stringify({command: "reject_order", order_id: id}))
 
-        sockedContext.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.message.orders) {
-                setMainList(data.message.orders);
-            }
-        };
-    }   
-        
+            sockedContext.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.message.orders) {
+                    setMainList(data.message.orders);
+                }
+            };
+        }
+
     };
 
-    return <div className="orders-container">
-        <div className="header-side">
+    return <div className="active-orders-container">
+        <div className="table-content">
+            <table>
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Yonalish</th>
+                    <th>Mijoz</th>
+                    <th>Yuk haqida</th>
+                    <th>Yo'nalish</th>
+                    <th>Narx</th>
+                    <th>Mashina turi</th>
+                    <th>Masofa</th>
+                    <th>Avans</th>
+                    <th>Buyurtma berilgan vaqt</th>
+                </tr>
+                </thead>
 
-        </div>
-        <div className="orders-box">
+                <tbody>
+                {
+                    MainList.map((item, index) => {
+                        return <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                                {item.type}
+                            </td>
+                            <td>
+                                {item.client.first_name} &ensp;
+                                {item.client.last_name} <br/>
+                                {item.client.phone}
+                            </td>
 
-            {
-                MainList.map((item, index) => {
-                    return <div key={index} className="order">
-                        <div className="order-header">
-                            <div>
-                                <img src="./images/admin/location2.png" alt=""/>
+                            <td>
+                                <b><i> {item.cargo}</i></b> <br/>
+                                {item.capacity} kg
+                            </td>
+                            <td>
                                 {item.address_from}
-                            </div>
-
-                            <div>
-                                <img src="./images/admin/location1.png" alt=""/>
+                                <hr/>
                                 {item.address_to}
-                            </div>
-                        </div>
-                        <div className="info">
-                            <div className="item">
-                                <div className="key-info">Kategoriya:</div>
-                                <div className="info-text">{item.type}</div>
-                            </div>
+                            </td>
+                            <td>
+                                {item.price} {item.currency}
+                            </td>
+                            <td>
+                                {item.car_body_type.name} / {item.car_body_type.cargo_weight}
+                            </td>
+                            <td>
+                                {item.distance} km
+                            </td>
+                            <td>
+                                {item.avans} <br/> {item.currency}
+                            </td>
+                            <td>
+                                {item.ordered_time}
+                            </td>
+                        </tr>
+                    })
+                }
+                {
+                    MainList.map((item, index) => {
+                        return <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                                {item.type}
+                            </td>
+                            <td>
+                                {item.client.first_name} &ensp;
+                                {item.client.last_name} <br/>
+                                {item.client.phone}
+                            </td>
 
-                            <div className="item">
-                                <div className="key-info">Moshina turi:</div>
-                                <div className="info-text">{item.car_category.name}</div>
-                            </div>
-
-                            <div className="item">
-                                <div className="key-info">Kuzov turi:</div>
-                                <div className="info-text">{item.car_body_type.name}</div>
-                            </div>
-
-                            <div className="item">
-                                <div className="key-info">Yuk nomi:</div>
-                                <div className="info-text">{item.cargo}</div>
-                            </div>
-
-
-                            <div className="item">
-                                <div className="key-info">Hajmi:</div>
-                                <div className="info-text">{item.capacity}</div>
-                            </div>
-
-                            <div className="item">
-                                <div className="key-info">Narxi:</div>
-                                <div className="info-text">{item.price}</div>
-                            </div>
-
-                            <div className="item">
-                                <div className="key-info">Masofa:</div>
-                                <div className="info-text">{item.distance} km</div>
-                            </div>
-
-                            <div className="item">
-                                <div className="key-info">Avans:</div>
-                                <div className="info-text">{item.avans}</div>
-                            </div>
-
-                            <div className="item">
-                                <div className="key-info">To'lov turi:</div>
-                                <div className="info-text">{item.currency}</div>
-                            </div>
-                        </div>
-                        <div className="order-footer">
-                            <div> {item.ordered_time.substring(0, 10)},  {item.ordered_time.substring(11, 16)} </div>
-
-                            <div onClick={() => RejectOrder(item.id)} className="btn-order">
-                                Bekor qilish
-                                <img  src="./images/admin/close.png" alt=""/>
-                            </div>
-                        </div>
-                    </div>
-                })
-            }
-
+                            <td>
+                                <b><i> {item.cargo}</i></b> <br/>
+                                {item.capacity} kg
+                            </td>
+                            <td>
+                                {item.address_from}
+                                <hr/>
+                                {item.address_to}
+                            </td>
+                            <td>
+                                {item.price} {item.currency}
+                            </td>
+                            <td>
+                                {item.car_body_type.name} / {item.car_body_type.cargo_weight}
+                            </td>
+                            <td>
+                                {item.distance} km
+                            </td>
+                            <td>
+                                {item.avans} <br/> {item.currency}
+                            </td>
+                            <td>
+                                {item.ordered_time}
+                            </td>
+                        </tr>
+                    })
+                }
+                </tbody>
+            </table>
         </div>
-
     </div>
 };
 

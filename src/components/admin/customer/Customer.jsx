@@ -28,8 +28,8 @@ const Customer = () => {
         Customer[e.target.name] = e.target.value;
     };
 
-    const getList = (url = null) => {
-        const main = url ? url : `${value.url}dashboard/clients/`;
+    const getList = (url = null, page = 1) => {
+        const main = url ? url : `${value.url}dashboard/clients/?page=${page}`;
         axios.get(main, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("token")}`
@@ -37,14 +37,38 @@ const Customer = () => {
         }).then((response) => {
             setMainList(response.data.results);
             setLinks(response.data.links);
-            setPages(response.data.links.pages)
+            setPages(response.data.links.pages);
+            setActiveItem(page);
         }).catch((error) => {
-            if (error.response.statusText == "Unauthorized") {
+            if (error.response && error.response.statusText === "Unauthorized") {
                 window.location.pathname = "/";
                 localStorage.removeItem("token");
             }
         });
     };
+
+    const visiblePages = [];
+    const totalPages = Pages.length;
+
+    if (totalPages <= 7) {
+        visiblePages.push(...Pages.map((_, index) => index + 1));
+    } else {
+        visiblePages.push(1);
+
+        if (activeItem > 3) {
+            visiblePages.push("...");
+        }
+
+        for (let i = Math.max(2, activeItem - 1); i <= Math.min(totalPages - 1, activeItem + 1); i++) {
+            visiblePages.push(i);
+        }
+
+        if (activeItem < totalPages - 2) {
+            visiblePages.push("...");
+        }
+
+        visiblePages.push(totalPages);
+    }
 
     useEffect(() => {
         getList()
@@ -111,14 +135,15 @@ const Customer = () => {
     return <div className="customer-container">
         <div className="search-box">
             <div className="inputs">
-                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..." type="text"/>
+                <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..."
+                       type="text"/>
                 <div className="serach-btn"><img src="../images/admin/search.png" alt=""/></div>
             </div>
 
             <div onClick={() => {
                 handleShow();
             }} className="add-driver">
-                <img src="../images/admin/driver1.png" alt=""/>
+                Mijoz qo'shish
                 <img src="../images/admin/add1.png" alt=""/>
             </div>
         </div>
@@ -159,7 +184,6 @@ const Customer = () => {
         </div>
 
         <div className="table-content">
-
             <table>
                 <thead>
                 <tr>
@@ -230,31 +254,32 @@ const Customer = () => {
             <div className="prev">
                 <img onClick={() => {
                     if (activeItem > 1) {
-                        getList(links.previous);
-                        setActiveItem(activeItem - 1)
+                        getList(links.previous, activeItem - 1);
                     }
-                }} src="./images/admin/prev.png" alt=""/>
+                }} src="./images/admin/prev.png" alt="Prev"/>
             </div>
 
-            {
-                Pages.map((item, index) => {
-                    return <div onClick={() => {
-                        getList(item[index + 1])
-                        setActiveItem(index + 1)
-                    }} key={index} className={`items ${activeItem === index + 1 ? "active" : ""} `}>{index + 1}</div>
-                })
-            }
+            {visiblePages.map((item, index) => (
+                <div key={index}
+                     onClick={() => {
+                         if (item !== "...") {
+                             getList(null, item);
+                         }
+                     }}
+                     className={`items ${activeItem === item ? "active" : ""} `}
+                     style={{cursor: item === "..." ? "default" : "pointer"}}>
+                    {item}
+                </div>
+            ))}
 
-            <div onClick={() => {
-                if (activeItem < Pages.length) {
-                    getList(links.next)
-                    setActiveItem(activeItem + 1)
+            <div className="next" onClick={() => {
+                if (activeItem < totalPages) {
+                    getList(links.next, activeItem + 1);
                 }
-            }} className="next">
-                <img src="./images/admin/next.png" alt=""/>
+            }}>
+                <img src="./images/admin/next.png" alt="Next"/>
             </div>
         </div>
-
     </div>
 };
 
