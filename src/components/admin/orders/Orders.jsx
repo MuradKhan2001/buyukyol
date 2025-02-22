@@ -90,7 +90,7 @@ const Orders = () => {
                                 onClick={() => {
                                     setModalShow(false)
                                 }}
-                                src="./images/Admin/cancel.webp"
+                                src="./images/admin/cancel.webp"
                                 alt="cancel"
                             />
 

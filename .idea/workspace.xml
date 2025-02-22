@@ -6,65 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/about.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/about.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/active- order.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/active- order.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/add-package.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/add-package.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/add.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/add.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/add1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/add1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/agreement.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/agreement.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/block.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/block.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/block1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/block1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/cancel-order.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/cancel-order.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/cancel.webp" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/cancel.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/close.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/close.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/close2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/close2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/contact-us.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/contact-us.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/credit.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/credit.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/customer.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/customer.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/dark.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/dark.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/delete.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/delete.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/discount.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/discount.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/docs.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/docs.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/download.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/download.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/driver.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/driver.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/driver1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/driver1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/edit.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/edit.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/edit2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/edit2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/exchange.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/exchange.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/filter.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/filter.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/flexibility.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/flexibility.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/font.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/font.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/handshake.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/handshake.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/home.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/home.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/image.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/image.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/location1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/location1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/location2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/location2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/lock.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/lock.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/message.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/message.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/mode.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/mode.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/money.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/money.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/news.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/news.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/next.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/next.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/notification.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/notification.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/payment.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/payment.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/photo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/photo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/prev.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/prev.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/price-tag.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/price-tag.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/rating.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/rating.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/received.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/received.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/search.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/search.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/shopping.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/shopping.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/taxes.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/taxes.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/tick.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/tick.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/ticket.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/ticket.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/truck-icon2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/truck-icon2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/truck.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/truck.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/verified.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/verified.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/verified1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/verified1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/view.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/view.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/Admin/wallet.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/admin/wallet.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/customer/Customer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/customer/Customer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/driver/Driver.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/driver/Driver.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/orders/Orders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/orders/Orders.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/orders/orders.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/orders/orders.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/admin/prices/Prices.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/prices/Prices.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +228,7 @@
       <workItem from="1740046908027" duration="15493000" />
       <workItem from="1740125405218" duration="131000" />
       <workItem from="1740140516154" duration="16781000" />
-      <workItem from="1740215291832" duration="1804000" />
+      <workItem from="1740215291832" duration="4227000" />
     </task>
     <servers />
   </component>
@@ -301,16 +245,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/admin/orders/Orders.jsx</url>
-          <line>86</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
