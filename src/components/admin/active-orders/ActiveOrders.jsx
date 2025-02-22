@@ -46,7 +46,6 @@ const ActiveOrders = () => {
     }, [sockedContext])
 
     const RejectOrder = (id) => {
-
         const result = window.confirm(" Buyurtmani o'chirmoqchimisiz? ");
 
         if (result) {
@@ -59,7 +58,6 @@ const ActiveOrders = () => {
                 }
             };
         }
-
     };
 
     return <div className="active-orders-container">
@@ -77,6 +75,7 @@ const ActiveOrders = () => {
                     <th>Masofa</th>
                     <th>Avans</th>
                     <th>Buyurtma berilgan vaqt</th>
+                    <th>Bekor qilish</th>
                 </tr>
                 </thead>
 
@@ -118,49 +117,15 @@ const ActiveOrders = () => {
                             <td>
                                 {item.ordered_time}
                             </td>
+                            <td>
+                                <div>
+                                    <img onClick={()=> RejectOrder(item.id)}  src="./images/admin/cancel-order.png" alt=""/>
+                                </div>
+                            </td>
                         </tr>
                     })
                 }
-                {
-                    MainList.map((item, index) => {
-                        return <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                                {item.type}
-                            </td>
-                            <td>
-                                {item.client.first_name} &ensp;
-                                {item.client.last_name} <br/>
-                                {item.client.phone}
-                            </td>
 
-                            <td>
-                                <b><i> {item.cargo}</i></b> <br/>
-                                {item.capacity} kg
-                            </td>
-                            <td>
-                                {item.address_from}
-                                <hr/>
-                                {item.address_to}
-                            </td>
-                            <td>
-                                {item.price} {item.currency}
-                            </td>
-                            <td>
-                                {item.car_body_type.name} / {item.car_body_type.cargo_weight}
-                            </td>
-                            <td>
-                                {item.distance} km
-                            </td>
-                            <td>
-                                {item.avans} <br/> {item.currency}
-                            </td>
-                            <td>
-                                {item.ordered_time}
-                            </td>
-                        </tr>
-                    })
-                }
                 </tbody>
             </table>
         </div>

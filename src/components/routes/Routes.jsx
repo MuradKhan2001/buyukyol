@@ -34,6 +34,7 @@ import React from "react";
 import Sendsms from "../admin/send-sms/Sendsms";
 import FilterDriver from "../admin/filter-driver/FilterDriver";
 import Privacy from "../Privacy/privacy";
+import Prices from "../admin/prices/Prices";
 
 
 
@@ -159,6 +160,10 @@ export const adminPageRoutes = [
     {
         path: "/price",
         element: <Price/>
+    },
+    {
+        path: "/prices",
+        element: <Prices/>
     },
     {
         path: "/message",

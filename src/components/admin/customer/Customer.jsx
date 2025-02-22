@@ -215,7 +215,7 @@ const Customer = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then((response) => {
-                                            getList(Pages[activeItem - 1][activeItem])
+                                            getList(null, activeItem);
                                         }).catch((error) => {
 
                                         });
@@ -227,7 +227,7 @@ const Customer = () => {
                                                 "Authorization": `Token ${localStorage.getItem("token")}`
                                             }
                                         }).then((response) => {
-                                            getList(Pages[activeItem - 1][activeItem])
+                                            getList(null, activeItem);
                                         }).catch((error) => {
 
                                         });

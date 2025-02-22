@@ -55,13 +55,13 @@ const Admin = () => {
             img: "../images/admin/rating.png"
         },
         {
-            name: t('nav6'),
-            url: "/direction",
-            img: "../images/admin/flexibility.png"
-        },
-        {
             name: t('nav13'),
             url: "/price",
+            img: "../images/admin/price-tag.png"
+        },
+        {
+            name: t('nav20'),
+            url: "/prices",
             img: "../images/admin/price-tag.png"
         },
         {

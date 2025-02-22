@@ -4,6 +4,7 @@ import {useContext, useEffect, useState, useRef} from "react";
 import axios from "axios";
 import {MyContext} from "../../app/App";
 import {saveAs} from "file-saver";
+import LoaderAdmin from "../admin home/LoaderAdmin";
 
 const Driver = () => {
     let value = useContext(MyContext);
@@ -23,6 +24,7 @@ const Driver = () => {
     const [country1, setCountry1] = useState(true);
     const [regions1, setRegions1] = useState(true);
     const [regions2, setRegions2] = useState(true);
+    const [loader, setLoader] = useState(false);
 
     const [Driver, setDriver] = useState(
         {
@@ -391,6 +393,8 @@ const Driver = () => {
     }
 
     const getList = (url = null, page = 1) => {
+        setLoader(true);
+
         const main = url ? url : `${value.url}dashboard/drivers/?page=${page}`;
         axios.get(main, {
             headers: {
@@ -406,9 +410,12 @@ const Driver = () => {
                 window.location.pathname = "/";
                 localStorage.removeItem("token");
             }
+        }).finally(() => {
+            setLoader(false);
         });
-    };
+        ;
 
+    };
 
     const visiblePages = [];
     const totalPages = Pages.length;
@@ -596,7 +603,6 @@ const Driver = () => {
         >
             <div
                 className="modal-sloy">
-
                 <div ref={nodeRef} className="modal-card">
 
                     {
@@ -994,7 +1000,6 @@ const Driver = () => {
                     }
 
                 </div>
-
             </div>
         </CSSTransition>
         <div className={`view-docs ${!viewDoc ? "hide" : ""}`}>
@@ -1021,7 +1026,8 @@ const Driver = () => {
             </div>
         </div>
         <div className="table-content">
-            <table>
+
+            {loader ? <LoaderAdmin/> : <table>
                 <thead>
                 <tr>
                     <th>№</th>
@@ -1037,134 +1043,138 @@ const Driver = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {MainList.filter((item) => {
-                    return getSearchText.toLowerCase() === ""
-                        ? item
-                        : item.phone.toLowerCase().includes(getSearchText);
-                }).map((item, index) => {
-                    return <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>
-                            {item.first_name} &ensp;
-                            {item.last_name} <br/>
+                {
+                    MainList.filter((item) => {
+                        return getSearchText.toLowerCase() === ""
+                            ? item
+                            : item.phone.toLowerCase().includes(getSearchText);
+                    }).map((item, index) => {
+                        return <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                                {item.first_name} &ensp;
+                                {item.last_name} <br/>
 
-                            <b>{item.phone}</b>
-                        </td>
-                        <td>
-                            <div>
-                                {item.image ?
+                                <b>{item.phone}</b>
+                            </td>
+                            <td>
+                                <div>
+                                    {item.image ?
+                                        <img onClick={() => {
+                                            setDocUrl(item.image)
+                                            setViewDoc(true)
+                                        }} src="../images/admin/view.png" alt=""/> : ""}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
                                     <img onClick={() => {
-                                        setDocUrl(item.image)
-                                        setViewDoc(true)
-                                    }} src="../images/admin/view.png" alt=""/> : ""}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <img onClick={() => {
-                                    setCarInformation(item.documentation ? item.documentation : {})
-                                    setModalShow({show: true, status: "info-car"})
-                                }} src="./images/Admin/docs.png" alt="docs"/>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {item.documentation ?
+                                        setCarInformation(item.documentation ? item.documentation : {})
+                                        setModalShow({show: true, status: "info-car"})
+                                    }} src="./images/Admin/docs.png" alt="docs"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {item.documentation ?
+                                        <img onClick={() => {
+                                            setDocUrl(item.documentation.car_image)
+                                            setViewDoc(true)
+                                        }} src="../images/admin/photo.png" alt=""/> : ""}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {item.car_tex_passport ?
+                                        <img onClick={() => {
+                                            setDocUrl(item.car_tex_passport)
+                                            setViewDoc(true)
+                                        }} src="../images/admin/view.png" alt=""/> : ""}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {item.drivers_license_image ?
+                                        <img onClick={() => {
+                                            setDocUrl(item.drivers_license_image)
+                                            setViewDoc(true)
+                                        }} src="../images/admin/view.png" alt=""/> : ""}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {item.is_verified ? <img onClick={() => {
+                                            axios.post(`${value.url}dashboard/drivers/${item.id}/verify/`, {}, {
+                                                headers: {
+                                                    "Authorization": `Token ${localStorage.getItem("token")}`
+                                                }
+                                            }).then(() => {
+                                                getList(null, activeItem);
+                                            }).catch(() => {
+
+                                            });
+
+                                        }} src={`../images/admin/verified.png`} alt=""/> :
+                                        <img onClick={() => {
+                                            axios.post(`${value.url}dashboard/drivers/${item.id}/verify/`, {}, {
+                                                headers: {
+                                                    "Authorization": `Token ${localStorage.getItem("token")}`
+                                                }
+                                            }).then(() => {
+                                                getList(null, activeItem);
+                                            }).catch(() => {
+
+                                            });
+
+                                        }} src={`../images/admin/verified1.png`} alt=""/>}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {item.is_block ? <img onClick={() => {
+                                            axios.post(`${value.url}dashboard/drivers/${item.id}/block/`, {}, {
+                                                headers: {
+                                                    "Authorization": `Token ${localStorage.getItem("token")}`
+                                                }
+                                            }).then(() => {
+                                                getList(null, activeItem);
+                                            }).catch(() => {
+
+                                            });
+
+                                        }} src={`../images/admin/block.png`} alt=""/> :
+                                        <img onClick={() => {
+                                            axios.post(`${value.url}dashboard/drivers/${item.id}/block/`, {}, {
+                                                headers: {
+                                                    "Authorization": `Token ${localStorage.getItem("token")}`
+                                                }
+                                            }).then(() => {
+                                                getList(null, activeItem);
+                                            }).catch(() => {
+
+                                            });
+
+                                        }} src={`../images/admin/block1.png`} alt=""/>}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
                                     <img onClick={() => {
-                                        setDocUrl(item.documentation.car_image)
-                                        setViewDoc(true)
-                                    }} src="../images/admin/photo.png" alt=""/> : ""}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {item.car_tex_passport ?
-                                    <img onClick={() => {
-                                        setDocUrl(item.car_tex_passport)
-                                        setViewDoc(true)
-                                    }} src="../images/admin/view.png" alt=""/> : ""}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {item.drivers_license_image ?
-                                    <img onClick={() => {
-                                        setDocUrl(item.drivers_license_image)
-                                        setViewDoc(true)
-                                    }} src="../images/admin/view.png" alt=""/> : ""}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {item.is_verified ? <img onClick={() => {
-                                        axios.post(`${value.url}dashboard/drivers/${item.id}/verify/`, {}, {
-                                            headers: {
-                                                "Authorization": `Token ${localStorage.getItem("token")}`
-                                            }
-                                        }).then(() => {
-                                            getList(Pages[activeItem - 1][activeItem])
-                                        }).catch(() => {
+                                        editDriver(item);
+                                        setUserId(item.id);
+                                        setModalShow({show: true, status: "edit-driver"})
+                                    }
+                                    } src={`../images/admin/edit.png`} alt=""/>
 
-                                        });
-
-                                    }} src={`../images/admin/verified.png`} alt=""/> :
-                                    <img onClick={() => {
-                                        axios.post(`${value.url}dashboard/drivers/${item.id}/verify/`, {}, {
-                                            headers: {
-                                                "Authorization": `Token ${localStorage.getItem("token")}`
-                                            }
-                                        }).then(() => {
-                                            getList(Pages[activeItem - 1][activeItem])
-                                        }).catch(() => {
-
-                                        });
-
-                                    }} src={`../images/admin/verified1.png`} alt=""/>}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {item.is_block ? <img onClick={() => {
-                                        axios.post(`${value.url}dashboard/drivers/${item.id}/block/`, {}, {
-                                            headers: {
-                                                "Authorization": `Token ${localStorage.getItem("token")}`
-                                            }
-                                        }).then(() => {
-                                            getList(Pages[activeItem - 1][activeItem])
-                                        }).catch(() => {
-
-                                        });
-
-                                    }} src={`../images/admin/block.png`} alt=""/> :
-                                    <img onClick={() => {
-                                        axios.post(`${value.url}dashboard/drivers/${item.id}/block/`, {}, {
-                                            headers: {
-                                                "Authorization": `Token ${localStorage.getItem("token")}`
-                                            }
-                                        }).then(() => {
-                                            getList(Pages[activeItem - 1][activeItem])
-                                        }).catch(() => {
-
-                                        });
-
-                                    }} src={`../images/admin/block1.png`} alt=""/>}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <img onClick={() => {
-                                    editDriver(item);
-                                    setUserId(item.id);
-                                    setModalShow({show: true, status: "edit-driver"})
-                                }
-                                } src={`../images/admin/edit.png`} alt=""/>
-
-                            </div>
-                        </td>
-                    </tr>
-                })}
+                                </div>
+                            </td>
+                        </tr>
+                    })
+                }
                 </tbody>
-            </table>
+            </table>}
+
+
         </div>
 
         <div className="pagination">

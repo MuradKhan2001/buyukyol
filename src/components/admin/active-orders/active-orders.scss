@@ -13,6 +13,7 @@
     margin: 10px auto 5px auto;
     padding: 0 5px 10px 5px;
     border-radius: 5px;
+
     table {
       box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
       width: 100%;
@@ -23,6 +24,7 @@
         font-size: 14px;
         position: sticky;
         top: -2px;
+
         th {
           color: white;
           padding: 5px;
@@ -40,6 +42,18 @@
             border: 1px solid #575757;
             padding: 5px;
             font-size: 12px;
+
+            div {
+              img {
+                width: 40px;
+                cursor: pointer;
+                transition: 0.3s;
+
+                &:hover {
+                  transform: scale(1.08);
+                }
+              }
+            }
           }
         }
 
