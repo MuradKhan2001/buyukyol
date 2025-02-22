@@ -478,7 +478,7 @@ const Driver = () => {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
             }).then(() => {
-                getList();
+                getList(null, activeItem);
                 let newList = {
                     first_name: "",
                     last_name: "",
@@ -550,7 +550,7 @@ const Driver = () => {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
         }).then(() => {
-            getList(Pages[activeItem - 1][activeItem])
+            getList(null, activeItem);
             let newList = {
                 first_name: "",
                 last_name: "",
@@ -613,7 +613,7 @@ const Driver = () => {
                                     onClick={() => {
                                         setModalShow({show: false, status: false})
                                     }}
-                                    src="./images/Admin/cancel.webp"
+                                    src="./images/admin/cancel.webp"
                                     alt="cancel"
                                 />
 
@@ -687,7 +687,7 @@ const Driver = () => {
                                     onClick={() => {
                                         setModalShow({show: false, status: false})
                                     }}
-                                    src="./images/Admin/cancel.webp"
+                                    src="./images/admin/cancel.webp"
                                     alt="cancel"
                                 />
 
@@ -1026,7 +1026,6 @@ const Driver = () => {
             </div>
         </div>
         <div className="table-content">
-
             {loader ? <LoaderAdmin/> : <table>
                 <thead>
                 <tr>
@@ -1071,7 +1070,7 @@ const Driver = () => {
                                     <img onClick={() => {
                                         setCarInformation(item.documentation ? item.documentation : {})
                                         setModalShow({show: true, status: "info-car"})
-                                    }} src="./images/Admin/docs.png" alt="docs"/>
+                                    }} src="./images/admin/docs.png" alt="docs"/>
                                 </div>
                             </td>
                             <td>
@@ -1173,8 +1172,6 @@ const Driver = () => {
                 }
                 </tbody>
             </table>}
-
-
         </div>
 
         <div className="pagination">

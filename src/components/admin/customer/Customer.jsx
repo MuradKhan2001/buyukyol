@@ -82,7 +82,7 @@ const Customer = () => {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
             }).then(() => {
-                getList();
+                getList(null, activeItem);
                 let newList = {
                     first_name: "",
                     last_name: "",
@@ -117,7 +117,7 @@ const Customer = () => {
                 "Authorization": `Token ${localStorage.getItem("token")}`
             }
         }).then(() => {
-            getList();
+            getList(null, activeItem);
             let newList = {
                 first_name: "",
                 last_name: "",
