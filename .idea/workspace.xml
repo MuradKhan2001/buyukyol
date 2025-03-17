@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8c132410-bc04-4e26-9582-bf770586f456" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/orders/Orders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/orders/Orders.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/orders/orders.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/orders/orders.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/admin/prices/Prices.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/admin/prices/Prices.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/Home.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +91,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23726.96" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.24807.6" />
       </set>
     </attachedChunks>
   </component>
@@ -228,7 +226,13 @@
       <workItem from="1740046908027" duration="15493000" />
       <workItem from="1740125405218" duration="131000" />
       <workItem from="1740140516154" duration="16781000" />
-      <workItem from="1740215291832" duration="4227000" />
+      <workItem from="1740215291832" duration="4380000" />
+      <workItem from="1740310698587" duration="637000" />
+      <workItem from="1740586457638" duration="1644000" />
+      <workItem from="1740811180130" duration="22000" />
+      <workItem from="1740811440478" duration="688000" />
+      <workItem from="1741945191593" duration="1301000" />
+      <workItem from="1742039819114" duration="953000" />
     </task>
     <servers />
   </component>

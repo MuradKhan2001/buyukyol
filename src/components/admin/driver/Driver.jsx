@@ -442,11 +442,9 @@ const Driver = () => {
 
     useEffect(() => {
         getList();
-
         axios.get(`${value.url}api/car/`).then((response) => {
             setCarBodyList(response.data)
         }).catch((error) => {
-
         });
 
         axios.get(`${value.url}api/car-category/`, {
@@ -513,26 +511,30 @@ const Driver = () => {
     };
 
     const editDriver = (item) => {
+
         let newList = {
             first_name: item.first_name,
             last_name: item.last_name,
             phone: item.phone,
-            category: item.documentation.category.id,
-            car_number: item.documentation.car_number,
-            name: item.documentation.name,
-            widht: item.documentation.widht,
-            breadth: item.documentation.breadth,
-            height: item.documentation.height,
-            cargo_volume: item.documentation.cargo_volume,
-            cargo_weight: item.documentation.cargo_weight,
-            car_body: item.documentation.car_body.id,
+            category: item.documentation ? item.documentation.category.id : "",
+            car_number: item.documentation ? item.documentation.car_number : "",
+            name: item.documentation ? item.documentation.name : "",
+            widht: item.documentation ? item.documentation.widht : "",
+            breadth: item.documentation ? item.documentation.breadth : "",
+            height: item.documentation ? item.documentation.height : "",
+            cargo_volume: item.documentation ? item.documentation.cargo_volume : "",
+            cargo_weight: item.documentation ? item.documentation.cargo_weight : "",
+            car_body: item.documentation ? item.documentation.car_body.id : "",
 
-            category_type: item.documentation.category_type,
-            country1: item.documentation.country1,
-            address1: item.documentation.address1,
-            address2: item.documentation.address2
+            category_type: item.documentation ? item.documentation.category_type : null,
+            country1: item.documentation ? item.documentation.country1 : null,
+            address1: item.documentation ? item.documentation.address1 : null,
+            address2: item.documentation ? item.documentation.address2 : null,
         };
+
         setDriver(newList);
+        setUserId(item.id);
+        setModalShow({show: true, status: "edit-driver"})
     };
 
     const editDriver2 = () => {
@@ -591,6 +593,26 @@ const Driver = () => {
             saveAs(response.data, `photo.${format[format.length - 1]}`)
         })
     };
+
+    const searchDriver = () => {
+        axios.get(`${value.url}dashboard/drivers/?phone=${getSearchText}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        }).then((response) => {
+            setMainList(response.data.results)
+        })
+    }
+
+    const delDriver = (id) => {
+        axios.delete(`${value.url}dashboard/drivers/${id}/`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        }).then(() => {
+            getList(null, activeItem);
+        })
+    }
 
     return <div className="driver-container">
 
@@ -1017,7 +1039,9 @@ const Driver = () => {
             <div className="inputs">
                 <input onChange={(e) => setGetSearchText(e.target.value)} placeholder="Tel nomer orqali izlash..."
                        type="text"/>
-                <div className="serach-btn"><img src="../images/admin/search.png" alt=""/></div>
+                <div onClick={searchDriver} className="serach-btn">
+                    Izlash
+                </div>
             </div>
 
             <div onClick={() => setModalShow({show: true, status: "add-driver"})} className="add-driver">
@@ -1039,15 +1063,12 @@ const Driver = () => {
                     <th>Tasdiqlash</th>
                     <th>Bloklash</th>
                     <th>Tahrirlash</th>
+                    <th>O'chirish</th>
                 </tr>
                 </thead>
                 <tbody>
                 {
-                    MainList.filter((item) => {
-                        return getSearchText.toLowerCase() === ""
-                            ? item
-                            : item.phone.toLowerCase().includes(getSearchText);
-                    }).map((item, index) => {
+                    MainList.map((item, index) => {
                         return <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
@@ -1160,11 +1181,15 @@ const Driver = () => {
                                 <div>
                                     <img onClick={() => {
                                         editDriver(item);
-                                        setUserId(item.id);
-                                        setModalShow({show: true, status: "edit-driver"})
-                                    }
-                                    } src={`../images/admin/edit.png`} alt=""/>
+                                    }} src={`../images/admin/edit.png`} alt=""/>
 
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <img onClick={() => {
+                                        delDriver(item.id);
+                                    }} src={`../images/admin/delete.png`} alt=""/>
                                 </div>
                             </td>
                         </tr>
@@ -1173,7 +1198,6 @@ const Driver = () => {
                 </tbody>
             </table>}
         </div>
-
         <div className="pagination">
             <div className="prev">
                 <img onClick={() => {
@@ -1204,7 +1228,6 @@ const Driver = () => {
                 <img src="./images/admin/next.png" alt="Next"/>
             </div>
         </div>
-
     </div>
 };
 

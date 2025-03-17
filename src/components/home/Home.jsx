@@ -242,7 +242,6 @@ const Home = () => {
                                     </div>
                                 </button>
                             </a>
-
                         </div>
                     </div>
                     <div className="right-side">

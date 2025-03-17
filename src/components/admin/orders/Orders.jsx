@@ -69,9 +69,22 @@ const Orders = () => {
         }).catch(() => {
 
         });
-
     };
 
+
+    const RejectOrder = (id) => {
+        const result = window.confirm(" Buyurtmani o'chirmoqchimisiz? ");
+
+        if (result) {
+            axios.post(`${value.url}dashboard/orders/reject/`, {order_id: id}, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            }).then((response) => {
+                getList(null, activeItem);
+            })
+        }
+    };
 
     return <div className="orders-container">
         <CSSTransition
@@ -115,6 +128,7 @@ const Orders = () => {
                                     </>}
                                 </div>
                             </div>
+                            {console.log(carInformation)}
                             <div className="info">
                                 <div className="name">Qayerga</div>
                                 <div
@@ -221,6 +235,7 @@ const Orders = () => {
                     <th>Berilgan sana</th>
                     <th>Tugatilgan sana</th>
                     <th>Batafsil</th>
+                    <th>Bekor qilish</th>
                 </tr>
                 </thead>
 
@@ -229,7 +244,6 @@ const Orders = () => {
                     MainList.map((item, index) => {
                         return <tr key={index}>
                             <td>{index + 1}</td>
-
                             <td>
                                 {item.status === "Rejected" && <div className="status">
                                     <div className="rejected"></div>
@@ -256,8 +270,6 @@ const Orders = () => {
                                     <div className="name">Yakunlangan</div>
                                 </div>}
                             </td>
-
-
                             <td>
                                 {item.get_client}
                             </td>
@@ -270,6 +282,13 @@ const Orders = () => {
                                         setModalShow(true)
                                     }} src="./images/admin/docs.png" alt=""/>
                                 </div>
+                            </td>
+                            <td>
+                                {item.status !== "Rejected" && item.status !== "check" && item.status !== "Delivered" &&<div>
+                                    <img onClick={() => RejectOrder(item.id)} src="./images/admin/cancel-order.png"
+                                         alt=""/>
+                                </div>}
+
                             </td>
                         </tr>
                     })

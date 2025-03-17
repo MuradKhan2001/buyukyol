@@ -337,17 +337,16 @@
     .inputs {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       width: 30%;
       height: 40px;
       box-shadow: rgb(255, 255, 255) 0px 0px 2px;
       border-radius: 6px;
       overflow: hidden;
-      padding-right: 5px;
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.5);
 
       input {
-        width: 85%;
+        width: 60%;
         height: 100%;
         background-color: transparent;
         border: none;
@@ -364,14 +363,20 @@
       }
 
       .serach-btn {
+        background: white;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 15%;
+        width: max-content;
         height: 100%;
-
-        img {
-          width: 50%;
+        color: #2b2b2b;
+        padding: 5px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        &:hover{
+          background: #e1e1e1;
         }
       }
     }
@@ -519,8 +524,8 @@
             font-size: 13px;
 
             div {
-              width: 25px;
-              height: 25px;
+              width: 22px;
+              height: 22px;
               margin: 0 auto;
 
               img {
