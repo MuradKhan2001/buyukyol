@@ -513,9 +513,9 @@ const Driver = () => {
     const editDriver = (item) => {
 
         let newList = {
-            first_name: item.first_name,
-            last_name: item.last_name,
-            phone: item.phone,
+            first_name: item.first_name ? item.first_name : "",
+            last_name: item.last_name ? item.last_name : "",
+            phone: item.phone ? item.phone : "",
             category: item.documentation ? item.documentation.category.id : "",
             car_number: item.documentation ? item.documentation.car_number : "",
             name: item.documentation ? item.documentation.name : "",
@@ -526,10 +526,10 @@ const Driver = () => {
             cargo_weight: item.documentation ? item.documentation.cargo_weight : "",
             car_body: item.documentation ? item.documentation.car_body.id : "",
 
-            category_type: item.documentation ? item.documentation.category_type : null,
-            country1: item.documentation ? item.documentation.country1 : null,
-            address1: item.documentation ? item.documentation.address1 : null,
-            address2: item.documentation ? item.documentation.address2 : null,
+            category_type: item.documentation ? item.documentation.category_type : "",
+            country1: item.documentation ? item.documentation.country1 : "",
+            address1: item.documentation ? item.documentation.address1 : "",
+            address2: item.documentation ? item.documentation.address2 : "",
         };
 
         setDriver(newList);
@@ -541,7 +541,6 @@ const Driver = () => {
         let Post = new FormData();
 
         let user = userId;
-
         Post.append("user", user);
         for (let key in Driver) {
             Post.append(key, Driver[key])
